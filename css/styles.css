@@ -19,16 +19,33 @@ img {
     /* || COLOR VARIABLES */
     --TASKS-HEADER-COLOR: #819A91;
     --TASKS-HEADER-FONT-COLOR: #EEEFE0;
+    --BUTTON-BORDER-COLOR: #819A91;
+    --BUTTON-BACKGROUND-COLOR: #EEEFE0;
+    --ACTIVE-BUTTON-COLOR: #819A91;
+    --BUTTON-FONT-COLOR: #819A91;
+    --DIVIDER-BORDER-COLOR: #819A91;
+    --ACTIVE-BUTTON-FONT-COLOR: #EEEFE0;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
     --TASKS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
+    --BUTTON-FONT-FAMILY: 'Work Sans', sans-serif;
 
     /* || FONT SIZES */
     --FF-XL: clamp(1.5rem, 5vw, 3rem);
     --FF-L: clamp(1.25rem, 4.5vw, 2.5rem);
+    --FF-M: clamp(1rem, 4vw, 2rem);
+    --FF-S: clamp(0.75rem, 3.5vw, 1.5rem);
+
+    /* || MARGIN VALUES */
+    --SECTION-MARGIN-VERTICAL: clamp(1rem, 3vw, 2rem);
+    --SECTION-MARGIN-HORIZONTAL: clamp(1rem, 3vw, 2rem);
+    --DIVIDER-MARGIN-VERTICAL: clamp(0.20rem, 0.5vw, 0.75rem);
 }
 /* BLOCKS */
+body {
+    background-color: #EEEFE0;
+}
 .tasks__header {
     background-color: var(--TASKS-HEADER-COLOR);
     padding: 1rem;
@@ -36,6 +53,16 @@ img {
     flex-direction: column;
     align-content: flex-start;
     justify-content: center;
+}
+
+.tasks__navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: var(--SECTION-MARGIN-VERTICAL);
+    margin-inline: var(--SECTION-MARGIN-HORIZONTAL);
+    padding-left: 10vw;
 }
 
 /* ELEMENTS */
@@ -50,6 +77,34 @@ img {
     text-transform: uppercase;
     color: var(--TASKS-HEADER-FONT-COLOR);
     font-family: var(--TASKS-BODY-FONT-FAMILY);
+}
+
+.tasks__nav__button {
+    padding: 0.5rem;
+    font-size: var(--FF-S);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.tasks__nav__button:hover,
+.tasks__nav__button:active,
+.tasks__nav__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+
+.tasks__nav__button:first-child {
+    border-right: none;
+}
+
+.section__divider {
+    width: 100%;
+    margin-top: var(--DIVIDER-MARGIN-VERTICAL);
+    border-top: 4px solid var(--DIVIDER-BORDER-COLOR); /* style the line */
 }
 
 /* MEDIA QUERIES */
