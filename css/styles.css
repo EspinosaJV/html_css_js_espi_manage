@@ -68,6 +68,7 @@ body {
 }
 
 .tasks__div {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -90,6 +91,19 @@ body {
     list-style: none;
     gap: 0.5vh;
     width: 100%;
+}
+
+.tasks__dashboard {
+    width: 100%;
+}
+
+.tasks__dashboard__div {
+    width: 100%;    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 2.5vw;
 }
 
 /* ELEMENTS */
@@ -154,6 +168,23 @@ body {
 .tasks__filter__button:hover,
 .tasks__filter__button:active,
 .tasks__filter__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.tasks__button {
+    padding: 0.5rem;
+    font-size: var(--FF-S);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.tasks__button:hover,
+.tasks__button:active,
+.tasks__button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
