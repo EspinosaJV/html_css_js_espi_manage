@@ -25,6 +25,7 @@ img {
     --BUTTON-FONT-COLOR: #819A91;
     --DIVIDER-BORDER-COLOR: #819A91;
     --ACTIVE-BUTTON-FONT-COLOR: #EEEFE0;
+    --FONT-BODY-COLOR: #819A91;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -36,6 +37,7 @@ img {
     --FF-L: clamp(1.25rem, 4.5vw, 2.5rem);
     --FF-M: clamp(1rem, 4vw, 2rem);
     --FF-S: clamp(0.75rem, 3.5vw, 1.5rem);
+    --FF-XS: clamp(0.50rem, 3vw, 1rem);
 
     /* || MARGIN VALUES */
     --SECTION-MARGIN-VERTICAL: clamp(1rem, 3vw, 2rem);
@@ -65,12 +67,44 @@ body {
     padding-left: 10vw;
 }
 
+.tasks__div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.tasks__sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: var(--SECTION-MARGIN-VERTICAL);
+    margin-inline: var(--SECTION-MARGIN-HORIZONTAL);
+}
+
+.tasks__ul {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--DIVIDER-MARGIN-VERTICAL);
+    list-style: none;
+    gap: 0.5vh;
+    width: 100%;
+}
+
 /* ELEMENTS */
 .tasks__h1 {
     text-transform: uppercase;
     color: var(--TASKS-HEADER-FONT-COLOR);
     font-family: var(--TASKS-HEADER-FONT-FAMILY);
     font-size: var(--FF-XL);
+}
+
+.tasks__h2 {
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    font-size: var(--FF-S);
 }
 
 .tasks__p {
@@ -96,7 +130,6 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
-
 .tasks__nav__button:first-child {
     border-right: none;
 }
@@ -107,6 +140,23 @@ body {
     border-top: 4px solid var(--DIVIDER-BORDER-COLOR); /* style the line */
 }
 
+.tasks__filter__button {
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    border: none;
+    font-family: var(--BUTTON-FONT-FAMILY);
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    color: var(--FONT-BODY-COLOR);
+}
+
+.tasks__filter__button:hover,
+.tasks__filter__button:active,
+.tasks__filter__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
 /* MEDIA QUERIES */
 
 /* ANIMATIONS */

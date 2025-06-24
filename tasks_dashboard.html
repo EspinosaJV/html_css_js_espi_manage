@@ -19,20 +19,23 @@
             <button class="tasks__nav__button bold">Users</button>
         </section>
         <hr class="section__divider" />
-        <section class="tasks__sidebar">
-            <div class="tasks__h2">Task Filters</div>
-            <ul class="tasks__ul">
-                <li class="tasks__li">Unassigned</li>
-                <li class="tasks__li">Assigned</li>
-                <li class="tasks__li">Backlogs</li>
-                <li class="tasks__li">Completed</li>
-            </ul>
-        </section>
-        <section class="tasks__dashboard">
-            <button class="tasks__button">New Task</button>
-            <h2 class="tasks__h2">Project Dashboard</h2>
-            <div class="task__templates"></div>
-        </section>
+        <div class="tasks__div">        
+            <section class="tasks__sidebar">
+                <h2 class="tasks__h2">Task Filters</h2>
+                <hr class="section__divider" />
+                <ul class="tasks__ul">
+                    <li><button class="tasks__filter__button bold">Unassigned</button></li>
+                    <li><button class="tasks__filter__button bold">Assigned</button></li>
+                    <li><button class="tasks__filter__button bold">Overdue</button></li>
+                    <li><button class="tasks__filter__button bold">Completed</button></li>
+                </ul>
+            </section>
+            <section class="tasks__dashboard">
+                <button class="tasks__button">New Task</button>
+                <h2 class="tasks__h2">Project Dashboard</h2>
+                <div class="task__templates"></div>
+            </section>
+        </div>
     </main>
     <footer>
         <p class="tasks__p">&copy; 2025 John Vincent Espinosa. All Rights reserved.</p>
