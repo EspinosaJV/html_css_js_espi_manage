@@ -38,6 +38,32 @@
                 <div class="task__templates"></div>
             </section>
         </div>
+
+        <!-- CREATE NEW TASK MODAL OVERLAY -->
+        <div id="modal" class="modal">
+            <div class="modal__content">
+                <h3 class="tasks__h3">Create New Task</h3>
+                <form class="tasks__form">
+                    <label class="tasks__form__label bold" for="tasks__text__input">Task Title</label>
+                    <input class="tasks__text__input" type="text" />
+                    <label class="tasks__form__label bold" for="tasks__textarea__input">Task Description</label>
+                    <textarea class="tasks__textarea__input" name="tasks__textarea__input" id="task__description"></textarea>
+                    <label class="tasks__form__label bold" for="tasks__date__input">Task Due Date</label>
+                    <input class="tasks__date__input" type="date" />
+                    <label class="tasks__form__label bold" for="tasks__assignees">Task Assignees</label>
+                    <select class="tasks__select__input" name="task__assignees" id="task__assignees" required>
+                        <option class="tasks__select__option" value="example">Sample Option</option>
+                        <option class="tasks__select__option" value="example">Sample Option</option>
+                        <option class="tasks__select__option" value="example">Sample Option</option>
+                    </select>
+                    <div class="modal__content__buttons">
+                        <button class="tasks__form__button bold">Create Task</button>
+                        <button class="tasks__form__button bold">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </main>
     <footer class="tasks__footer">
         <p class="tasks__p">&copy; 2025 John Vincent Espinosa. All Rights reserved.</p>

@@ -26,11 +26,18 @@ img {
     --DIVIDER-BORDER-COLOR: #819A91;
     --ACTIVE-BUTTON-FONT-COLOR: #EEEFE0;
     --FONT-BODY-COLOR: #819A91;
+    --FONT-HEADER-COLOR: #EEEFE0;
+    --CREATE-TASK-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --CREATE-TASK-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --CREATE-TASK-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --CREATE-TASK-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --CREATE-TASK-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
     --TASKS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
     --BUTTON-FONT-FAMILY: 'Work Sans', sans-serif;
+    --CREATE-TASK-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
 
     /* || FONT SIZES */
     --FF-XL: clamp(1.5rem, 5vw, 3rem);
@@ -104,6 +111,34 @@ body {
     align-items: center;
     justify-content: space-between;
     padding-right: 2.5vw;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);   
+    background-color: blue;
+    width: min(95vw, 600px);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.modal__content__buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
 }
 
 /* ELEMENTS */
@@ -188,6 +223,69 @@ body {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
+
+.tasks__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--CREATE-TASK-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--CREATE-TASK-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--CREATE-TASK-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.tasks__form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--CREATE-TASK-MODAL-CONTENT-BACKGROUND-COLOR);
+    border: 8px solid var(--CREATE-TASK-MODAL-CONTENT-BORDER-COLOR);
+    border-top: none;
+    width: 100%;
+    padding: 1rem;
+}
+
+.tasks__form__label {
+    text-align: left;
+    color: var(--FONT-BODY-COLOR);
+    text-transform: uppercase;
+    font-family: var(--CREATE-TASK-MODAL-FONT-FAMILY);
+    font-size: var(--FF-XS);
+    margin-bottom: 0.5vh;
+    margin-top: 1vh;
+}
+
+.tasks__text__input,
+.tasks__textarea__input,
+.tasks__date__input,
+.tasks__select__input {
+    width: 100%;
+    background-color: var(--CREATE-TASK-MODAL-CONTENT-INPUT-BACKGROUND-COLOR);
+    border: 3px solid var(--CREATE-TASK-MODAL-CONTENT-BORDER-COLOR);
+    color: var(--FONT-BODY-COLOR);
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    box-sizing: border-box;
+    outline: none;
+}
+
+.tasks__form__button {
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.tasks__form__button:active,
+.tasks__form__button:hover,
+.tasks__form__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
 /* MEDIA QUERIES */
 
 /* ANIMATIONS */
@@ -199,4 +297,8 @@ body {
 
 .bold {
     font-weight: bold;
+}
+
+.hidden {
+    display: none;
 }
