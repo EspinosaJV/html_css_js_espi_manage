@@ -68,6 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p class="taskcard__p"><span class="bold uppercase">Due:</span> ${task.dueDate}</p>
                     <p class="taskcard__p"><span class="bold uppercase">Assignee:</span> ${task.assignee}</p>
                 </div>
+                <div class="taskcard__col">
+                    <button class="edit-task-button bold" data-id="${task.id}">Edit</button>
+                    <button class="delete-task-button bold" data-id="${task.id}">Delete</button>
+                </div>
                 <hr />
             `;
 

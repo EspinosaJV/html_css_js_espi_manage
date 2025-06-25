@@ -336,6 +336,41 @@ body {
     font-family: var(--TASKS-HEADER-FONT-FAMILY);
     color: var(--FONT-BODY-COLOR);
 }
+
+.edit-task-button {
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.edit-task-button:active,
+.edit-task-button:hover,
+.edit-task-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.delete-task-button {
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.delete-task-button:active,
+.delete-task-button:hover,
+.delete-task-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
 /* MEDIA QUERIES */
 
 /* ANIMATIONS */
