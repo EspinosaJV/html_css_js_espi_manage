@@ -124,6 +124,13 @@ body {
     overflow-y: auto;
 }
 
+.modal__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
 .modal__content {
     display: flex;
     flex-direction: column;
@@ -268,6 +275,7 @@ body {
     font-size: var(--FF-XS);
     box-sizing: border-box;
     outline: none;
+    font-family: var(--TASKS-BODY-FONT-FAMILY);
 }
 
 .tasks__form__button {
