@@ -33,8 +33,12 @@
             </section>
             <section class="tasks__dashboard">
                 <div class="tasks__dashboard__div">
-                    <h2 class="tasks__h2">Project Dashboard</h2>
-                    <button class="tasks__button bold" id="openCreateTaskModal">New Task</button>
+                    <div class="tasks__dashboard__div__row">
+                        <h2 class="tasks__h2">Project Dashboard</h2>
+                        <button class="tasks__button bold" id="openCreateTaskModal">New Task</button>
+                    </div>
+                    <!-- DYNAMICALLY READS SAVED TASKS IN LOCALSTORAGE -->
+                    <div id="taskListContainer" class="tasklist__div">
                 </div>
                 <div class="task__templates"></div>
             </section>
@@ -64,6 +68,8 @@
                 </form>
             </div>
         </div>
+
+
 
     </main>
     <footer class="tasks__footer">

@@ -1,12 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Element Variables
+    // ELEMENT VARIABLES
     const createTaskModal = document.getElementById("createTaskModal");
     const cancelCreateTaskModal = document.getElementById("cancelCreateTaskButton");
     const openCreateTaskModal = document.getElementById("openCreateTaskModal");
     const createTaskForm = document.getElementById("createTaskForm");
+    const taskListContainer = document.getElementById("taskListContainer");
 
-    // Event Listeners
+    // ON INITIALIZATION 
+    loadTasksToDashboard();
 
+    // EVENT LISTENERS
     // opens create task modal
     openCreateTaskModal.addEventListener("click", (event) => {
         event.preventDefault();
@@ -42,6 +45,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         createTaskForm.reset();
         createTaskModal.classList.add("hidden");
+
+        loadTasksToDashboard();
     });
+
+    // handles display/read of task data in localStorage
+    function loadTasksToDashboard() {
+        taskListContainer.innerHTML = "";
+
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        tasks.forEach(task => {
+            const taskElement = document.createElement("div");
+            taskElement.classList.add("task-card");
+
+            taskElement.innerHTML = `
+                <div class="taskcard__col">
+                    <h4 class="taskcard__h4">${task.title}</h4>
+                    <p class="taskcard__p"><span class="bold uppercase">Description:</span> ${task.description}</p>
+                </div>
+                <div class="taskcard__col">
+                    <p class="taskcard__p"><span class="bold uppercase">Due:</span> ${task.dueDate}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Assignee:</span> ${task.assignee}</p>
+                </div>
+                <hr />
+            `;
+
+            taskListContainer.appendChild(taskElement);
+        });
+    };
 });
 

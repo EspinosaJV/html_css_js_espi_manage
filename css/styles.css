@@ -32,6 +32,8 @@ img {
     --CREATE-TASK-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --CREATE-TASK-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --CREATE-TASK-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --TASK-CARD-BACKGROUND-COLOR: #EEEFE0;
+    --TASK-CARD-BORDER-COLOR: #819A91;  
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -107,7 +109,7 @@ body {
 .tasks__dashboard__div {
     width: 100%;    
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding-right: 2.5vw;
@@ -146,6 +148,33 @@ body {
     justify-content: center;
     gap: 1rem;
     margin-top: 1rem;
+}
+
+.tasks__dashboard__div__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tasklist__div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2.5vh;
+}
+
+.task-card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--TASK-CARD-BACKGROUND-COLOR);
+    border: 5px solid var(--TASK-CARD-BORDER-COLOR);
 }
 
 /* ELEMENTS */
@@ -294,6 +323,19 @@ body {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
+
+.taskcard__h4 {
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    color: var(--FONT-BODY-COLOR);
+}
+
+.taskcard__p {
+    font-size: var(--FF-XS);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    color: var(--FONT-BODY-COLOR);
+}
 /* MEDIA QUERIES */
 
 /* ANIMATIONS */
@@ -305,6 +347,10 @@ body {
 
 .bold {
     font-weight: bold;
+}
+
+.uppercase {
+    text-transform: uppercase;
 }
 
 .hidden {
