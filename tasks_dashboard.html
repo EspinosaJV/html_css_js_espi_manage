@@ -16,11 +16,13 @@
     </header>
     <main>
         <section class="tasks__navigation">
-            <button class="tasks__nav__button bold">Tasks</button>
-            <button class="tasks__nav__button bold">Users</button>
+            <button id="tasksDashboardButton" class="tasks__nav__button bold">Tasks</button>
+            <button id="usersDashboardButton" class="tasks__nav__button bold">Users</button>
         </section>
         <hr class="section__divider" />
-        <div class="tasks__div">        
+
+        <!-- TASKS DASHBOARD -->
+        <div id="tasksDashboard" class="tasks__div">        
             <section class="tasks__sidebar">
                 <h2 class="tasks__h2 nowrap">Task Filters</h2>
                 <hr class="section__divider" />
@@ -34,13 +36,38 @@
             <section class="tasks__dashboard">
                 <div class="tasks__dashboard__div">
                     <div class="tasks__dashboard__div__row">
-                        <h2 class="tasks__h2">Project Dashboard</h2>
+                        <h2 class="tasks__h2">Tasks Dashboard</h2>
                         <button class="tasks__button bold" id="openCreateTaskModal">New Task</button>
                     </div>
                     <!-- DYNAMICALLY READS SAVED TASKS IN LOCALSTORAGE -->
                     <div id="taskListContainer" class="tasklist__div">
                 </div>
                 <div class="task__templates"></div>
+            </section>
+        </div>
+
+        <!-- USERS DASHBOARD -->
+        <div id="usersDashboard" class="users__div hidden">
+            <section class="users__sidebar">
+                <h2 class="tasks__h2 nowrap">Task Filters</h2>
+                <hr class="section__divider" />
+                <ul class="tasks__ul">
+                    <li><button class="tasks__filter__button bold">Unassigned</button></li>
+                    <li><button class="tasks__filter__button bold">Assigned</button></li>
+                    <li><button class="tasks__filter__button bold">Overdue</button></li>
+                    <li><button class="tasks__filter__button bold">Completed</button></li>
+                </ul>
+            </section>
+            <section class="users__dashboard">
+                <div class="users__dashboard__div">
+                    <div class="users__dashboard__div__row">
+                        <h2 class="users__h2">Users Dashboard</h2>
+                        <button class="users__button bold" id="openCreateUserModal">New User</button>
+                    </div>
+                    <!-- DYNAMICALLY READS SAVED TASKS IN LOCALSTORAGE -->
+                    <div id="userListContainer" class="userlist__div">
+                </div>
+                <div class="user__templates"></div>
             </section>
         </div>
 
@@ -66,6 +93,13 @@
                         <button class="tasks__form__button bold" id="cancelCreateTaskButton">Cancel</button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- CREATE NEW USER MODAL OVERLAY -->
+        <div id="createUserModal" class="modal">
+            <div class="modal__content">
+                <h3 class="users__h3">Create New User</h3>
             </div>
         </div>
 

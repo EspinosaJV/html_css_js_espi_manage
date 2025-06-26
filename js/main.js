@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskListContainer = document.getElementById("taskListContainer");
     const editTaskModal = document.getElementById("editTaskModal");
     const editTaskForm = document.getElementById("editTaskForm");
+    const usersDashboardButton = document.getElementById("usersDashboardButton");
+    const tasksDashboardButton = document.getElementById("tasksDashboardButton");
+    const tasksDashboard = document.getElementById("tasksDashboard");
+    const usersDashboard = document.getElementById("usersDashboard");
 
     let currentEditingTaskId = null;
 
@@ -151,5 +155,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         loadTasksToDashboard();
     });
+
+    // handles changing of view from tasks dashboard to users dashboard
+    usersDashboardButton.addEventListener("click", (event) => {
+        tasksDashboard.classList.add("hidden");
+        usersDashboard.classList.remove("hidden");
+    })
+
+    // handles changing of view from users dashboard to tasks dashboard
+    tasksDashboardButton.addEventListener("click", (event) => {
+        tasksDashboard.classList.remove("hidden");
+        usersDashboard.classList.add("hidden");
+    })
 });
 
