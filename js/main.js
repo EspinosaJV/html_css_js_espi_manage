@@ -14,11 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
     const cancelCreateUserButton = document.getElementById("cancelCreateUserButton");
+    const createUserForm = document.getElementById("createUserForm");
 
     let currentEditingTaskId = null;
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
+    loadUsersToDashboard();
 
     // EVENT LISTENERS
     // opens create task modal
@@ -60,6 +62,31 @@ document.addEventListener("DOMContentLoaded", () => {
         loadTasksToDashboard();
     });
 
+    // handles create user form submission
+    createUserForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        console.log("Saving User Data!");
+
+        const user = {
+            name: document.getElementById("createUserName").value,
+            email: document.getElementById("createUserEmail").value,
+            department: document.getElementById("createUserDepartment").value,
+            id: crypto.randomUUID(),
+        };
+
+        const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+        existingUsers.push(user);
+        localStorage.setItem("users", JSON.stringify(existingUsers));
+
+        console.log("Saved User Data!", user);
+
+        createUserForm.reset();
+        createUserModal.classList.add("hidden");
+
+        loadUsersToDashboard();
+    })
+
     // handles display/read of task data in localStorage
     function loadTasksToDashboard() {
         taskListContainer.innerHTML = "";
@@ -87,6 +114,35 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
 
             taskListContainer.appendChild(taskElement);
+        });
+    };
+
+    // handles display/read of user data in localStorage
+    function loadUsersToDashboard() {
+        userListContainer.innerHTML = "";
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        users.forEach(user => {
+            const userElement = document.createElement("div");
+            userElement.classList.add("user-card");
+
+            userElement.innerHTML = `
+                <div class="usercard__col">
+                    <h4 class="usercard__h4">${user.name}</h4>
+                    <p class="usercard__p"><span class="bold uppercase">Email:</span> ${user.email}</p>
+                </div>
+                <div class="usercard__col">
+                    <p class="usercard__p"><span class="bold uppercase">Department:</span> ${user.department}</p>
+                </div>
+                <div class="usercard__buttons">
+                    <button class="edit-user-button bold" data-id="${user.id}">Edit</button>
+                    <button class="delete-user-button bold" data-id="${user.id}">Delete</button>
+                </div>
+                <hr />
+            `;
+
+            userListContainer.appendChild(userElement);
         });
     };
 

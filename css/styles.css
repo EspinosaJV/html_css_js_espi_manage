@@ -39,6 +39,8 @@ img {
     --CREATE-USER-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --TASK-CARD-BACKGROUND-COLOR: #EEEFE0;
     --TASK-CARD-BORDER-COLOR: #819A91;  
+    --USER-CARD-BACKGROUND-COLOR: #EEEFE0;
+    --USER-CARD-BORDER-COLOR: #819A91;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -226,11 +228,30 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: var(--TASK-CARD-BACKGROUND-COLOR);
-    border: 5px solid var(--TASK-CARD-BORDER-COLOR);
+    background: var(--USER-CARD-BACKGROUND-COLOR);
+    border: 5px solid var(--USER-CARD-BORDER-COLOR);
+}
+
+.user-card {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--uSER-CARD-BACKGROUND-COLOR);
+    border: 5px solid var(--USER-CARD-BORDER-COLOR);
 }
 
 .taskcard__buttons {
+    width: 10vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.usercard__buttons {
     width: 10vw;
     display: flex;
     flex-direction: row;
@@ -480,13 +501,36 @@ body {
     color: var(--FONT-BODY-COLOR);
 }
 
+.usercard__h4 {
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    color: var(--FONT-BODY-COLOR);
+}
+
 .taskcard__p {
     font-size: var(--FF-XS);
     font-family: var(--TASKS-HEADER-FONT-FAMILY);
     color: var(--FONT-BODY-COLOR);
 }
 
+.usercard__p {
+    font-size: var(--FF-XS);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    color: var(--FONT-BODY-COLOR);
+}
+
 .edit-task-button {
+    padding: 0.25rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.edit-user-button {
     padding: 0.25rem;
     font-size: var(--FF-XS);
     text-transform: uppercase;
@@ -503,7 +547,24 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
+.edit-user-button:active,
+.edit-user-button:hover,
+.edit-user-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
 .delete-task-button {
+    padding: 0.25rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.delete-user-button {
     padding: 0.25rem;
     font-size: var(--FF-XS);
     text-transform: uppercase;
@@ -520,9 +581,23 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
+.delete-user-button:active,
+.delete-user-button:hover,
+.delete-user-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 480px) and (orientation: portrait) {
     .taskcard__buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .usercard__buttons {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -532,6 +607,13 @@ body {
 
 @media (max-width: 812px) and (orientation: landscape) {
     .taskcard__buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .usercard__buttons {
         display: flex;
         flex-direction: column;
         align-items: center;
