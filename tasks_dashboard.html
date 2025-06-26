@@ -22,7 +22,7 @@
         <hr class="section__divider" />
         <div class="tasks__div">        
             <section class="tasks__sidebar">
-                <h2 class="tasks__h2">Task Filters</h2>
+                <h2 class="tasks__h2 nowrap">Task Filters</h2>
                 <hr class="section__divider" />
                 <ul class="tasks__ul">
                     <li><button class="tasks__filter__button bold">Unassigned</button></li>
@@ -69,7 +69,30 @@
             </div>
         </div>
 
-
+        <!-- EDIT TASK MODAL DISPLAY -->
+        <div id="editTaskModal" class="modal hidden">
+            <div class="modal__content">
+                <h3 class="tasks__h3">Create New Task</h3>
+                <form id="editTaskForm" class="tasks__form">
+                    <label class="tasks__form__label bold" for="tasks__text__input">Task Title</label>
+                    <input id="editTaskTitle" class="tasks__text__input" type="text" />
+                    <label class="tasks__form__label bold" for="tasks__textarea__input">Task Description</label>
+                    <textarea id="editTaskDescription" class="tasks__textarea__input" name="tasks__textarea__input" id="task__description"></textarea>
+                    <label class="tasks__form__label bold" for="tasks__date__input">Task Due Date</label>
+                    <input id="editTaskDate" class="tasks__date__input" type="date" />
+                    <label class="tasks__form__label bold" for="tasks__assignees">Task Assignees</label>
+                    <select id="editTaskAssignees" class="tasks__select__input" name="task__assignees" required>
+                        <option class="tasks__select__option" value="example">Sample Option</option>
+                        <option class="tasks__select__option" value="example">Sample Option</option>
+                        <option class="tasks__select__option" value="example">Sample Option</option>
+                    </select>
+                    <div class="modal__content__buttons">
+                        <button type="submit" class="tasks__form__button bold">Edit Task</button>
+                        <button class="tasks__form__button bold" id="cancelCreateTaskButton">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     </main>
     <footer class="tasks__footer">

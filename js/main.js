@@ -5,6 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const openCreateTaskModal = document.getElementById("openCreateTaskModal");
     const createTaskForm = document.getElementById("createTaskForm");
     const taskListContainer = document.getElementById("taskListContainer");
+    const editTaskModal = document.getElementById("editTaskModal");
+    const editTaskForm = document.getElementById("editTaskForm");
+
+    let currentEditingTaskId = null;
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -78,5 +82,74 @@ document.addEventListener("DOMContentLoaded", () => {
             taskListContainer.appendChild(taskElement);
         });
     };
+
+    // handles opening of edit task modal when clicking edit button of a specific task
+    document.getElementById("taskListContainer").addEventListener("click", (event) => {
+        if (event.target.classList.contains("edit-task-button")) {
+            const taskId = event.target.dataset.id;
+            const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            const task = tasks.find(t => t.id === taskId);
+
+            if (!task) return;
+
+            const editTitleInput = document.getElementById("editTaskTitle");
+            const editDescriptionInput = document.getElementById("editTaskDescription");
+            const editDueDateInput = document.getElementById("editTaskDueDate");
+            const editAssigneeSelect = document.getElementById("editTaskAssignees");
+
+            currentEditingTaskId = taskId;
+
+            editTitleInput.value = task.title;
+            editDescriptionInput.value = task.description;
+            editTaskDate.value = task.dueDate;
+            editAssigneeSelect.value = task.assignee;
+
+            document.getElementById("editTaskModal").classList.remove("hidden");
+        }
+
+        else if (event.target.classList.contains("delete-task-button")) {
+            const taskIdToDelete = event.target.dataset.id;
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            tasks = tasks.filter(task => task.id !== taskIdToDelete);
+
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+
+            loadTasksToDashboard();
+        }
+    })
+
+    //handles saving of the inputted data into the edit task form
+    editTaskForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const updatedTitle = document.getElementById("editTaskTitle").value;
+        const updatedDescription = document.getElementById("editTaskDescription").value;
+        const updatedDueDate = document.getElementById("editTaskDate").value;
+        const updatedAssignee = document.getElementById("editTaskAssignees").value;
+
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        const taskIndex = tasks.findIndex(t => t.id === currentEditingTaskId);
+
+        if (taskIndex !== -1) {
+            tasks[taskIndex] = {
+            ...tasks[taskIndex],
+            title: updatedTitle,
+            description: updatedDescription,
+            dueDate: updatedDueDate,
+            assignee: updatedAssignee
+            };
+
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        };
+
+        document.getElementById("editTaskModal").classList.add("hidden");
+
+        currentEditingTaskId = null;
+
+        loadTasksToDashboard();
+    });
 });
 
