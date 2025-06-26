@@ -7,10 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskListContainer = document.getElementById("taskListContainer");
     const editTaskModal = document.getElementById("editTaskModal");
     const editTaskForm = document.getElementById("editTaskForm");
+    const createUserModal = document.getElementById("createUserModal");
+    const openCreateUserModal = document.getElementById("openCreateUserModal");
     const usersDashboardButton = document.getElementById("usersDashboardButton");
     const tasksDashboardButton = document.getElementById("tasksDashboardButton");
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
+    const cancelCreateUserButton = document.getElementById("cancelCreateUserButton");
 
     let currentEditingTaskId = null;
 
@@ -158,14 +161,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // handles changing of view from tasks dashboard to users dashboard
     usersDashboardButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
         tasksDashboard.classList.add("hidden");
         usersDashboard.classList.remove("hidden");
     })
 
     // handles changing of view from users dashboard to tasks dashboard
     tasksDashboardButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
         tasksDashboard.classList.remove("hidden");
         usersDashboard.classList.add("hidden");
+    })
+
+    // handles opening of create user modal
+    openCreateUserModal.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        createUserModal.classList.remove("hidden");
+    })
+
+    cancelCreateUserButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        console.log("Canceling creation of a user!");
+
+        createUserModal.classList.add("hidden");
     })
 });
 
