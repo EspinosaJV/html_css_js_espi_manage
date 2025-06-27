@@ -15,8 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const usersDashboard = document.getElementById("usersDashboard");
     const cancelCreateUserButton = document.getElementById("cancelCreateUserButton");
     const createUserForm = document.getElementById("createUserForm");
+    const editUserForm = document.getElementById("editUserForm");
+    const cancelEditUserButton = document.getElementById("cancelEditUserButton");
+    const editUserModal = document.getElementById("editUserModal");
 
     let currentEditingTaskId = null;
+    let currentEditingUserId = null;
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -238,12 +242,89 @@ document.addEventListener("DOMContentLoaded", () => {
         createUserModal.classList.remove("hidden");
     })
 
+    // handles cancel button when in create user modal
     cancelCreateUserButton.addEventListener("click", (event) => {
         event.preventDefault();
 
         console.log("Canceling creation of a user!");
 
         createUserModal.classList.add("hidden");
+    })
+
+    // handles opening of edit user modal & delete user
+    document.getElementById("userListContainer").addEventListener("click", (event) => {
+        if (event.target.classList.contains("edit-user-button")) {
+            console.log("Edit User Button has been clicked.");
+            const userId = event.target.dataset.id;
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find(u => u.id === userId);
+
+            if (!user) return;
+
+            const editUserName = document.getElementById("editUserName");
+            const editUserEmail = document.getElementById("editUserEmail");
+            const editUserDepartment = document.getElementById("editUserDepartment");
+        
+            currentEditingUserId = userId;
+
+            editUserName.value = user.name;
+            editUserEmail.value = user.email;
+            editUserDepartment.value = user.department;
+
+            document.getElementById("editUserModal").classList.remove("hidden");
+        }
+
+        else if (event.target.classList.contains("delete-user-button")) {
+            const userIdToDelete = event.target.dataset.id;
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            users = users.filter(user => user.id !== userIdToDelete);
+
+            localStorage.setItem("users", JSON.stringify(users));
+
+            loadUsersToDashboard();
+        }
+    })
+
+    editUserForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        console.log("Now saving edited user data!");
+
+        const updatedName = document.getElementById("editUserName").value;
+        const updatedEmail = document.getElementById("editUserEmail").value;
+        const updatedDepartment = document.getElementById("editUserDepartment").value;
+
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        const userIndex = users.findIndex(u => u.id === currentEditingUserId);
+
+        if (userIndex !== -1) {
+            users[userIndex] = {
+                ...users[userIndex],
+                name: updatedName,
+                email: updatedEmail,
+                department: updatedDepartment
+            };
+
+            localStorage.setItem("users", JSON.stringify(users));
+        };
+
+        document.getElementById("editUserModal").classList.add("hidden");
+
+        currentEditingUserId = null;
+
+        loadUsersToDashboard();
+    });
+
+    // handles closing of edit user modal
+    cancelEditUserButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        console.log("Canceling Edit of User!");
+
+        editUserModal.classList.add("hidden");
     })
 });
 

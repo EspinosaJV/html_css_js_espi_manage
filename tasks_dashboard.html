@@ -122,7 +122,7 @@
         <!-- EDIT TASK MODAL DISPLAY -->
         <div id="editTaskModal" class="modal hidden">
             <div class="modal__content">
-                <h3 class="tasks__h3">Create New Task</h3>
+                <h3 class="tasks__h3">Edit Task</h3>
                 <form id="editTaskForm" class="tasks__form">
                     <label class="tasks__form__label bold" for="tasks__text__input">Task Title</label>
                     <input id="editTaskTitle" class="tasks__text__input" type="text" />
@@ -139,6 +139,29 @@
                     <div class="modal__content__buttons">
                         <button type="submit" class="tasks__form__button bold">Edit Task</button>
                         <button class="tasks__form__button bold" id="cancelCreateTaskButton">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- EDIT USER MODAL DISPLAY -->
+        <div id="editUserModal" class="modal hidden">
+            <div class="modal__content">
+                <h3 class="users__h3">Edit User</h3>
+                <form id="editUserForm" class="users__form">
+                    <label class="users__form__label bold" for="users__text__input">User's Name</label>
+                    <input id="editUserName" class="users__text__input" type="text" />
+                    <label class="users__form__label bold" for="users__text__input">User's Email</label>
+                    <input id="editUserEmail" class="users__text__input" type="text" />
+                    <label class="users__form__label bold" for="user_Department">User Department</label>
+                    <select id="editUserDepartment" class="users__select__input" name="user__department" required>
+                        <option class="users__select__option" value="example">Sample Option</option>
+                        <option class="users__select__option" value="example">Sample Option</option>
+                        <option class="users__select__option" value="example">Sample Option</option>
+                    </select>
+                    <div class="modal__content__buttons">
+                        <button type="submit" class="users__form__button bold">Edit User</button>
+                        <button class="users__form__button bold" id="cancelEditUserButton">Cancel</button>
                     </div>
                 </form>
             </div>
