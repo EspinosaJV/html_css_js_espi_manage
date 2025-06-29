@@ -11,8 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const openCreateUserModal = document.getElementById("openCreateUserModal");
     const usersDashboardButton = document.getElementById("usersDashboardButton");
     const tasksDashboardButton = document.getElementById("tasksDashboardButton");
+
+    // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
+    const departmentsDashboard = document.getElementById("departmentsDashboard");
+
+    // Navigation Buttons
+    const departmentsDashboardButton = document.getElementById("departmentsDashboardButton");
+
     const cancelCreateUserButton = document.getElementById("cancelCreateUserButton");
     const createUserForm = document.getElementById("createUserForm");
     const editUserForm = document.getElementById("editUserForm");
@@ -219,19 +226,30 @@ document.addEventListener("DOMContentLoaded", () => {
         loadTasksToDashboard();
     });
 
-    // handles changing of view from tasks dashboard to users dashboard
+    // handles OPEN > USER DASHBOARD
     usersDashboardButton.addEventListener("click", (event) => {
         event.preventDefault();
 
         tasksDashboard.classList.add("hidden");
+        departmentsDashboard.classList.add("hidden");
         usersDashboard.classList.remove("hidden");
     })
 
-    // handles changing of view from users dashboard to tasks dashboard
+    // handles OPEN > TASK DASHBOARD
     tasksDashboardButton.addEventListener("click", (event) => {
         event.preventDefault();
 
         tasksDashboard.classList.remove("hidden");
+        departmentsDashboard.classList.add("hidden");
+        usersDashboard.classList.add("hidden");
+    })
+
+    // handles OPEN > DEPARTMENT DASHBOARD
+    departmentsDashboardButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        tasksDashboard.classList.add("hidden");
+        departmentsDashboard.classList.remove("hidden");
         usersDashboard.classList.add("hidden");
     })
 

@@ -17,7 +17,8 @@
     <main>
         <section class="tasks__navigation">
             <button id="tasksDashboardButton" class="tasks__nav__button bold">Tasks</button>
-            <button id="usersDashboardButton" class="tasks__nav__button bold">Users</button>
+            <button id="usersDashboardButton" class="users__nav__button bold">Users</button>
+            <button id="departmentsDashboardButton" class="departments__nav__button bold">Departments</button>
         </section>
         <hr class="section__divider" />
 
@@ -49,13 +50,13 @@
         <!-- USERS DASHBOARD -->
         <div id="usersDashboard" class="users__div hidden">
             <section class="users__sidebar">
-                <h2 class="tasks__h2 nowrap">Task Filters</h2>
+                <h2 class="users__h2 nowrap">User Filters</h2>
                 <hr class="section__divider" />
-                <ul class="tasks__ul">
-                    <li><button class="tasks__filter__button bold">Unassigned</button></li>
-                    <li><button class="tasks__filter__button bold">Assigned</button></li>
-                    <li><button class="tasks__filter__button bold">Overdue</button></li>
-                    <li><button class="tasks__filter__button bold">Completed</button></li>
+                <ul class="users__ul">
+                    <li><button class="users__filter__button bold">Unassigned</button></li>
+                    <li><button class="users__filter__button bold">Assigned</button></li>
+                    <li><button class="users__filter__button bold">Overdue</button></li>
+                    <li><button class="users__filter__button bold">Completed</button></li>
                 </ul>
             </section>
             <section class="users__dashboard">
@@ -70,6 +71,31 @@
                 <div class="user__templates"></div>
             </section>
         </div>
+
+        <!-- DEPARTMENTS DASHBOARD -->
+         <div id="departmentsDashboard" class="departments__div hidden">
+            <section class="departments__sidebar">
+                <h2 class="departments__h2 nowrap">Department Filters</h2>
+                <hr class="section__divider" />
+                <ul class="departments__ul">
+                    <li><button class="departments__filter__button bold">Unassigned</button></li>
+                    <li><button class="departments__filter__button bold">Assigned</button></li>
+                    <li><button class="departments__filter__button bold">Overdue</button></li>
+                    <li><button class="departments__filter__button bold">Completed</button></li>
+                </ul>
+            </section>
+            <section class="departments__dashboard">
+                <div class="departments__dashboard__div">
+                    <div class="departments__dashboard__div__row">
+                        <h2 class="departments__h2">Departments Dashboard</h2>
+                        <button class="departments__button bold" id="openCreateDepartmentModal">New Department</button>
+                    </div>
+                    <!-- DYNAMICALLY READS SAVED DEPARTMENTS IN LOCALSTORAGE -->
+                    <div id="departmentListContainer" class="departmentlist__div">
+                </div>
+                <div class="department__templates"></div>
+            </section>
+         </div>
 
         <!-- CREATE NEW TASK MODAL OVERLAY -->
         <div id="createTaskModal" class="modal hidden">

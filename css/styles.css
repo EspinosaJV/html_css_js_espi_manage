@@ -101,6 +101,14 @@ body {
     justify-content: flex-start;
 }
 
+.departments__div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .tasks__sidebar {
     display: flex;
     flex-direction: column;
@@ -119,7 +127,34 @@ body {
     margin-inline: var(--SECTION-MARGIN-HORIZONTAL);
 }
 
+.departments__sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: var(--SECTION-MARGIN-VERTICAL);
+    margin-inline: var(--SECTION-MARGIN-HORIZONTAL);
+}
+
 .tasks__ul {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--DIVIDER-MARGIN-VERTICAL);
+    list-style: none;
+    gap: 0.5vh;
+    width: 100%;
+}
+
+.users__ul {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--DIVIDER-MARGIN-VERTICAL);
+    list-style: none;
+    gap: 0.5vh;
+    width: 100%;
+}
+
+.departments__ul {
     display: flex;
     flex-direction: column;
     margin-top: var(--DIVIDER-MARGIN-VERTICAL);
@@ -130,10 +165,17 @@ body {
 
 .tasks__dashboard {
     width: 100%;
+    margin-top: 2vh;
 }
 
 .users__dashboard {
     width: 100%;
+    margin-top: 2vh;
+}
+
+.departments__dashboard {
+    width: 100%;
+    margin-top: 2vh;
 }
 
 .tasks__dashboard__div {
@@ -146,6 +188,15 @@ body {
 }
 
 .users__dashboard__div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 2.5vw;
+}
+
+.departments__dashboard__div {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -205,9 +256,19 @@ body {
     justify-content: space-between;
 }
 
+.departments__dashboard__div__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .tasklist__div {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
     width: 100%;
     margin-top: 2.5vh;
@@ -216,13 +277,25 @@ body {
 .userlist__div {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2.5vh;
+}
+
+.departmentlist__div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
     width: 100%;
     margin-top: 2.5vh;
 }
 
 .task-card {
-    width: 100%;
+    width: 70vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -248,7 +321,7 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.5vw;
 }
 
 .usercard__buttons {
@@ -256,7 +329,15 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    gap: 0.5vw;
+}
+
+.departmentcard__buttns {
+    width: 10vw;
+    display: flex;
+    flex-direction: rw;
+    align-items: center;
+    gap: 0.5vw;
 }
 
 /* ELEMENTS */
@@ -281,6 +362,13 @@ body {
     font-size: var(--FF-S);
 }
 
+.departments__h2 {
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    font-size: var(--FF-S);
+}
+
 .tasks__p {
     text-transform: uppercase;
     color: var(--TASKS-HEADER-FONT-COLOR);
@@ -297,6 +385,26 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.users__nav__button {
+    padding: 0.5rem;
+    font-size: var(--FF-S);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.departments__nav__button {
+    padding: 0.5rem;
+    font-size: var(--FF-S);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .tasks__nav__button:hover,
 .tasks__nav__button:active,
 .tasks__nav__button:focus {
@@ -304,7 +412,26 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
+.users__nav__button:hover,
+.users__nav__button:active,
+.users__nav__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+    
+}
+
+.departments__nav__button:hover,
+.departments__nav__button:active,
+.departments__nav__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
 .tasks__nav__button:first-child {
+    border-right: none;
+}
+
+.users__nav__button {
     border-right: none;
 }
 
@@ -325,9 +452,45 @@ body {
     color: var(--FONT-BODY-COLOR);
 }
 
+.users__filter__button {
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    border: none;
+    font-family: var(--BUTTON-FONT-FAMILY);
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    color: var(--FONT-BODY-COLOR);
+}
+
+.departments__filter__button {
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    border: none;
+    font-family: var(--BUTTON-FONT-FAMILY);
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    color: var(--FONT-BODY-COLOR);
+}
+
 .tasks__filter__button:hover,
 .tasks__filter__button:active,
 .tasks__filter__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.users__filter__button:hover,
+.users__filter__button:active,
+.users__filter__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.departments__filter__button:hover,
+.departments__filter__button:active,
+.departments__filter__button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
@@ -352,6 +515,16 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.departments__button {
+    padding: 0.5rem;
+    font-size: var(--FF-S);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .tasks__button:hover,
 .tasks__button:active,
 .tasks__button:focus {
@@ -362,6 +535,13 @@ body {
 .users__button:hover,
 .users__button:active,
 .users__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.departments__button:hover,
+.departments__buttn:active,
+.departments__buttn:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
@@ -512,12 +692,21 @@ body {
     font-size: var(--FF-XS);
     font-family: var(--TASKS-HEADER-FONT-FAMILY);
     color: var(--FONT-BODY-COLOR);
+    overflow-wrap: break-word;
 }
 
 .usercard__p {
     font-size: var(--FF-XS);
     font-family: var(--TASKS-HEADER-FONT-FAMILY);
     color: var(--FONT-BODY-COLOR);
+    overflow-wrap: break-word;
+}
+
+.departmentcard__p {
+    font-size: var(--FF-XS);
+    font-family: var(--TASKS-HEADER-FONT-FAMILY);
+    color: var(--FNT-BODY-COLOR);
+    overflow-wrap: break-word;
 }
 
 .edit-task-button {
@@ -588,8 +777,38 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
+.taskcard__col {
+    max-width: 30%;
+}
+
+.usercard__col {
+    max-width: 30%;
+}
+
+.departmentcard__col {
+    max-width: 30%;
+}
 /* MEDIA QUERIES */
 @media (max-width: 480px) and (orientation: portrait) {
+
+    .task-card {
+        width: 60vw;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .user-card {
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .department-card {
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+    }
+
     .taskcard__buttons {
         display: flex;
         flex-direction: column;
@@ -606,6 +825,18 @@ body {
 }
 
 @media (max-width: 812px) and (orientation: landscape) {
+    .task-card {
+        width: 60vw;
+    }
+
+    .user-card {
+        width: 60vw;
+    }
+
+    .department-card {
+        width: 60vw;
+    }
+
     .taskcard__buttons {
         display: flex;
         flex-direction: column;
