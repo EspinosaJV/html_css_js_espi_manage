@@ -46,6 +46,8 @@ img {
     --TASK-CARD-BORDER-COLOR: #819A91;  
     --USER-CARD-BACKGROUND-COLOR: #EEEFE0;
     --USER-CARD-BORDER-COLOR: #819A91;
+    --DEPARTMENT-CARD-BACKGROUND-COLRO: #EEEFE0;
+    --DEPARTMENT-CARD-BORDER-COLOR: #819A91;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -309,12 +311,12 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
-    background: var(--USER-CARD-BACKGROUND-COLOR);
-    border: 5px solid var(--USER-CARD-BORDER-COLOR);
+    background: var(--TASK-CARD-BACKGROUND-COLOR);
+    border: 5px solid var(--TASK-CARD-BORDER-COLOR);
 }
 
 .user-card {
-    width: 100%;
+    width: 70vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -322,6 +324,17 @@ body {
     padding: 1rem;
     background: var(--uSER-CARD-BACKGROUND-COLOR);
     border: 5px solid var(--USER-CARD-BORDER-COLOR);
+}
+
+.department-card {
+    width: 70vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--DEPARTMENT-CARD-BACKGROUND-COLOR);
+    border: 5px solid var(--DEPARTMENT-CARD-BORDER-COLOR);
 }
 
 .taskcard__buttons {
@@ -340,10 +353,10 @@ body {
     gap: 0.5vw;
 }
 
-.departmentcard__buttns {
+.departmentcard__buttons {
     width: 10vw;
     display: flex;
-    flex-direction: rw;
+    flex-direction: row;
     align-items: center;
     gap: 0.5vw;
 }
@@ -759,6 +772,13 @@ body {
     color: var(--FONT-BODY-COLOR);
 }
 
+.departmentcard__h4 {
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    font-family: var(--DEPARTMENTS-HEADER-FONT-FAMILY);
+    color: var(--FONT-BODY-COLOR);
+}
+
 .taskcard__p {
     font-size: var(--FF-XS);
     font-family: var(--TASKS-HEADER-FONT-FAMILY);
@@ -775,8 +795,8 @@ body {
 
 .departmentcard__p {
     font-size: var(--FF-XS);
-    font-family: var(--TASKS-HEADER-FONT-FAMILY);
-    color: var(--FNT-BODY-COLOR);
+    font-family: var(--DEPARTMENTS-HEADER-FONT-FAMILY);
+    color: var(--FONT-BODY-COLOR);
     overflow-wrap: break-word;
 }
 
@@ -800,6 +820,16 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.edit-department-button {
+    padding: 0.25rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .edit-task-button:active,
 .edit-task-button:hover,
 .edit-task-button:focus {
@@ -810,6 +840,13 @@ body {
 .edit-user-button:active,
 .edit-user-button:hover,
 .edit-user-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.edit-department-button:active,
+.edit-department-button:hover,
+.edit-department-buttn:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
@@ -834,6 +871,16 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.delete-department-button {
+    padding: 0.25rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .delete-task-button:active,
 .delete-task-button:hover,
 .delete-task-button:focus {
@@ -844,6 +891,13 @@ body {
 .delete-user-button:active,
 .delete-user-button:hover,
 .delete-user-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.delete-department-button:active,
+.delete-department-button:hover,
+.delete-department-button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
@@ -859,6 +913,7 @@ body {
 .departmentcard__col {
     max-width: 30%;
 }
+
 /* MEDIA QUERIES */
 @media (max-width: 480px) and (orientation: portrait) {
 

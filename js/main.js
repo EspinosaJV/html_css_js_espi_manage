@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelCreateUserButton = document.getElementById("cancelCreateUserButton");
     const createUserForm = document.getElementById("createUserForm");
     const editUserForm = document.getElementById("editUserForm");
+    const createDepartmentForm = document.getElementById("createDepartmentForm");
     const cancelEditUserButton = document.getElementById("cancelEditUserButton");
     const editUserModal = document.getElementById("editUserModal");
 
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ON INITIALIZATION 
     loadTasksToDashboard();
     loadUsersToDashboard();
+    loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
     // opens create task modal
@@ -360,6 +362,58 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         console.log("Opening Create Department Modal");
         createDepartmentModal.classList.remove("hidden");
+    })
+
+    // handles display/read of department data in localStorage
+    function loadDepartmentsToDashboard() {
+        console.log("Will now be rendering the tasks!");
+        departmentListContainer.innerHTML = "";
+
+        const departments = JSON.parse(localStorage.getItem("department")) || [];
+
+        departments.forEach(department => {
+            const departmentElement = document.createElement("div");
+            departmentElement.classList.add("department-card");
+
+            departmentElement.innerHTML = `
+                <div class="departmentcard__col">
+                    <h4 class="departmentcard__h4">${department.name}</h4>
+                    <p class="departmentcard__p"><span class="bold uppercase">Description:</span> ${department.description}</p>
+                </div>
+                <div class="departmentcard__col">
+                <div class="departmentcard__buttons">
+                    <button class="edit-department-button bold" data-id="${department.id}">Edit</button>
+                    <button class="delete-department-button bold" data-id="${department.id}">Delete</button>
+                </div>  
+            `;
+
+            departmentListContainer.appendChild(departmentElement);
+        })
+    }
+
+    // handles create department form submission
+    createDepartmentForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        console.log("Saving Department Data!");
+
+        const department = {
+            name: document.getElementById("createDepartmentName").value,
+            description: document.getElementById("createDepartmentDescription").value,
+            assignees: document.getElementById("createDepartmentAssignees").value,
+            id: crypto.randomUUID(),
+        };
+
+        const existingDepartments = JSON.parse(localStorage.getItem("departments")) || [];
+        existingDepartments.push(department);
+        localStorage.setItem("department", JSON.stringify(existingDepartments));
+
+        console.log("Saved Department Data!", department);
+
+        createDepartmentForm.reset();
+        createDepartmentModal.classList.add("hidden");
+
+        loadDepartmentsToDashboard();
     })
 });
 
