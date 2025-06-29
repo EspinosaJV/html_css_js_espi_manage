@@ -75,7 +75,7 @@
         <!-- DEPARTMENTS DASHBOARD -->
          <div id="departmentsDashboard" class="departments__div hidden">
             <section class="departments__sidebar">
-                <h2 class="departments__h2 nowrap">Department Filters</h2>
+                <h2 class="departments__h2 text-center">Department Filters</h2>
                 <hr class="section__divider" />
                 <ul class="departments__ul">
                     <li><button class="departments__filter__button bold">Unassigned</button></li>
@@ -176,11 +176,11 @@
                     <label class="tasks__form__label bold" for="tasks__text__input">Task Title</label>
                     <input id="editTaskTitle" class="tasks__text__input" type="text" />
                     <label class="tasks__form__label bold" for="tasks__textarea__input">Task Description</label>
-                    <textarea id="editTaskDescription" class="tasks__textarea__input" name="tasks__textarea__input" id="task__description"></textarea>
+                    <textarea id="editTaskDescription" class="tasks__textarea__input" name="tasks__textarea__input"></textarea>
                     <label class="tasks__form__label bold" for="tasks__date__input">Task Due Date</label>
                     <input id="editTaskDate" class="tasks__date__input" type="date" />
                     <label class="tasks__form__label bold" for="tasks__assignees">Task Assignees</label>
-                    <select id="editTaskAssignees" class="tasks__select__input" name="task__assignees" required>
+                    <select id="editTaskAssignees" class="tasks__select__input" name="task__assignees">
                         <option class="tasks__select__option" value="example">Sample Option</option>
                         <option class="tasks__select__option" value="example">Sample Option</option>
                         <option class="tasks__select__option" value="example">Sample Option</option>
@@ -216,6 +216,29 @@
             </div>
         </div>
 
+        <!-- EDIT DEPARTMENT MODAL DISPLAY -->'
+        <div id="editDepartmentModal" class="modal hidden">
+            <div class="modal__content">
+                <h3 class="departments__h3">Edit Department</h3>
+                    <form id="editDepartmentForm" class="departments__form">
+                        <label class="departments__form__label bold" for="departments__text__input">Department's Name</label>
+                        <input id="editDepartmentName" class="departments__text__input" type="text" />
+                        <label class="departments__form__label bold" for="departments__textarea__input">Department Description</label>
+                        <textarea id="editDepartmentDescription" class="departments__textarea__input" name="departments__textarea__input"></textarea>
+                        <label class="departments__form__label" for="department__assignees">Department Assignees</label>
+                        <select id="editDepartmentAssignees" class="departments__select__input" name="department__assignees">
+                            <option class="departments__select__option" value="example">Sample Option</option>
+                            <option class="departments__select__option" value="example">Sample Option</option>
+                            <option class="departments__select__option" value="example">Sample Option</option>
+                        </select>
+                        <div class="modal__content__buttons">
+                            <button type="submit" class="departments__form__button bold">Edit Department</button>
+                            <button class="departments__form__button bold" id="cancelCreateDepartmentButton">Cancel</button>
+                        </div>
+                    </form>
+                </h3>
+            </div>
+        </div>
     </main>
     <footer class="tasks__footer">
         <p class="tasks__p">&copy; 2025 John Vincent Espinosa. All Rights reserved.</p>

@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const tasksDashboardButton = document.getElementById("tasksDashboardButton");
     const cancelCreateDepartmentModal = document.getElementById("cancelCreateDepartmentButton");
     const openCreateDepartmentModal = document.getElementById("openCreateDepartmentModal");
-    
+    const editDepartmentForm = document.getElementById("editDepartmentForm");
+
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentEditingTaskId = null;
     let currentEditingUserId = null;
+    let currentEditingDepartmentId = null;
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -380,7 +382,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h4 class="departmentcard__h4">${department.name}</h4>
                     <p class="departmentcard__p"><span class="bold uppercase">Description:</span> ${department.description}</p>
                 </div>
-                <div class="departmentcard__col">
                 <div class="departmentcard__buttons">
                     <button class="edit-department-button bold" data-id="${department.id}">Edit</button>
                     <button class="delete-department-button bold" data-id="${department.id}">Delete</button>
@@ -415,5 +416,63 @@ document.addEventListener("DOMContentLoaded", () => {
 
         loadDepartmentsToDashboard();
     })
+
+    // handles opening of edit department modal & delete department
+    document.getElementById("departmentListContainer").addEventListener("click", (event) => {
+        // handles open of edit department modal
+        if (event.target.classList.contains("edit-department-button")) {
+            console.log("Edit Department Button has been clicked.");
+
+            const departmentId = event.target.dataset.id;
+            const departments = JSON.parse(localStorage.getItem("department")) || [];
+            const department = departments.find(d => d.id === departmentId);
+
+            if (!department) return;
+
+            const editDepartmentName = document.getElementById("editDepartmentName");
+            const editDepartmentDescription = document.getElementById("editDepartmentDescription");
+            const editDepartmentAssignees = document.getElementById("editDepartmentAssignees");
+
+            currentEditingDepartmentId = departmentId;
+
+            editDepartmentName.value = department.name;
+            editDepartmentDescription.value = department.description;
+            editDepartmentAssignees.value = department.assignees;
+
+            document.getElementById("editDepartmentModal").classList.remove("hidden");
+        }
+    })
+
+    // handles edit department modal form submission
+    editDepartmentForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        
+        console.log("Now saving the edited department data!");
+
+        const updatedDepartmentName = document.getElementById("editDepartmentName").value;
+        const updatedDepartmentDescription = document.getElementById("editDepartmentDescription").value;
+        const updatedDepartmentAssignees = document.getElementById("editDepartmentAssignees").value;
+
+        const departments = JSON.parse(localStorage.getItem("department")) || [];
+
+        const departmentIndex = departments.findIndex(d => d.id === currentEditingDepartmentId);
+
+        if (departmentIndex !== -1) {
+            departments[departmentIndex] = {
+                ...departments[departmentIndex],
+                name: updatedDepartmentName,
+                description: updatedDepartmentDescription,
+                assignees: updatedDepartmentAssignees,
+            };
+
+            localStorage.setItem("department", JSON.stringify(departments));
+        };
+
+        document.getElementById("editDepartmentModal").classList.add("hidden");
+
+        currentEditingDepartmentId = null;
+
+        loadDepartmentsToDashboard();
+    });
 });
 
