@@ -8,10 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const editTaskModal = document.getElementById("editTaskModal");
     const editTaskForm = document.getElementById("editTaskForm");
     const createUserModal = document.getElementById("createUserModal");
+    const createDepartmentModal = document.getElementById("createDepartmentModal");
     const openCreateUserModal = document.getElementById("openCreateUserModal");
     const usersDashboardButton = document.getElementById("usersDashboardButton");
     const tasksDashboardButton = document.getElementById("tasksDashboardButton");
-
+    const cancelCreateDepartmentModal = document.getElementById("cancelCreateDepartmentButton");
+    const openCreateDepartmentModal = document.getElementById("openCreateDepartmentModal");
+    
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
@@ -343,6 +346,20 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Canceling Edit of User!");
 
         editUserModal.classList.add("hidden");
+    })
+
+    // closes create department modal
+    cancelCreateDepartmentModal.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("Closing the Create Department Modal now!");
+        createDepartmentModal.classList.add("hidden");
+    })
+
+    // opens create department modal
+    openCreateDepartmentModal.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("Opening Create Department Modal");
+        createDepartmentModal.classList.remove("hidden");
     })
 });
 

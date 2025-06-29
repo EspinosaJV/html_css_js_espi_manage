@@ -37,6 +37,11 @@ img {
     --CREATE-USER-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --CREATE-USER-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --CREATE-USER-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --CREATE-DEPARTMENT-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --CREATE-DEPARTMENT-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --CREATE-DEPARTMENT-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --CREATE-DEPARTMENT-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --CREATE-DEPARTMENT-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --TASK-CARD-BACKGROUND-COLOR: #EEEFE0;
     --TASK-CARD-BORDER-COLOR: #819A91;  
     --USER-CARD-BACKGROUND-COLOR: #EEEFE0;
@@ -45,9 +50,12 @@ img {
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
     --TASKS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
+    --DEPARTMENTS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
+    --DEPARTMENTS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
     --BUTTON-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-TASK-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-USER-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --CREATE-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --USERS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
 
     /* || FONT SIZES */
@@ -570,6 +578,18 @@ body {
     font-size: var(--FF-S);
 }
 
+.departments__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--CREATE-DEPARTMENT-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--CREATE-DEPARTMENT-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--CREATE-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
 .tasks__form {
     display: flex;
     flex-direction: column;
@@ -590,6 +610,16 @@ body {
     padding: 1rem;
 }
 
+.departments__form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--CREATE-DEPARTMENT-MODAL-CONTENT-BACKGROUND-COLOR);
+    border: 8px solid var(--CREATE-DEPARTMENT-MODAL-CONTENT-BORDER-COLOR);
+    border-top: none;
+    width: 100%;
+    padding: 1rem;
+}
+
 .tasks__form__label {
     text-align: left;
     color: var(--FONT-BODY-COLOR);
@@ -605,6 +635,16 @@ body {
     color: var(--FONT-BODY-COLOR);
     text-transform: uppercase;
     font-family: var(--CREATE-USER-MODAL-FONT-FAMILY);
+    font-size: var(--FF-XS);
+    margin-bottom: 0.5vh;
+    margin-top: 1vh;
+}
+
+.departments__form__label {
+    text-align: left;
+    color: var(--FONT-BODY-COLOR);
+    text-transform: uppercase;
+    font-family: var(--CREATE-DEPARTMENT-MODAL-FONT-FAMILY);
     font-size: var(--FF-XS);
     margin-bottom: 0.5vh;
     margin-top: 1vh;
@@ -640,6 +680,20 @@ body {
     font-family: var(--TASKS-BODY-FONT-FAMILY);
 }
 
+.departments__text__input,
+.departments__textarea__input,
+.departments__select__input {
+    width: 100%;
+    background-color: var(--CREATE-DEPARTMENT-MODAL-CONTENT-INPUT-BACKGROUND-COLOR);
+    border: 3px solid var(--CREATE-DEPARTMENT-MODAL-CONTENT-BORDER-COLOR);
+    color: var(--FONT-BODY-COLOR);
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    box-sizing: border-box;
+    outline: none;
+    font-family: var(--DEPARTMENTS-BODY-FONT-FAMILY);
+}
+
 .tasks__form__button {
     padding: 0.5rem;
     font-size: var(--FF-XS);
@@ -660,6 +714,16 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.departments__form__button {
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .tasks__form__button:active,
 .tasks__form__button:hover,
 .tasks__form__button:focus {
@@ -670,6 +734,13 @@ body {
 .users__form__button:active,
 .users__form__button:hover,
 .users__form__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.departments__form__button:active,
+.departments__form__buttn:hover,
+.departments__form__button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }

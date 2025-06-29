@@ -105,7 +105,7 @@
                     <label class="tasks__form__label bold" for="tasks__text__input">Task Title</label>
                     <input id="createTaskTitle" class="tasks__text__input" type="text" />
                     <label class="tasks__form__label bold" for="tasks__textarea__input">Task Description</label>
-                    <textarea id="createTaskDescription" class="tasks__textarea__input" name="tasks__textarea__input" id="task__description"></textarea>
+                    <textarea id="createTaskDescription" class="tasks__textarea__input" name="tasks__textarea__input"></textarea>
                     <label class="tasks__form__label bold" for="tasks__date__input">Task Due Date</label>
                     <input id="createTaskDate" class="tasks__date__input" type="date" />
                     <label class="tasks__form__label bold" for="tasks__assignees">Task Assignees</label>
@@ -140,6 +140,29 @@
                     <div class="modal__content__buttons">
                         <button class="users__form__button bold">Create User</button>
                         <button class="users__form__button bold" id="cancelCreateUserButton" bold>Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- CREATE NEW DEPARTMENT MODAL OVERLAY -->
+        <div id="createDepartmentModal" class="modal hidden">
+            <div class="modal__content">
+                <h3 class="departments__h3">Create New Department</h3>
+                <form id="createDepartmentForm" class="departments__form">
+                    <label class="departments__form__label bold" for="departments__text__input">Department's Name</label>
+                    <input id="createDepartmentName" class="departments__text__input" type="text" />
+                    <label class="departments__form__label bold" for="departments__textarea__input">Department Description</label>
+                    <textarea id="createDepartmentDescription" class="departments__textarea__input" name="departments__textarea__input"></textarea>
+                    <label class="departments__form__label bold" for="departments__assignees">Department Members</label>
+                    <select id="createDepartmentAssignees" class="departments__select__input" name="department__assignees">
+                        <option class="departments__select__option" value="example">Sample Option</option>
+                        <option class="departments__select__option" value="example">Sample Option</option>
+                        <option class="departments__select__option" value="example">Sample Option</option>
+                    </select>
+                    <div class="modal__content__buttons">
+                        <button class="departments__form__button bold">Create Department</button>
+                        <button id="cancelCreateDepartmentButton" class="departments__form__button bold">Cancel</button>
                     </div>
                 </form>
             </div>
