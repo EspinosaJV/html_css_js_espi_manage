@@ -441,6 +441,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             document.getElementById("editDepartmentModal").classList.remove("hidden");
         }
+
+        // handles delete department if delete button in card is clicked
+        else if (event.target.classList.contains("delete-department-button")) {
+            console.log("Delete Department Button is clicked!");
+
+            const departmentIdToDelete = event.target.dataset.id;
+
+            let departments = JSON.parse(localStorage.getItem("department")) || [];
+
+            departments = departments.filter(department => department.id !== departmentIdToDelete);
+
+            localStorage.setItem("department", JSON.stringify(departments));
+
+            loadDepartmentsToDashboard();
+        }
     })
 
     // handles edit department modal form submission
