@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelCreateDepartmentModal = document.getElementById("cancelCreateDepartmentButton");
     const openCreateDepartmentModal = document.getElementById("openCreateDepartmentModal");
     const editDepartmentForm = document.getElementById("editDepartmentForm");
+    const createTaskAssignees = document.getElementById("createTaskAssignees");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -35,6 +36,68 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentEditingUserId = null;
     let currentEditingDepartmentId = null;
 
+    // helper functions
+    function populateCreateTaskAssignees() {
+
+        // clears out entire createTaskAssignees list first
+        while (createTaskAssignees.options.length > 0) {
+            createTaskAssignees.remove(0);
+        }
+
+        // displays placeholder "select an assignee" option
+        const defaultOption = document.createElement('option');
+        defaultOption.value = "";
+        defaultOption.textContent = "Select an Assignee";
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        createTaskAssignees.appendChild(defaultOption);
+
+        // get users from localStorage
+        const usersString = localStorage.getItem('users');
+
+        if (usersString) {
+            try {
+                const users = JSON.parse(usersString);
+
+                // If no users are available
+                if (users.length === 0) {
+                    const noUsersOption = document.createElement('option');
+                    noUsersOption.value = "";
+                    noUsersOption.textContent = "No individuals to assign to";
+                    noUsersOption.disabled = true;
+                    createTaskAssignees.appendChild(noUsersOption);
+                    return;
+                }
+
+                // Loops through users to dynamically display in select dropdown list
+                users.forEach(user => {
+                    // validation check to see if name property of user object exists
+                    if (user && user.name) {
+                        const option = document.createElement('option');
+                        option.classList.add('tasks__select__option');
+                        option.value = user.id;
+                        option.textContent = user.name;
+                        createTaskAssignees.appendChild(option);
+                    }
+                });
+            } catch (e) {
+                console.error("Failed to parse users from localStorage", e);
+                const errorOption = document.createElement('option');
+                errorOption.textContent = "Error loading individuals.";
+                errorOption.value = "";
+                errorOption.disabled = true;
+                createTaskAssignees.appendChild(errrorOption);
+            }
+        } else {
+            console.warn("No users data found in localStorage.");
+            const noUsersOption = document.createElement('option');
+            noUsersOption.value = "";
+            noUsersOption.textContent = "No users found";
+            noUsersOption.disabled = true;
+            createTaskAssignees.appendChild(noUsersOption);
+        }
+    }
+
     // ON INITIALIZATION 
     loadTasksToDashboard();
     loadUsersToDashboard();
@@ -45,6 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
     openCreateTaskModal.addEventListener("click", (event) => {
         event.preventDefault();
         console.log("Opening the Create Task Modal now!");
+
+        populateCreateTaskAssignees();
+        
         createTaskModal.classList.remove("hidden");
     });
 
