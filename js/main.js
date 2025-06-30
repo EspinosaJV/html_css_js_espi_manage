@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (user && user.name) {
                         const option = document.createElement('option');
                         option.classList.add('tasks__select__option');
-                        option.value = user.id;
+                        option.value = user.name;
                         option.textContent = user.name;
                         createTaskAssignees.appendChild(option);
                     }
