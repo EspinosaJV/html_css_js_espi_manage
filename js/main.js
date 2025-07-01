@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Handles task assignees dropdown population in create task modal
     function populateCreateTaskAssigneesChecklist() {
         console.log("Will now populate the create task assignees dropdown list");
-        
+        createTaskAssigneesDropdown.innerHTML = ''; // clear checkbox contents first
+
         const usersString = localStorage.getItem("users");
         let users = [];
 
