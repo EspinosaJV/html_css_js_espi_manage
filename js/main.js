@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelCreateDepartmentModal = document.getElementById("cancelCreateDepartmentButton");
     const openCreateDepartmentModal = document.getElementById("openCreateDepartmentModal");
     const editDepartmentForm = document.getElementById("editDepartmentForm");
-    const createTaskAssignees = document.getElementById("createTaskAssignees");
+    const createTaskAssigneesContainer = document.getElementById("createTaskAssignees");
+    const createTaskAssigneesDropdown = document.getElementById("createTaskAssigneesDropdown");
+    const createTaskAssigneesHiddenInput = document.getElementById("createTaskAssigneesHiddenInput");
+    const createTaskAssigneesDisplayText = document.getElementById("createTaskAssigneesDisplayText");
+    const createTaskAssigneesArrow = createTaskAssigneesContainer.querySelector(".arrow-icon");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -36,67 +40,76 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentEditingUserId = null;
     let currentEditingDepartmentId = null;
 
-    // helper functions
-    function populateCreateTaskAssignees() {
+    // HELPER FUNCTIONS
+    // Handles task assignees dropdown population in create task modal
+    function populateCreateTaskAssigneesChecklist() {
+        console.log("Will now populate the create task assignees dropdown list");
+        
+        const usersString = localStorage.getItem("users");
+        let users = [];
 
-        // clears out entire createTaskAssignees list first
-        while (createTaskAssignees.options.length > 0) {
-            createTaskAssignees.remove(0);
-        }
-
-        // displays placeholder "select an assignee" option
-        const defaultOption = document.createElement('option');
-        defaultOption.value = "";
-        defaultOption.textContent = "Select an Assignee";
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        createTaskAssignees.appendChild(defaultOption);
-
-        // get users from localStorage
-        const usersString = localStorage.getItem('users');
-
+        // parses users localStorage to then be cached into users
         if (usersString) {
             try {
-                const users = JSON.parse(usersString);
-
-                // If no users are available
-                if (users.length === 0) {
-                    const noUsersOption = document.createElement('option');
-                    noUsersOption.value = "";
-                    noUsersOption.textContent = "No individuals to assign to";
-                    noUsersOption.disabled = true;
-                    createTaskAssignees.appendChild(noUsersOption);
-                    return;
-                }
-
-                // Loops through users to dynamically display in select dropdown list
-                users.forEach(user => {
-                    // validation check to see if name property of user object exists
-                    if (user && user.name) {
-                        const option = document.createElement('option');
-                        option.classList.add('tasks__select__option');
-                        option.value = user.name;
-                        option.textContent = user.name;
-                        createTaskAssignees.appendChild(option);
-                    }
-                });
+                users = JSON.parse(usersString);
             } catch (e) {
-                console.error("Failed to parse users from localStorage", e);
-                const errorOption = document.createElement('option');
-                errorOption.textContent = "Error loading individuals.";
-                errorOption.value = "";
-                errorOption.disabled = true;
-                createTaskAssignees.appendChild(errrorOption);
+                console.error("Error parsing users from localStorage:", e);
+                createTaskAssigneesDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: red;">Error loading users</span>';
+                return;
             }
+        }
+
+        // after parsing localStorage, if no users are returned
+        if (users.length === 0) {
+            createTaskAssigneesDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: #888;">No users available</span>';
+            return;
+        }
+
+        // iterates through each user, creating select cards for each one in the dropdown list
+        users.forEach(user => {
+            if (user && user.name) {
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = user.name;
+                checkbox.dataset.name = user.name;
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(user.name));
+                createTaskAssigneesDropdown.appendChild(label);
+            }
+        });
+
+        updateAssigneesHeader();
+    }
+
+    // Updates main container's text & hidden input based on selected checkboxes
+    function updateAssigneesHeader() {
+        const selectedCheckboxes = createTaskAssigneesDropdown.querySelectorAll('input[type="checkbox"]:checked');
+        const selectedNames = Array.from(selectedCheckboxes).map(cb => cb.dataset.name);
+        const selectedValues = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+        // handles case if no selected users from the dropdown list
+        if (selectedNames.length === 0) {
+            createTaskAssigneesDisplayText.textContent = "Select Assignees";
+            createTaskAssigneesDisplayText.classList.add("placeholder-text");
+            createTaskAssigneesHiddenInput.value = '';
         } else {
-            console.warn("No users data found in localStorage.");
-            const noUsersOption = document.createElement('option');
-            noUsersOption.value = "";
-            noUsersOption.textContent = "No users found";
-            noUsersOption.disabled = true;
-            createTaskAssignees.appendChild(noUsersOption);
+            createTaskAssigneesDisplayText.textContent = selectedNames.join(', ');
+            createTaskAssigneesDisplayText.classList.remove("placeholder-text");
+            createTaskAssigneesHiddenInput.value = JSON.stringify(selectedValues);
+        }
+
+        // handles arrow icon rotation
+        if (createTaskAssigneesArrow) {
+            if (createTaskAssigneesContainer.classList.contains("active")) {
+                createTaskAssigneesArrow.computedStyleMap.transform = "rotate(180deg)";
+            } else {
+                createTaskAssigneesArrow.computedStyleMap.transform = "rotate(0deg)";
+            }
         }
     }
+
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -104,12 +117,55 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles the open & close of task assignees container
+    if (createTaskAssigneesContainer) {
+        createTaskAssigneesContainer.addEventListener("click", (event) => {
+            console.log("Task Assignees Dropdown is clicked!");
+            // prevents closing of the dropdown when clicking inside, strictly only the container or display text is clicked to open
+            if (event.target.closest("#createTaskAssigneesDropdown") || event.target === createTaskAssigneesHiddenInput) {
+                return;
+            }
+
+            // opens & closes the container itself
+            createTaskAssigneesContainer.classList.toggle("active");
+            updateAssigneesHeader(); // called to update arrow-icon
+        })
+    }
+
+    // updates header text & hidden input when a checkbox is changed
+    if (createTaskAssigneesDropdown) {
+        createTaskAssigneesDropdown.addEventListener("change", (event) => {
+            if (event.target.type === "checkbox") {
+                updateAssigneesHeader();
+            }
+        });
+    }
+
+    // closes the task assignees container when clicking outside
+    document.addEventListener("click", (event) => {
+        if (createTaskAssigneesContainer && !createTaskAssigneesContainer.contains(event.target)) {
+            createTaskAssigneesContainer.classList.remove("active");
+            
+            // resets arrow icon
+            if (createTaskAssigneesArrow) {
+                createTaskAssigneesArrow.style.transform = "rotate(0deg)";
+            }
+        }
+    });
+
     // opens create task modal
     openCreateTaskModal.addEventListener("click", (event) => {
         event.preventDefault();
         console.log("Opening the Create Task Modal now!");
 
-        populateCreateTaskAssignees();
+        populateCreateTaskAssigneesChecklist(); // populates the task assignees checklist
+
+        // ensures that the task assignees dropdown is initially closed when opening the create task modal
+        if (createTaskAssigneesContainer) {
+            createTaskAssigneesContainer.classList.remove("active");
+            updateAssigneesHeader();
+        }
         
         createTaskModal.classList.remove("hidden");
     });
@@ -119,17 +175,39 @@ document.addEventListener("DOMContentLoaded", () => {
         event.preventDefault();
         console.log("Closing the Create Task Modal now!");
         createTaskModal.classList.add("hidden");
+
+        // resets form input values when closing create task modal
+        createTaskForm.reset();
+        if (createTaskAssigneesHiddenInput) {
+            createTaskAssigneesHiddenInput.value = '';
+        }
+        updateAssigneesHeader();
     });
 
     // handles create task form submission
     createTaskForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
+        // acquires selected assignes from the hidden input value fields
+        let selectedAssigneeIds = [];
+        try {
+            const hiddenValue = document.getElementById("createTaskAssigneesHiddenInput").value;
+            if (hiddenValue) {
+                selectedAssigneeIds = JSON.parse(hiddenValue);
+            }
+            if (!Array.isArray(selectedAssigneeIds)) {
+                selectedAssigneeIds = [];
+            }
+        } catch (e) {
+            console.warn("No assignees selected or error parsing hidden input:", e);
+            selectedAssigneeIds = [];
+        }
+
         const task = {
             title: document.getElementById("createTaskTitle").value,
             description: document.getElementById("createTaskDescription").value,
             dueDate: document.getElementById("createTaskDate").value,
-            assignee: document.getElementById("createTaskAssignees").value,
+            assignee: selectedAssigneeIds,
             createdAt: new Date().toISOString(),
             id: crypto.randomUUID(),
         };
@@ -140,8 +218,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log("The task has been saved:", task);
 
+        // input form reset
         createTaskForm.reset();
         createTaskModal.classList.add("hidden");
+        if (createTaskAssigneesHiddenInput) {
+            createTaskAssigneesHiddenInput.value = '';
+        }
+        updateAssigneesHeader();
 
         loadTasksToDashboard();
     });

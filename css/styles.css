@@ -665,8 +665,7 @@ body {
 
 .tasks__text__input,
 .tasks__textarea__input,
-.tasks__date__input,
-.tasks__select__input {
+.tasks__date__input {
     width: 100%;
     background-color: var(--CREATE-TASK-MODAL-CONTENT-INPUT-BACKGROUND-COLOR);
     border: 3px solid var(--CREATE-TASK-MODAL-CONTENT-BORDER-COLOR);
@@ -676,6 +675,80 @@ body {
     box-sizing: border-box;
     outline: none;
     font-family: var(--TASKS-BODY-FONT-FAMILY);
+}
+
+.tasks__select__display-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tasks__select__input {
+    position: relative;
+    width: 100%;
+    border: 3px solid var(--CREATE-TASK-MODAL-CONTENT-BORDER-COLOR);
+    background-color: var(--CREATE-TASK-MODAL-CONTENT-INPUT-BACKGROUND-COLOR);
+    cursor: pointer;
+    margin-bottom: 15px;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--TASKS-BODY-FONT-FAMILY);
+    font-size: var(--FF-XS);
+    color: var(--FONT-BODY-COLOR);
+}
+
+.tasks__select__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    padding: 8px 0;
+}
+
+.arrow-icon {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.tasks__select__input.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.tasks__select__input.active .tasks__select__dropdown {
+    display: block;
+}
+
+.tasks__select__dropdown label {
+    display: block;
+    padding: 8px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tasks__select__dropdown label:hover {
+    background-color: #f0f0f0;
+}
+
+.tasks__select__dropdown input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.tasks__select__input.active .arrow-icon {
+    transform: rotate(180deg);
 }
 
 .users__text__input,
