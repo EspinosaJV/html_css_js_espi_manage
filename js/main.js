@@ -545,6 +545,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // handles OPEN > TASK DASHBOARD
     tasksDashboardButton.addEventListener("click", (event) => {
         event.preventDefault();
+        console.log("Now moving to task dashboard");
+        loadTasksToDashboard();
 
         tasksDashboard.classList.remove("hidden");
         departmentsDashboard.classList.add("hidden");
