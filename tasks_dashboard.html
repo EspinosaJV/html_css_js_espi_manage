@@ -181,14 +181,15 @@
                     <label class="tasks__form__label bold" for="tasks__date__input">Task Due Date</label>
                     <input id="editTaskDate" class="tasks__date__input" type="date" />
                     <label class="tasks__form__label bold" for="tasks__assignees">Task Assignees</label>
-                    <select id="editTaskAssignees" class="tasks__select__input" name="task__assignees">
-                        <option class="tasks__select__option" value="example">Sample Option</option>
-                        <option class="tasks__select__option" value="example">Sample Option</option>
-                        <option class="tasks__select__option" value="example">Sample Option</option>
-                    </select>
+                    <div id="editTaskAssignees" class="tasks__select__input">
+                        <span id="editTaskAssigneesDisplayText" class="tasks__select__display-text">Select Assignees</span>
+                        <div id="editTaskAssigneesDropdown" class="tasks__select__dropdown">
+                        </div>
+                        <input type="hidden" name="task__assignees" id="editTaskAssigneesHiddenInput">
+                    </div>
                     <div class="modal__content__buttons">
                         <button type="submit" class="tasks__form__button bold">Edit Task</button>
-                        <button class="tasks__form__button bold" id="cancelCreateTaskButton">Cancel</button>
+                        <button class="tasks__form__button bold" id="cancelEditTaskButton">Cancel</button>
                     </div>
                 </form>
             </div>

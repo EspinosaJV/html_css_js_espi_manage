@@ -20,6 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const createTaskAssigneesHiddenInput = document.getElementById("createTaskAssigneesHiddenInput");
     const createTaskAssigneesDisplayText = document.getElementById("createTaskAssigneesDisplayText");
     const createTaskAssigneesArrow = createTaskAssigneesContainer.querySelector(".arrow-icon");
+    const editTaskAssigneesContainer = document.getElementById("editTaskAssignees");
+    const editTaskAssigneesDropdown = document.getElementById("editTaskAssigneesDropdown");
+    const editTaskAssigneesHiddenInput = document.getElementById("editTaskAssigneesHiddenInput");
+    const editTaskAssigneesDisplayText = document.getElementById("editTaskAssigneesDisplayText");
+    const editTaskTitle = document.getElementById("editTaskTitle");
+    const editTaskDescription = document.getElementById("editTaskDescription");
+    const editTaskDate = document.getElementById("editTaskDate");
+    const cancelEditTaskButton = document.getElementById("cancelEditTaskButton");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -84,6 +92,55 @@ document.addEventListener("DOMContentLoaded", () => {
         updateAssigneesHeader();
     }
 
+    // Handles task assignees dropdown population in edit task modal
+    function populateEditTaskAssigneesChecklist(assignedUserIds = []) {
+        console.log("Here are the assigned user IDs for the currently editing task:", assignedUserIds);
+        console.log("Will now populate the edit task modal with users!");
+
+        editTaskAssigneesDropdown.innerHTML = '';
+
+        // fetch users localStorage
+        const usersString = localStorage.getItem("users");
+        let users = [];
+
+        // parse users localStorage
+        if (usersString) {
+            try {
+                users = JSON.parse(usersString);
+            } catch (e) {
+                console.error("Error parsing users from localStorage:", e);
+                editTaskAssigneesDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: red;">Error loading users</span>';
+                return;
+            }
+        }
+
+        // if no users in localStorage
+        if (users.length === 0) {
+            editTaskAssigneesDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: #888;">No users available</span>';
+            return;
+        }
+
+        // iterate through each user in users localStorage and render in dropdown list
+        users.forEach(user => {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = user.name;
+            checkbox.dataset.name = user.name;
+
+            // pre-selects already assigned users
+            if (assignedUserIds.includes(user.name)) {
+                checkbox.checked = true;
+            }
+
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(user.name));
+            editTaskAssigneesDropdown.appendChild(label);
+        });
+
+        updateEditAssigneesHeader();
+    }
+
     // Updates main container's text & hidden input based on selected checkboxes
     function updateAssigneesHeader() {
         const selectedCheckboxes = createTaskAssigneesDropdown.querySelectorAll('input[type="checkbox"]:checked');
@@ -111,6 +168,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // handles updating of edit modal assignees header
+    function updateEditAssigneesHeader() {
+        const selectedCheckboxes = editTaskAssigneesDropdown.querySelectorAll('input[type="checkbox"]:checked');
+        const selectedNames = Array.from(selectedCheckboxes).map(cb => cb.dataset.name);
+        const selectedValues = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+        // IF no users fetched, display placedholder ELSE, join all users 
+        if (selectedNames.length === 0) {
+            editTaskAssigneesDisplayText.textContent = 'Select Assignees';
+            editTaskAssigneesDisplayText.classList.add('placeholder-text');
+            editTaskAssigneesHiddenInput.value = '';
+        } else {
+            editTaskAssigneesDisplayText.textContent = selectedNames.join(', ');
+            editTaskAssigneesDisplayText.classList.remove('placeholder-text');
+            editTaskAssigneesHiddenInput.value = JSON.stringify(selectedValues);
+        }
+    }
+
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -118,6 +193,40 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // close edit task modal
+    if (cancelEditTaskButton) {
+        cancelEditTaskButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            console.log("Closing the Edit Task Modal now!");
+            editTaskModal.classList.add("hidden");
+            editTaskForm.reset();
+            if (editTaskAssigneesHiddenInput) {
+                editTaskAssigneesHiddenInput.value = '';
+            }
+            updateEditAssigneesHeader();
+            currentEditingTaskId = null;
+        })
+    }
+    // handles toggling of the multi-user select for edit modal
+    if (editTaskAssigneesContainer) {
+        editTaskAssigneesContainer.addEventListener("click", (event) => {
+            // makes it so that clicks inside the dropdown do not trigger this
+            if (event.target.closest("#editTaskAssigneesDropdown") || event.target === editTaskAssigneesHiddenInput) {
+                return;
+            }
+            editTaskAssigneesContainer.classList.toggle("active");
+        })
+    }
+
+    // update header text & hidden input when a checkbox is changed in edit modal
+    if (editTaskAssigneesDropdown) {
+        editTaskAssigneesDropdown.addEventListener("change", (event) => {
+            if (event.target.type === "checkbox") {
+                updateEditAssigneesHeader();
+            }
+        })
+    }
 
     // handles the open & close of task assignees container
     if (createTaskAssigneesContainer) {
@@ -143,15 +252,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // closes the task assignees container when clicking outside
-    document.addEventListener("click", (event) => {
+    // closes both the create task & edit task assignees dropdown
+    document.addEventListener('click', (event) => {
+        // Handle create task assignees dropdown
         if (createTaskAssigneesContainer && !createTaskAssigneesContainer.contains(event.target)) {
-            createTaskAssigneesContainer.classList.remove("active");
-            
-            // resets arrow icon
-            if (createTaskAssigneesArrow) {
-                createTaskAssigneesArrow.style.transform = "rotate(0deg)";
-            }
+            createTaskAssigneesContainer.classList.remove('active');
+        }
+        // Handle edit task assignees dropdown
+        if (editTaskAssigneesContainer && !editTaskAssigneesContainer.contains(event.target)) {
+            editTaskAssigneesContainer.classList.remove('active');
         }
     });
 
@@ -184,6 +293,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         updateAssigneesHeader();
     });
+
+    // closes edit task modal
+    cancelEditTaskButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("Closing the Edit Task Modal now!");
+        editTaskModal.classList.add("hidden");
+
+        // reset form input values when closing edit task modal
+        editTaskForm.reset();
+        if (editTaskAssigneesHiddenInput) {
+            editTaskAssigneesHiddenInput.value = '';
+        }
+        updateAssigneesHeader();
+    })
 
     // handles create task form submission
     createTaskForm.addEventListener("submit", (event) => {
@@ -257,22 +380,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // handles display/read of task data in localStorage
     function loadTasksToDashboard() {
-        taskListContainer.innerHTML = "";
+        console.log("Now refreshing the tasks dashboard!");
 
+        taskListContainer.innerHTML = "";
         const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const users = JSON.parse(localStorage.getItem("users")) || [];
 
         tasks.forEach(task => {
+            console.log("Here is the rendered task:", task);
+
             const taskElement = document.createElement("div");
             taskElement.classList.add("task-card");
+
+            let assigneeNames = "No Assignee";
+
+            if (task.assignee && Array.isArray(task.assignee) && task.assignee.length > 0) {
+                const foundAssignees = users.filter(user => task.assignee.includes(user.name));
+                assigneeNames = foundAssignees.map(user => user.name).join(', ') || "Unknown Assignee";
+            }   
 
             taskElement.innerHTML = `
                 <div class="taskcard__col">
                     <h4 class="taskcard__h4">${task.title}</h4>
-                    <p class="taskcard__p"><span class="bold uppercase">Description:</span> ${task.description}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Description:</span>${task.description}</p>
                 </div>
                 <div class="taskcard__col">
-                    <p class="taskcard__p"><span class="bold uppercase">Due:</span> ${task.dueDate}</p>
-                    <p class="taskcard__p"><span class="bold uppercase">Assignee:</span> ${task.assignee}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Due:</span>${task.dueDate}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Assignees:</span>${assigneeNames}</p>
                 </div>
                 <div class="taskcard__buttons">
                     <button class="edit-task-button bold" data-id="${task.id}">Edit</button>
@@ -280,7 +414,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <hr />
             `;
-
             taskListContainer.appendChild(taskElement);
         });
     };
@@ -321,66 +454,83 @@ document.addEventListener("DOMContentLoaded", () => {
             const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
             const task = tasks.find(t => t.id === taskId);
 
-            if (!task) return;
-
-            const editTitleInput = document.getElementById("editTaskTitle");
-            const editDescriptionInput = document.getElementById("editTaskDescription");
-            const editDueDateInput = document.getElementById("editTaskDueDate");
-            const editAssigneeSelect = document.getElementById("editTaskAssignees");
+            if (!task) {
+                console.error("Task not found for editing:", taskId);
+                return;
+            } 
 
             currentEditingTaskId = taskId;
 
-            editTitleInput.value = task.title;
-            editDescriptionInput.value = task.description;
+            editTaskTitle.value = task.title;
+            editTaskDescription.value = task.description;
             editTaskDate.value = task.dueDate;
-            editAssigneeSelect.value = task.assignee;
 
-            document.getElementById("editTaskModal").classList.remove("hidden");
-        }
+            populateEditTaskAssigneesChecklist(task.assignee || []);
 
-        else if (event.target.classList.contains("delete-task-button")) {
+            if (editTaskAssigneesContainer) {
+                editTaskAssigneesContainer.classList.remove("active");
+            }
+
+            editTaskModal.classList.remove("hidden");
+        } else if (event.target.classList.contains("delete-task-button")) {
             const taskIdToDelete = event.target.dataset.id;
 
             let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
             tasks = tasks.filter(task => task.id !== taskIdToDelete);
-
             localStorage.setItem("tasks", JSON.stringify(tasks));
-
             loadTasksToDashboard();
+            console.log("Task has been deleted!");
         }
-    })
+    });
 
     //handles saving of the inputted data into the edit task form
     editTaskForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const updatedTitle = document.getElementById("editTaskTitle").value;
-        const updatedDescription = document.getElementById("editTaskDescription").value;
-        const updatedDueDate = document.getElementById("editTaskDate").value;
-        const updatedAssignee = document.getElementById("editTaskAssignees").value;
+        console.log("Submitting edit task form values!");
 
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        if (!currentEditingTaskId) {
+            console.error("No task ID found for editing. Cannot save.");
+            return;
+        }
 
-        const taskIndex = tasks.findIndex(t => t.id === currentEditingTaskId);
+        let selectedAssigneeIds = [];
+        try {
+            const hiddenValue = editTaskAssigneesHiddenInput.value;
+            if (hiddenValue) {
+                selectedAssigneeIds = JSON.parse(hiddenValue);
+            }
+            if (!Array.isArray(selectedAssigneeIds)) {
+                selectedAssigneeIds = [];
+            }
+        } catch (e) {
+            console.warn("No assignees selected or error parsing hidden input for edit task:", e);
+            selectedAssigneeIds = [];
+        }
+
+        let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const taskIndex = tasks.findIndex(task => task.id === currentEditingTaskId);
 
         if (taskIndex !== -1) {
-            tasks[taskIndex] = {
-            ...tasks[taskIndex],
-            title: updatedTitle,
-            description: updatedDescription,
-            dueDate: updatedDueDate,
-            assignee: updatedAssignee
-            };
+            tasks[taskIndex].title = editTaskTitle.value;
+            tasks[taskIndex].description = editTaskDescription.value;
+            tasks[taskIndex].dueDate = editTaskDate.value;
+            tasks[taskIndex].assignee = selectedAssigneeIds;
 
             localStorage.setItem("tasks", JSON.stringify(tasks));
-        };
+            console.log("Task is updated:", tasks[taskIndex]);
 
-        document.getElementById("editTaskModal").classList.add("hidden");
-
-        currentEditingTaskId = null;
-
-        loadTasksToDashboard();
+            editTaskModal.classList.add("hidden");
+            editTaskForm.reset();
+            if (editTaskAssigneesHiddenInput) {
+                editTaskAssigneesHiddenInput.value = '';
+            }
+            updateEditAssigneesHeader();
+            currentEditingTaskId = null;
+            loadTasksToDashboard();
+        } else {
+            console.error("Task not found for updating:", currentEditingTaskId);
+        }
     });
 
     // handles OPEN > USER DASHBOARD
