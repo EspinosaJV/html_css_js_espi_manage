@@ -48,6 +48,12 @@ img {
     --USER-CARD-BORDER-COLOR: #819A91;
     --DEPARTMENT-CARD-BACKGROUND-COLRO: #EEEFE0;
     --DEPARTMENT-CARD-BORDER-COLOR: #819A91;
+    --COMPLETED-TASK-CARD-BACKGROUND-COLOR: #819A91;
+    --COMPLETED-TASK-CARD-BORDER-COLOR: #EEEFE0;
+    --COMPLETED-TASK-CARD-FONT-COLOR: #EEEFE0;
+    --COMPLETED-TASK-BUTTON-BORDER-COLOR: #EEEFE0;
+    --COMPLETED-TASK-BUTTON-BACKGROUND-COLR: #819A91;
+    --COMPLETED-TASK-BUTTON-FONT-COLOR: #EEEFE0;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -974,6 +980,54 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
+.complete-task-button {
+    padding: 0.25rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.complete-task-button:active,
+.complete-task-button:hover,
+.complete-task-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.task-completed {
+    background-color: var(--COMPLETED-TASK-CARD-BACKGROUND-COLOR);
+    border: 5px solid var(--COMPLETED-TASK-CARD-BORDER-COLOR);
+}
+
+.task-completed .taskcard__h4,
+.task-completed .taskcard__p {
+    color: var(--COMPLETED-TASK-CARD-FONT-COLOR);
+}
+
+.task-completed .complete-task-button,
+.task-completed .edit-task-button,
+.task-completed .delete-task-button {
+    border: 5px solid var(--COMPLETED-TASK-BUTTON-BORDER-COLOR);
+    background-color: var(--COMPLETED-TASK-BUTTON-BACKGROUND-COLOR);
+    color: var(--COMPLETED-TASK-BUTTON-FONT-COLOR);
+}
+
+.task-completed .complete-task-button:active,
+.task-completed .complete-task-button:hover,
+.task-completed .complete-task-button:focus,
+.task-completed .edit-task-button:active,
+.task-completed .edit-task-button:hover,
+.task-completed .edit-task-button:focus,
+.task-completed .delete-task-button:active,
+.task-completed .delete-task-button:hover,
+.task-completed .delete-task-button:focus {
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    color: var(--BUTTON-FONT-COLOR);
+}
 .taskcard__col {
     max-width: 30%;
 }

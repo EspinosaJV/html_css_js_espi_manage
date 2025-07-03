@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const editTaskDescription = document.getElementById("editTaskDescription");
     const editTaskDate = document.getElementById("editTaskDate");
     const cancelEditTaskButton = document.getElementById("cancelEditTaskButton");
+    const completeTaskButton = document.getElementById("completeTaskButton");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -334,6 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
             assignee: selectedAssigneeIds,
             createdAt: new Date().toISOString(),
             id: crypto.randomUUID(),
+            isCompleted: false
         };
 
         const existingTasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -348,8 +350,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (createTaskAssigneesHiddenInput) {
             createTaskAssigneesHiddenInput.value = '';
         }
+        
         updateAssigneesHeader();
-
         loadTasksToDashboard();
     });
 
@@ -392,12 +394,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const taskElement = document.createElement("div");
             taskElement.classList.add("task-card");
 
+            if (task.isCompleted) {
+                taskElement.classList.add("task-completed");
+            }
+
             let assigneeNames = "No Assignee";
 
             if (task.assignee && Array.isArray(task.assignee) && task.assignee.length > 0) {
                 const foundAssignees = users.filter(user => task.assignee.includes(user.name));
-                assigneeNames = foundAssignees.map(user => user.name).join(', ') || "Unknown Assignee";
-            }   
+                assigneeNames = foundAssignees.map(user => user.name).join(', ') || "Unknown Assignees";
+            } 
 
             taskElement.innerHTML = `
                 <div class="taskcard__col">
@@ -409,13 +415,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p class="taskcard__p"><span class="bold uppercase">Assignees:</span>${assigneeNames}</p>
                 </div>
                 <div class="taskcard__buttons">
+                    <button class="complete-task-button bold" data-id="${task.id}">Done</button>
                     <button class="edit-task-button bold" data-id="${task.id}">Edit</button>
-                    <button class="delete-task-button bold" data-id="${task.id}">Delete</button>
+                    <button class="delete-task-button bold" data-id="${task.id}>Delete</button>
                 </div>
                 <hr />
-            `;
+            `
             taskListContainer.appendChild(taskElement);
-        });
+        })
     };
 
     // handles display/read of user data in localStorage
@@ -480,7 +487,22 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("tasks", JSON.stringify(tasks));
             loadTasksToDashboard();
             console.log("Task has been deleted!");
-        }
+        } else if (event.target.classList.contains("complete-task-button")) {
+            console.log("Now marking the task as complete/incomplete!");
+
+            const taskIdToToggle = event.target.dataset.id;
+            const taskCard = event.target.closest(".task-card");
+
+            let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            const taskIndex = tasks.findIndex(task => task.id === taskIdToToggle);
+
+            if (taskIndex !== -1) {
+                tasks[taskIndex].isCompleted = !tasks[taskIndex].isCompleted;
+                localStorage.setItem("tasks", JSON.stringify(tasks));
+                loadTasksToDashboard();
+                console.log("Task complete status has been updated!");
+            }
+        } 
     });
 
     //handles saving of the inputted data into the edit task form
