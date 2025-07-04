@@ -27,11 +27,11 @@
             <section class="tasks__sidebar">
                 <h2 class="tasks__h2 nowrap">Task Filters</h2>
                 <hr class="section__divider" />
-                <ul class="tasks__ul">
-                    <li><button class="tasks__filter__button bold">Unassigned</button></li>
-                    <li><button class="tasks__filter__button bold">Assigned</button></li>
-                    <li><button class="tasks__filter__button bold">Overdue</button></li>
-                    <li><button class="tasks__filter__button bold">Completed</button></li>
+                <ul id="tasks__filter" class="tasks__ul">
+                    <li><button id="unassignedFilterButton" class="unassigned__filter__button bold">Unassigned</button></li>
+                    <li><button class="assigned__filter__button bold">Assigned</button></li>
+                    <li><button class="overdue__filter__button bold">Overdue</button></li>
+                    <li><button class="completed__filter__button bold">Completed</button></li>
                 </ul>
             </section>
             <section class="tasks__dashboard">
@@ -41,8 +41,7 @@
                         <button class="tasks__button bold" id="openCreateTaskModal">New Task</button>
                     </div>
                     <!-- DYNAMICALLY READS SAVED TASKS IN LOCALSTORAGE -->
-                    <div id="taskListContainer" class="tasklist__div">
-                </div>
+                    <div id="taskListContainer" class="tasklist__div"></div>
                 <div class="task__templates"></div>
             </section>
         </div>
@@ -239,6 +238,14 @@
                         </div>
                     </form>
                 </h3>
+            </div>
+        </div>
+
+        <!-- ALL TASKS CURRENTLY ASSIGNED MODAL DISPLAY -->
+        <div id="allTasksAssignedModal" class="modal hidden">
+            <div class="all-tasks-assigned-modal__content">
+                <h3 class="all-tasks-assigned__h3">All Tasks are currently assigned!</h3>
+                <button id="allTasksAssignedModalCloseButton" class="all-tasks-assigned__button bold">Close</button>
             </div>
         </div>
     </main>

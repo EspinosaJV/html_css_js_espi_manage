@@ -42,6 +42,11 @@ img {
     --CREATE-DEPARTMENT-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --CREATE-DEPARTMENT-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --CREATE-DEPARTMENT-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --ALL-TASKS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --ALL-TASKS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --ALL-TASKS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --ALL-TASKS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --ALL-TASKS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --TASK-CARD-BACKGROUND-COLOR: #EEEFE0;
     --TASK-CARD-BORDER-COLOR: #819A91;  
     --USER-CARD-BACKGROUND-COLOR: #EEEFE0;
@@ -64,6 +69,7 @@ img {
     --CREATE-TASK-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-USER-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --USERS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
 
     /* || FONT SIZES */
@@ -244,6 +250,22 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+
+.all-tasks-assigned-modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--ALL-TASKS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--ALL-TASKS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
 }
 
 .modal__content__buttons {
@@ -467,7 +489,10 @@ body {
     border-top: 4px solid var(--DIVIDER-BORDER-COLOR); /* style the line */
 }
 
-.tasks__filter__button {
+.unassigned__filter__button,
+.assigned__filter__button,
+.overdue__filter__button,
+.completed__filter__button {
     width: 100%;
     display: block;
     background-color: transparent;
@@ -475,7 +500,7 @@ body {
     font-family: var(--BUTTON-FONT-FAMILY);
     text-transform: uppercase;
     font-size: var(--FF-XS);
-    color: var(--FONT-BODY-COLOR);
+    COLOR: var(--FONT-BODY-COLOR);
 }
 
 .users__filter__button {
@@ -500,9 +525,18 @@ body {
     color: var(--FONT-BODY-COLOR);
 }
 
-.tasks__filter__button:hover,
-.tasks__filter__button:active,
-.tasks__filter__button:focus {
+.unassigned__filter__button:hover,
+.unassigned__filter__button:active,
+.unassigned__filter__button:focus,
+.assigned__filter__button:hover,
+.assigned__filter__button:active,
+.assigned__filter__button:focus,
+.overdue__filter__button:hover,
+.overdue__filter__button:active,
+.overdue__filter__button:focus,
+.completed__filter__button:hover,
+.completed__filter__button:active,
+.completed__filter__button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
@@ -607,6 +641,18 @@ body {
     border: 8px solid var(--CREATE-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
     font-size: var(--FF-S);
 }
+
+/* .all-tasks-assigned__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--ALL-TASKS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--ALL-TASKS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+} */
 
 .tasks__form {
     display: flex;
@@ -813,6 +859,24 @@ body {
     background-color: var(--BUTTON-BACKGROUND-COLOR);
     font-family: var(--BUTTON-FONT-FAMILY);
     color: var(--BUTTON-FONT-COLOR);
+}
+
+.all-tasks-assigned__button {
+    margin-top: 2.5vh;
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTON-FONT-COLOR);
+}
+
+.all-tasks-assigned__button:active,
+.all-tasks-assigned__button:hover,
+.all-tasks-assigned__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
 .tasks__form__button:active,

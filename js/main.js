@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const editTaskDate = document.getElementById("editTaskDate");
     const cancelEditTaskButton = document.getElementById("cancelEditTaskButton");
     const completeTaskButton = document.getElementById("completeTaskButton");
+    const unassignedFilterButton = document.getElementById("unassignedFilterButton");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -38,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Navigation Buttons
     const departmentsDashboardButton = document.getElementById("departmentsDashboardButton");
 
+    // Modal Buttons
+    const allTasksAssignedModalCloseButton = document.getElementById("allTasksAssignedModalCloseButton");
+
     const cancelCreateUserButton = document.getElementById("cancelCreateUserButton");
     const createUserForm = document.getElementById("createUserForm");
     const editUserForm = document.getElementById("editUserForm");
@@ -45,9 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelEditUserButton = document.getElementById("cancelEditUserButton");
     const editUserModal = document.getElementById("editUserModal");
 
+    // Modals
+    const allTasksAssignedModal = document.getElementById("allTasksAssignedModal");
+
     let currentEditingTaskId = null;
     let currentEditingUserId = null;
     let currentEditingDepartmentId = null;
+    let unassignedTasks = [];
+
 
     // HELPER FUNCTIONS
     // Handles task assignees dropdown population in create task modal
@@ -194,6 +203,12 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles close button in all tasks assigned modal
+    allTasksAssignedModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        allTasksAssignedModal.classList.add("hidden");
+    })
 
     // close edit task modal
     if (cancelEditTaskButton) {
@@ -385,12 +400,26 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Now refreshing the tasks dashboard!");
 
         taskListContainer.innerHTML = "";
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        tasks.forEach(task => {
-            console.log("Here is the rendered task:", task);
+        // determine which set of tasks to display
+        let tasksToRender
+        
+        // for unassigned tasks
+        if (unassignedFilterButton.classList.contains("active")) {
+            // if unassigned filter button is on, render from global unassignedTasks array
+            tasksToRender = unassignedTasks;
+            console.log("Rendering all unassigned tasks!");
+        } else {
+            // otherwise, we just render all tasks
+            tasksToRender = allTasks;
+            console.log("Rendering all tasks!");
+        }
 
+        // renders tasks
+        tasksToRender.forEach(task => {
+            console.log("Here is the currently rendered task:", task);
             const taskElement = document.createElement("div");
             taskElement.classList.add("task-card");
 
@@ -399,11 +428,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             let assigneeNames = "No Assignee";
-
             if (task.assignee && Array.isArray(task.assignee) && task.assignee.length > 0) {
-                const foundAssignees = users.filter(user => task.assignee.includes(user.name));
+                const foundAssignees = users.filter(user => {
+                    const trimmedUserName = user.name ? user.name.trim() : '';
+                    return task.assignee.some(taskAssignee => taskAssignee.trim() === trimmedUserName);
+                })
+                console.log("Here are the found assignees:", foundAssignees);
                 assigneeNames = foundAssignees.map(user => user.name).join(', ') || "Unknown Assignees";
-            } 
+                console.log("Here are the assigneeNames:", assigneeNames);
+            }
 
             taskElement.innerHTML = `
                 <div class="taskcard__col">
@@ -417,12 +450,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="taskcard__buttons">
                     <button class="complete-task-button bold" data-id="${task.id}">Done</button>
                     <button class="edit-task-button bold" data-id="${task.id}">Edit</button>
-                    <button class="delete-task-button bold" data-id="${task.id}>Delete</button>
+                    <button class="delete-task-button bold" data-id="${task.id}">Delete</button>
                 </div>
                 <hr />
-            `
+            `;
             taskListContainer.appendChild(taskElement);
-        })
+        });
     };
 
     // handles display/read of user data in localStorage
@@ -453,6 +486,57 @@ document.addEventListener("DOMContentLoaded", () => {
             userListContainer.appendChild(userElement);
         });
     };
+
+    // handles task filters
+    document.getElementById("tasks__filter").addEventListener("click", (event) => {
+        // unassigned filter logic
+        if (event.target.classList.contains("unassigned__filter__button")) {
+            console.log("Unassigned filter button has been toggled.");
+            unassignedFilterButton.classList.toggle("active");
+
+            // check if filter is active
+            if (unassignedFilterButton.classList.contains("active")) {
+                console.log("Filtering for unassigned tasks.");
+                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+                // Find all tasks that are unassigned
+
+                unassignedTasks = tasks.filter(task => !task.assignee || task.assignee.length === 0);
+
+                console.log(`Found ${unassignedTasks.length} unassigned tasks.`);
+
+                // after filtering, if array is empty, show all tasks are assigned modal
+                if (unassignedTasks.length === 0) {
+                    console.log("No unassigned tasks found, display all tasks are assigned modal.");
+                    allTasksAssignedModal.classList.remove("hidden");
+                    taskListContainer.innerHTML = '';
+                } else {
+                    // If there are unassigned tasks, refresh the dashboard
+                    loadTasksToDashboard();
+                }
+            } else {
+                // If filter button is now inactive, show all tasks
+                console.log("Unassigned filter is now turned off, showing all tasks.");
+                unassignedTasks = [];
+                loadTasksToDashboard();
+            }
+        }
+        
+        // filters only assigned tasks
+        else if (event.target.classList.contains("assigned__filter__buttons")) {
+            console.log("We are now going to be filtering for assigned tasks!");
+        }
+        
+        // filters only overdue tasks
+        else if (event.target.classList.contains("overdue__filter__button")) {
+            console.log("We are now going to be filtering for overdue tasks!");
+        }
+
+        // filters only completed tasks
+        else if (event.target.classList.contains("completed__filter__buttons")) {
+            console.log("We are now going to be filtering for completed tasks!");
+        }
+    });
 
     // handles opening of edit task modal when clicking edit button of a specific task
     document.getElementById("taskListContainer").addEventListener("click", (event) => {
