@@ -34,6 +34,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const overdueFilterButton = document.getElementById("overdueFilterButton");
     const noTasksAssignedModal = document.getElementById("noTasksAssignedModal");
     const noTasksOverdueModal = document.getElementById("noTasksOverdueModal");
+    const noTasksOverdueModalCloseButton = document.getElementById("noTasksOverdueModalCloseButton");
+    const noTasksAssignedModalCloseButton = document.getElementById("noTasksAssignedModalCloseButton");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -208,6 +210,18 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles close button in no overdue tasks modal
+    noTasksOverdueModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        noTasksOverdueModal.classList.add("hidden");
+    })
+
+    // handles close button in no tasks assigned modal
+    noTasksAssignedModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        noTasksAssignedModal.classList.add("hidden");
+    })
 
     // handles close button in all tasks assigned modal
     allTasksAssignedModalCloseButton.addEventListener("click", (event) => {
@@ -524,6 +538,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Deactive other filters if one filter is clicked.
         if (target !== unassignedFilterButton) unassignedFilterButton.classList.remove("active");
         if (target !== assignedFilterButton) assignedFilterButton.classList.remove("active");
+        if (target !== overdueFilterButton) overdueFilterButton.classList.remove("active");
 
         // Unassigned Filter Logic
         if (target.classList.contains("unassigned__filter__button")) {
