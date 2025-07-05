@@ -31,7 +31,7 @@
                     <li><button id="unassignedFilterButton" class="unassigned__filter__button bold">Unassigned</button></li>
                     <li><button id="assignedFilterButton" class="assigned__filter__button bold">Assigned</button></li>
                     <li><button id="overdueFilterButton" class="overdue__filter__button bold">Overdue</button></li>
-                    <li><button class="completed__filter__button bold">Completed</button></li>
+                    <li><button id="completedFilterButton" class="completed__filter__button bold">Completed</button></li>
                 </ul>
             </section>
             <section class="tasks__dashboard">
@@ -244,7 +244,7 @@
         <!-- ALL TASKS CURRENTLY ASSIGNED MODAL DISPLAY -->
         <div id="allTasksAssignedModal" class="modal hidden">
             <div class="all-tasks-assigned-modal__content">
-                <h3 class="all-tasks-assigned__h3">All Tasks are currently assigned!</h3>
+                <h3 class="all-tasks-assigned__h3">No tasks are currently unassigned!</h3>
                 <button id="allTasksAssignedModalCloseButton" class="all-tasks-assigned__button bold">Close</button>
             </div>
         </div>
@@ -258,12 +258,19 @@
         </div>
 
         <!-- NO TASKS CURRENTLY OVERDUE MODAL DISPLAY -->
-         <div id="noTasksOverdueModal" class="modal hidden">
+        <div id="noTasksOverdueModal" class="modal hidden">
             <div class="no-tasks-overdue-modal__content">
                 <h3 class="no-tasks-overdue__h3">No tasks are currently overdue!</h3>
                 <button id="noTasksOverdueModalCloseButton" class="no-tasks-overdue__button bold">Close</button>
             </div>
-         </div>
+        </div>
+
+        <!-- NO TASKS CURRENTLY COMPLETED MODAL DISPLAY -->
+        <div id="noTasksCompletedModal" class="modal hidden">
+            <div class="no-tasks-completed-modal__content">
+                <h3 class="no-tasks-completed__h3">No tasks are currently completed!</h3>
+                <button id="noTasksCompletedCloseButton" class="no-tasks-completed__button bold">Close</button>
+            </div>
     </main>
     <footer class="tasks__footer">
         <p class="tasks__p">&copy; 2025 John Vincent Espinosa. All Rights reserved.</p>

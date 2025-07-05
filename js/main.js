@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const noTasksOverdueModal = document.getElementById("noTasksOverdueModal");
     const noTasksOverdueModalCloseButton = document.getElementById("noTasksOverdueModalCloseButton");
     const noTasksAssignedModalCloseButton = document.getElementById("noTasksAssignedModalCloseButton");
+    const completedFilterButton = document.getElementById("completedFilterButton");
+    const noTasksCompletedModal = document.getElementById("noTasksCompletedModal");
+    const noTasksCompletedCloseButton = document.getElementById("noTasksCompletedCloseButton");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -211,22 +214,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // EVENT LISTENERS
 
+    // handles close button in no completed tasks modal
+    noTasksCompletedCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        noTasksCompletedModal.classList.add("hidden");
+        completedFilterButton.classList.remove("active");
+        loadTasksToDashboard();
+    })
+
     // handles close button in no overdue tasks modal
     noTasksOverdueModalCloseButton.addEventListener("click", (event) => {
         console.log("Close Modal button has been clicked!");
         noTasksOverdueModal.classList.add("hidden");
+        overdueFilterButton.classList.remove("active");
+        loadTasksToDashboard();
     })
 
     // handles close button in no tasks assigned modal
     noTasksAssignedModalCloseButton.addEventListener("click", (event) => {
         console.log("Close Modal button has been clicked!");
         noTasksAssignedModal.classList.add("hidden");
+        assignedFilterButton.classList.remove("active");
+        loadTasksToDashboard();
     })
 
     // handles close button in all tasks assigned modal
     allTasksAssignedModalCloseButton.addEventListener("click", (event) => {
         console.log("Close Modal button has been clicked!");
         allTasksAssignedModal.classList.add("hidden");
+        unassignedFilterButton.classList.remove("active");
+        loadTasksToDashboard();
     })
 
     // close edit task modal
@@ -425,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // determine which set of tasks to display
         let tasksToRender
         
-        // taskToRender assignment of unassigned tasks, assigned tasks, overdue tasks, all tasks
+        // taskToRender assignment of unassigned tasks, assigned tasks, overdue tasks, completed tasks, all tasks
         if (unassignedFilterButton.classList.contains("active")) {
             // Re-filter list from fresh data
             tasksToRender = allTasks.filter(task => !task.assignee || task.assignee.length === 0);
@@ -445,6 +462,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 return dueDate < currentDate && !task.isCompleted;
             });
             console.log("Re-filtering and rendering all overdue tasks!");
+        } else if (completedFilterButton.classList.contains("active")) {
+            tasksToRender = allTasks.filter(task => task.isCompleted);
+            console.log("Re-filtering and rendering all completed tasks!");
         } else {
             tasksToRender = allTasks;
             console.log("Rendering all tasks!");
@@ -459,6 +479,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (overdueFilterButton.classList.contains("active") && tasksToRender.length === 0) {
             noTasksOverdueModal.classList.remove("hidden");
+        }
+        if (completedFilterButton.classList.contains("active") && tasksToRender.length === 0) {
+            noTasksCompletedModal.classList.remove("hidden");
         }
 
         // renders tasks
@@ -539,6 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (target !== unassignedFilterButton) unassignedFilterButton.classList.remove("active");
         if (target !== assignedFilterButton) assignedFilterButton.classList.remove("active");
         if (target !== overdueFilterButton) overdueFilterButton.classList.remove("active");
+        if (target !== completedFilterButton) completedFilterButton.classList.remove("active");
 
         // Unassigned Filter Logic
         if (target.classList.contains("unassigned__filter__button")) {
@@ -556,6 +580,12 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (target.classList.contains("overdue__filter__button")) {
             console.log("Overdue Filter button has been toggled.");
             overdueFilterButton.classList.toggle("active");
+        }
+
+        // Completed Filter Logic
+        else if (target.classList.contains("completed__filter__button")) {
+            console.log("Completed Filter button has been toggled.");
+            completedFilterButton.classList.toggle("active");
         }
 
         loadTasksToDashboard();
