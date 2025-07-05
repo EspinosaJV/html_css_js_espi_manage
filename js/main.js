@@ -31,7 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const completeTaskButton = document.getElementById("completeTaskButton");
     const unassignedFilterButton = document.getElementById("unassignedFilterButton");
     const assignedFilterButton = document.getElementById("assignedFilterButton");
+    const overdueFilterButton = document.getElementById("overdueFilterButton");
     const noTasksAssignedModal = document.getElementById("noTasksAssignedModal");
+    const noTasksOverdueModal = document.getElementById("noTasksOverdueModal");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -409,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // determine which set of tasks to display
         let tasksToRender
         
-        // taskToRender assignment of unassigned tasks, assigned tasks
+        // taskToRender assignment of unassigned tasks, assigned tasks, overdue tasks, all tasks
         if (unassignedFilterButton.classList.contains("active")) {
             // Re-filter list from fresh data
             tasksToRender = allTasks.filter(task => !task.assignee || task.assignee.length === 0);
@@ -417,6 +419,18 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (assignedFilterButton.classList.contains("active")) {
             tasksToRender = allTasks.filter(task => task.assignee && task.assignee.length > 0);
             console.log("Re-filtering and rendering all assigned tasks!");
+        } else if (overdueFilterButton.classList.contains("active")) {
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+
+            tasksToRender = allTasks.filter(task => {
+                if (!task.dueDate) {
+                    return false;
+                }
+                const dueDate = new Date(task.dueDate);
+                return dueDate < currentDate && !task.isCompleted;
+            });
+            console.log("Re-filtering and rendering all overdue tasks!");
         } else {
             tasksToRender = allTasks;
             console.log("Rendering all tasks!");
@@ -428,6 +442,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (assignedFilterButton.classList.contains("active") && tasksToRender.length === 0) {
             noTasksAssignedModal.classList.remove("hidden");
+        }
+        if (overdueFilterButton.classList.contains("active") && tasksToRender.length === 0) {
+            noTasksOverdueModal.classList.remove("hidden");
         }
 
         // renders tasks
@@ -518,6 +535,12 @@ document.addEventListener("DOMContentLoaded", () => {
         else if (target.classList.contains("assigned__filter__button")) {
             console.log("Assigned Filter button has been toggled.");
             assignedFilterButton.classList.toggle("active");
+        }
+
+        // Overdue Filter Logic
+        else if (target.classList.contains("overdue__filter__button")) {
+            console.log("Overdue Filter button has been toggled.");
+            overdueFilterButton.classList.toggle("active");
         }
 
         loadTasksToDashboard();
