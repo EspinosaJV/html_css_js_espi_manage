@@ -30,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelEditTaskButton = document.getElementById("cancelEditTaskButton");
     const completeTaskButton = document.getElementById("completeTaskButton");
     const unassignedFilterButton = document.getElementById("unassignedFilterButton");
+    const assignedFilterButton = document.getElementById("assignedFilterButton");
+    const noTasksAssignedModal = document.getElementById("noTasksAssignedModal");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -56,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentEditingUserId = null;
     let currentEditingDepartmentId = null;
     let unassignedTasks = [];
+    let assignedTasks = [];
 
 
     // HELPER FUNCTIONS
@@ -406,15 +409,25 @@ document.addEventListener("DOMContentLoaded", () => {
         // determine which set of tasks to display
         let tasksToRender
         
-        // for unassigned tasks
+        // taskToRender assignment of unassigned tasks, assigned tasks
         if (unassignedFilterButton.classList.contains("active")) {
-            // if unassigned filter button is on, render from global unassignedTasks array
-            tasksToRender = unassignedTasks;
-            console.log("Rendering all unassigned tasks!");
+            // Re-filter list from fresh data
+            tasksToRender = allTasks.filter(task => !task.assignee || task.assignee.length === 0);
+            console.log("Re-filtering & rendering all unassigned tasks!");
+        } else if (assignedFilterButton.classList.contains("active")) {
+            tasksToRender = allTasks.filter(task => task.assignee && task.assignee.length > 0);
+            console.log("Re-filtering and rendering all assigned tasks!");
         } else {
-            // otherwise, we just render all tasks
             tasksToRender = allTasks;
             console.log("Rendering all tasks!");
+        }
+
+        // Checks if filters are empty arrays to be handle respective modal displays
+        if (unassignedFilterButton.classList.contains("active") && tasksToRender.length === 0) {
+            allTasksAssignedModal.classList.remove("hidden");
+        }
+        if (assignedFilterButton.classList.contains("active") && tasksToRender.length === 0) {
+            noTasksAssignedModal.classList.remove("hidden");
         }
 
         // renders tasks
@@ -489,53 +502,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // handles task filters
     document.getElementById("tasks__filter").addEventListener("click", (event) => {
-        // unassigned filter logic
-        if (event.target.classList.contains("unassigned__filter__button")) {
-            console.log("Unassigned filter button has been toggled.");
+        const target = event.target;
+
+        // Deactive other filters if one filter is clicked.
+        if (target !== unassignedFilterButton) unassignedFilterButton.classList.remove("active");
+        if (target !== assignedFilterButton) assignedFilterButton.classList.remove("active");
+
+        // Unassigned Filter Logic
+        if (target.classList.contains("unassigned__filter__button")) {
+            console.log("Unassigned Filter Button has been toggled.");
             unassignedFilterButton.classList.toggle("active");
-
-            // check if filter is active
-            if (unassignedFilterButton.classList.contains("active")) {
-                console.log("Filtering for unassigned tasks.");
-                const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-                // Find all tasks that are unassigned
-
-                unassignedTasks = tasks.filter(task => !task.assignee || task.assignee.length === 0);
-
-                console.log(`Found ${unassignedTasks.length} unassigned tasks.`);
-
-                // after filtering, if array is empty, show all tasks are assigned modal
-                if (unassignedTasks.length === 0) {
-                    console.log("No unassigned tasks found, display all tasks are assigned modal.");
-                    allTasksAssignedModal.classList.remove("hidden");
-                    taskListContainer.innerHTML = '';
-                } else {
-                    // If there are unassigned tasks, refresh the dashboard
-                    loadTasksToDashboard();
-                }
-            } else {
-                // If filter button is now inactive, show all tasks
-                console.log("Unassigned filter is now turned off, showing all tasks.");
-                unassignedTasks = [];
-                loadTasksToDashboard();
-            }
-        }
-        
-        // filters only assigned tasks
-        else if (event.target.classList.contains("assigned__filter__buttons")) {
-            console.log("We are now going to be filtering for assigned tasks!");
-        }
-        
-        // filters only overdue tasks
-        else if (event.target.classList.contains("overdue__filter__button")) {
-            console.log("We are now going to be filtering for overdue tasks!");
         }
 
-        // filters only completed tasks
-        else if (event.target.classList.contains("completed__filter__buttons")) {
-            console.log("We are now going to be filtering for completed tasks!");
+        // Assigned Filter Logic
+        else if (target.classList.contains("assigned__filter__button")) {
+            console.log("Assigned Filter button has been toggled.");
+            assignedFilterButton.classList.toggle("active");
         }
+
+        loadTasksToDashboard();
     });
 
     // handles opening of edit task modal when clicking edit button of a specific task

@@ -29,7 +29,7 @@
                 <hr class="section__divider" />
                 <ul id="tasks__filter" class="tasks__ul">
                     <li><button id="unassignedFilterButton" class="unassigned__filter__button bold">Unassigned</button></li>
-                    <li><button class="assigned__filter__button bold">Assigned</button></li>
+                    <li><button id="assignedFilterButton" class="assigned__filter__button bold">Assigned</button></li>
                     <li><button class="overdue__filter__button bold">Overdue</button></li>
                     <li><button class="completed__filter__button bold">Completed</button></li>
                 </ul>
@@ -246,6 +246,14 @@
             <div class="all-tasks-assigned-modal__content">
                 <h3 class="all-tasks-assigned__h3">All Tasks are currently assigned!</h3>
                 <button id="allTasksAssignedModalCloseButton" class="all-tasks-assigned__button bold">Close</button>
+            </div>
+        </div>
+
+        <!-- NO TASKS CURRENTLY ASSIGNED MODAL DISPLAY -->
+        <div id="noTasksAssignedModal" class="modal hidden">
+            <div class="no-tasks-assigned-modal__content">
+                <h3 class="no-tasks-assigned__h3">No tasks are currently assigned!</h3>
+                <button id="noTasksAssignedModalCloseButton" class="no-tasks-assigned__button bold">Close</button>
             </div>
         </div>
     </main>
