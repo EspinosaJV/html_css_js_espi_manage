@@ -44,7 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const completedFilterButton = document.getElementById("completedFilterButton");
     const noTasksCompletedModal = document.getElementById("noTasksCompletedModal");
     const noTasksCompletedCloseButton = document.getElementById("noTasksCompletedCloseButton");
-
+    const editUserDepartmentContainer = document.getElementById("editUserDepartment");
+    const editUserDepartmentDisplaytext = document.getElementById("editUserDepartmentDisplayText");
+    const editUserDepartmentDropdown = document.getElementById("editUserDepartmentDropdown");
+    const editUserDepartmentHiddenInput = document.getElementById("editUserDepartmentHiddenInput");
+    
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
@@ -211,6 +215,55 @@ document.addEventListener("DOMContentLoaded", () => {
         updateEditAssigneesHeader();
     }
 
+    // populates the assigned department when editing a user
+    function populateEditUserDepartmentChecklist(currentDepartmentName) {
+        console.log("Will now populate the edit user modal with departments. Current is:", currentDepartmentName);
+
+        editUserDepartmentDropdown.innerHTML = '';
+
+        // fetch departments from localStorage
+        const departmentsString = localStorage.getItem("department");
+        let departments = [];
+
+        // parse departments localStorage
+        if (departmentsString) {
+            try {
+                departments = JSON.parse(departmentsString);
+            } catch (e) {
+                console.error("Error parsing departments from localStorage:", e);
+                editUserDepartmentDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: red;">Error loading departments</span>';
+                return;
+            }
+        }
+
+        // if no departments in localStorage
+        if (departments.length === 0) {
+            editUserDepartmentDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: #888;">No departments available</span>';
+            return;
+        }
+
+        // iterate through each department in departments localStorage and render in dropdown list
+        departments.forEach(department => {
+            const label = document.createElement("label");
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = "edit-user-department";
+            radio.value = department.name;
+            radio.dataset.name = department.name;
+
+            // pre-selects already assigned department with a direct comparison
+            if (currentDepartmentName === department.name) {
+                radio.checked = true;
+            }
+
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(department.name));
+            editUserDepartmentDropdown.appendChild(label);
+        });
+
+        updateEditUserDepartmentHeader();
+    }
+
     // Updates main container's text & hidden input based on selected checkboxes
     function updateAssigneesHeader() {
         const selectedCheckboxes = createTaskAssigneesDropdown.querySelectorAll('input[type="checkbox"]:checked');
@@ -284,6 +337,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // handles updating of edit user department header
+    function updateEditUserDepartmentHeader() {
+        const selectedRadio = editUserDepartmentDropdown.querySelector('input[type="radio"]:checked');
+
+        // handles case if no slected departments from the dropdown list
+        if (!selectedRadio) {
+            editUserDepartmentDisplaytext.textContent = "Select a Department";
+            editUserDepartmentDisplaytext.classList.add("placeholder-text");
+            editUserDepartmentHiddenInput.value = '';
+        } else {
+            console.log("Here is the current selectedRadio value", selectedRadio.value);
+            const departmentName = selectedRadio.value;
+
+            editUserDepartmentDisplaytext.textContent = departmentName;
+            editUserDepartmentDisplaytext.classList.remove("placeholder-text");
+            editUserDepartmentHiddenInput.value = departmentName;
+        }
+    }
+
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -338,6 +410,7 @@ document.addEventListener("DOMContentLoaded", () => {
             currentEditingTaskId = null;
         })
     }
+
     // handles toggling of the multi-user select for edit modal
     if (editTaskAssigneesContainer) {
         editTaskAssigneesContainer.addEventListener("click", (event) => {
@@ -358,6 +431,15 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    // update header text & hidden input when a radio is changed in edit modal
+    if (editUserDepartmentContainer) {
+        editUserDepartmentDropdown.addEventListener("change", (event) => {
+            if (event.target.type === "radio") {
+                updateEditUserDepartmentHeader();
+            }
+        })
+    }
+
     // handles the open & close of task assignees container
     if (createTaskAssigneesContainer) {
         createTaskAssigneesContainer.addEventListener("click", (event) => {
@@ -373,7 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    // handles the open & close of department assignees container
+    // handles the open & close of department assignees container in create user modal
     if (createUserDepartmentContainer) {
         createUserDepartmentContainer.addEventListener("click", (event) => {
             console.log("Department Assignees Dropdown is clicked!");
@@ -386,6 +468,22 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Now toggling the select department container!");
             createUserDepartmentContainer.classList.toggle("active");
             updateDepartmentAssigneesHeader();
+        })
+    }
+
+    // handles the open & close of department assignees container in edit user mdoal
+    if (editUserDepartmentContainer) {
+        editUserDepartmentContainer.addEventListener("click", (event) => {
+            console.log("Department Assignees Dropdown is clicked");
+            // prevents closing of the dropdown when clicking inside, strictly only the container or display text is clicked to open
+            if (event.target.closest("#editUserDepartmentDropdown") || event.target === editUserDepartmentHiddenInput) {
+                return;
+            }
+
+            // opens & closes the container itself
+            console.log("Now toggling the select department container!");
+            editUserDepartmentContainer.classList.toggle("active");
+            updateEditUserDepartmentHeader();
         })
     }
 
@@ -427,7 +525,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Handle edit department assignees dropdown
-    })
+        if (editUserDepartmentContainer && !editUserDepartmentContainer.contains(event.target)) {
+            editUserDepartmentContainer.classList.remove('active');
+        }
+    });
 
     // opens create task modal
     openCreateTaskModal.addEventListener("click", (event) => {
@@ -869,17 +970,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const users = JSON.parse(localStorage.getItem("users")) || [];
             const user = users.find(u => u.id === userId);
 
-            if (!user) return;
+            if (!user) {
+                console.error("User not found for editing:", userId);
+                return;
+            }
 
             const editUserName = document.getElementById("editUserName");
             const editUserEmail = document.getElementById("editUserEmail");
-            const editUserDepartment = document.getElementById("editUserDepartment");
-        
+
             currentEditingUserId = userId;
 
             editUserName.value = user.name;
             editUserEmail.value = user.email;
-            editUserDepartment.value = user.department;
+
+            populateEditUserDepartmentChecklist(user.department || '');
+
+            if (editUserDepartmentContainer) {
+                editUserDepartmentContainer.classList.remove("active");
+            }
 
             document.getElementById("editUserModal").classList.remove("hidden");
         }

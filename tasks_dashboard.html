@@ -205,11 +205,12 @@
                     <label class="users__form__label bold" for="users__text__input">User's Email</label>
                     <input id="editUserEmail" class="users__text__input" type="text" />
                     <label class="users__form__label bold" for="user_Department">User Department</label>
-                    <select id="editUserDepartment" class="users__select__input" name="user__department" required>
-                        <option class="users__select__option" value="example">Sample Option</option>
-                        <option class="users__select__option" value="example">Sample Option</option>
-                        <option class="users__select__option" value="example">Sample Option</option>
-                    </select>
+                    <div id="editUserDepartment" class="users__select__input">
+                        <span id="editUserDepartmentDisplayText" class="users__select__display-text">Select a Department</span>
+                        <div id="editUserDepartmentDropdown" class="users__select__dropdown">
+                        </div>
+                        <input type="hidden" name="user__department" id="editUserDepartmentHiddenInput">
+                    </div>
                     <div class="modal__content__buttons">
                         <button type="submit" class="users__form__button bold">Edit User</button>
                         <button class="users__form__button bold" id="cancelEditUserButton">Cancel</button>
