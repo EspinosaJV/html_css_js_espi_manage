@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const openCreateTaskModal = document.getElementById("openCreateTaskModal");
     const createTaskForm = document.getElementById("createTaskForm");
     const taskListContainer = document.getElementById("taskListContainer");
+    const userListContainer = document.getElementById("userListContainer");
     const editTaskModal = document.getElementById("editTaskModal");
     const editTaskForm = document.getElementById("editTaskForm");
     const createUserModal = document.getElementById("createUserModal");
@@ -37,6 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const unassignedFilterButton = document.getElementById("unassignedFilterButton");
     const assignedFilterButton = document.getElementById("assignedFilterButton");
     const overdueFilterButton = document.getElementById("overdueFilterButton");
+    const userUnassignedFilterButton = document.getElementById("userUnassignedFilterButton");
+    const userAssignedFilterButton = document.getElementById("userAssignedFilterButton");
     const noTasksAssignedModal = document.getElementById("noTasksAssignedModal");
     const noTasksOverdueModal = document.getElementById("noTasksOverdueModal");
     const noTasksOverdueModalCloseButton = document.getElementById("noTasksOverdueModalCloseButton");
@@ -44,6 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const completedFilterButton = document.getElementById("completedFilterButton");
     const noTasksCompletedModal = document.getElementById("noTasksCompletedModal");
     const noTasksCompletedCloseButton = document.getElementById("noTasksCompletedCloseButton");
+    const allUsersAssignedModalCloseButton = document.getElementById("allUsersAssignedModalCloseButton");
+    const noUsersAssignedModalCloseButton = document.getElementById("noUsersAssignedModalCloseButton");
     const editUserDepartmentContainer = document.getElementById("editUserDepartment");
     const editUserDepartmentDisplaytext = document.getElementById("editUserDepartmentDisplayText");
     const editUserDepartmentDropdown = document.getElementById("editUserDepartmentDropdown");
@@ -69,7 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Modals
     const allTasksAssignedModal = document.getElementById("allTasksAssignedModal");
-
+    const allUsersAssignedModal = document.getElementById("allUsersAssignedModal");
+    const noUsersAssignedModal = document.getElementById("noUsersAssignedModal");
     let currentEditingTaskId = null;
     let currentEditingUserId = null;
     let currentEditingDepartmentId = null;
@@ -363,6 +369,22 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles close button in no users are currently unassigned modal
+    allUsersAssignedModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        allUsersAssignedModal.classList.add("hidden");
+        userUnassignedFilterButton.classList.remove("active");
+        loadUsersToDashboard();
+    })
+
+    // handles close button in no users are currently assigned modal
+    noUsersAssignedModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        noUsersAssignedModal.classList.add("hidden");
+        userAssignedFilterButton.classList.remove("active");
+        loadUsersToDashboard();
+    })
 
     // handles close button in no completed tasks modal
     noTasksCompletedCloseButton.addEventListener("click", (event) => {
@@ -742,14 +764,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // handles display/read of user data in localStorage
     function loadUsersToDashboard() {
+        console.log("Now refreshing the users dashboard!");
+
         userListContainer.innerHTML = "";
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
+        const departments = JSON.parse(localStorage.getItem("department")) || [];
 
-        users.forEach(user => {
+        // determine which set of users to display
+        let usersToRender
+
+        // usersToRender assignment of unassigned users, assigned users, and all users
+        if (userUnassignedFilterButton.classList.contains("active")) {
+            // Re-filter list from fresh data
+            usersToRender = users.filter(user => !user.department);
+            console.log("Re-filtering & rendering all unassigned users!");
+        } else if (userAssignedFilterButton.classList.contains("active")) {
+            usersToRender = users.filter(user => user.department);
+            console.log("Re-filtering & rendering all assinged users!");
+        } else {
+            usersToRender = users;
+            console.log("No filtering and render all users!");
+        }
+
+        if (userUnassignedFilterButton.classList.contains("active") && usersToRender.length === 0) {
+            allUsersAssignedModal.classList.remove("hidden");
+        }
+        if (userAssignedFilterButton.classList.contains("active") && usersToRender.length === 0) {
+            noUsersAssignedModal.classList.remove("hidden");
+        }
+
+
+        // renders users
+        usersToRender.forEach(user => {
             console.log("Current user for the user-card", user);
             const userElement = document.createElement("div");
             userElement.classList.add("user-card");
+
+            let userDepartment = user.department ? user.department : "No Department";
 
             userElement.innerHTML = `
                 <div class="usercard__col">
@@ -757,7 +809,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p class="usercard__p"><span class="bold uppercase">Email:</span> ${user.email}</p>
                 </div>
                 <div class="usercard__col">
-                    <p class="usercard__p"><span class="bold uppercase">Department:</span> ${user.department}</p>
+                    <p class="usercard__p"><span class="bold uppercase">Department:</span> ${userDepartment}</p>
                 </div>
                 <div class="usercard__buttons">
                     <button class="edit-user-button bold" data-id="${user.id}">Edit</button>
@@ -805,6 +857,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         loadTasksToDashboard();
+    });
+
+    // handles user filters
+    document.getElementById("users__filter").addEventListener("click", (event) => {
+        const target = event.target;
+
+        // deactive other user filters if one filter is clicked.   
+        if (target !== userUnassignedFilterButton) userUnassignedFilterButton.classList.remove("active");
+        if (target !== userAssignedFilterButton) userAssignedFilterButton.classList.remove("active");
+
+        // Toggles unassigned filter button in user filter list
+        if (target.classList.contains("unassigned__filter__button")) {
+            console.log("Unassigned Filter Button for Users has been toggled.");
+            userUnassignedFilterButton.classList.toggle("active");
+        }
+
+        // Toggles assigned filter button in user filter list
+        else if (target.classList.contains("assigned__filter__button")) {
+            console.log("Assigned Filter Button for users has been toggled.");
+            userAssignedFilterButton.classList.toggle("active");
+        }
+
+        loadUsersToDashboard();
     });
 
     // handles opening of edit task modal when clicking edit button of a specific task

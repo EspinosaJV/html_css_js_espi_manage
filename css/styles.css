@@ -47,6 +47,16 @@ img {
     --ALL-TASKS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --ALL-TASKS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --ALL-TASKS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --ALL-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --ALL-USERS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --ALL-USERS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --ALL-USERS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --NO-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --NO-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --NO-USERS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --NO-USERS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --NO-USERS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --NO-TASKS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
     --NO-TASKS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
     --NO-TASKS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
@@ -85,6 +95,8 @@ img {
     --CREATE-USER-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --NO-USERS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-OVERDUE-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-COMPLETED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -268,6 +280,38 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+
+.no-users-assigned-modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--NO-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--NO-USERS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--NO-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.all-users-assigned-modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
 }
 
 .all-tasks-assigned-modal__content {
@@ -569,17 +613,6 @@ body {
     COLOR: var(--FONT-BODY-COLOR);
 }
 
-.users__filter__button {
-    width: 100%;
-    display: block;
-    background-color: transparent;
-    border: none;
-    font-family: var(--BUTTON-FONT-FAMILY);
-    text-transform: uppercase;
-    font-size: var(--FF-XS);
-    color: var(--FONT-BODY-COLOR);
-}
-
 .departments__filter__button {
     width: 100%;
     display: block;
@@ -705,6 +738,30 @@ body {
     font-family: var(--CREATE-DEPARTMENT-MODAL-FONT-FAMILY);
     padding: 0.5rem;
     border: 8px solid var(--CREATE-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.no-users-assigned__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--NO-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--NO-USERS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--NO-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.all-users-assigned__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
     font-size: var(--FF-S);
 }
 
@@ -1014,6 +1071,28 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.no-users-assigned__button {
+    margin-top: 2.5vh;
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.all-users-assigned__button {
+    margin-top: 2.5vh;
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .all-tasks-assigned__button {
     margin-top: 2.5vh;
     padding: 0.5rem;
@@ -1056,6 +1135,13 @@ body {
     background-color: var(--BUTTON-BACKGROUND-COLOR);
     font-family: var(--BUTTON-FONT-FAMILY);
     color: var(--BUTTON-FONT-COLOR);
+}
+
+.all-users-assinged__button:active,
+.all-users-assigned__button:hover,
+.all-users-assigned__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
 .all-tasks-assigned__button:active,

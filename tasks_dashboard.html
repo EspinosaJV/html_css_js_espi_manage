@@ -51,11 +51,9 @@
             <section class="users__sidebar">
                 <h2 class="users__h2 nowrap">User Filters</h2>
                 <hr class="section__divider" />
-                <ul class="users__ul">
-                    <li><button class="users__filter__button bold">Unassigned</button></li>
-                    <li><button class="users__filter__button bold">Assigned</button></li>
-                    <li><button class="users__filter__button bold">Overdue</button></li>
-                    <li><button class="users__filter__button bold">Completed</button></li>
+                <ul id="users__filter" class="users__ul">
+                    <li><button id="userUnassignedFilterButton" class="unassigned__filter__button bold">Unassigned</button></li>
+                    <li><button id="userAssignedFilterButton" class="assigned__filter__button bold">Assigned</button></li>
                 </ul>
             </section>
             <section class="users__dashboard">
@@ -273,6 +271,23 @@
                 <h3 class="no-tasks-completed__h3">No tasks are currently completed!</h3>
                 <button id="noTasksCompletedCloseButton" class="no-tasks-completed__button bold">Close</button>
             </div>
+        </div>
+
+        <!-- ALL USERS CURRENTLY ASSIGNED MODAL DISPLAY -->
+        <div id="allUsersAssignedModal" class="modal hidden">
+            <div class="all-users-assigned-modal__content">
+                <h3 class="all-users-assigned__h3">No users are currently unassigned!</h3>
+                <button id="allUsersAssignedModalCloseButton" class="all-users-assigned__button bold">Close</button>
+            </div>
+        </div>
+
+        <!-- NO USERS CURRENTLY ASSIGNED MODAL DISPLAY -->
+        <div id="noUsersAssignedModal" class="modal hidden">
+            <div class="no-users-assigned-modal__content">
+                <h3 class="no-users-assigned__h3">No users are currently assigned!</h3>
+                <button id="noUsersAssignedModalCloseButton" class="no-users-assigned__button bold">Close</button>
+            </div>
+        </div>
     </main>
     <footer class="tasks__footer">
         <p class="tasks__p">&copy; 2025 John Vincent Espinosa. All Rights reserved.</p>
