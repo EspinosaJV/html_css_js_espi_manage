@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const createTaskAssigneesHiddenInput = document.getElementById("createTaskAssigneesHiddenInput");
     const createTaskAssigneesDisplayText = document.getElementById("createTaskAssigneesDisplayText");
     const createTaskAssigneesArrow = createTaskAssigneesContainer.querySelector(".arrow-icon");
+    const createUserDepartmentContainer = document.getElementById("createUserDepartment");
+    const createUserDepartmentDropdown = document.getElementById("createUserDepartmentDropdown");
+    const createUserDepartmentHiddenInput = document.getElementById("createUserDepartmentHiddenInput");
+    const createUserDepartmentDisplayText = document.getElementById("createUserDepartmentDisplayText");
+    const createUserDepartmentArrow = createUserDepartmentContainer.querySelector(".arrow-icon");
     const editTaskAssigneesContainer = document.getElementById("editTaskAssignees");
     const editTaskAssigneesDropdown = document.getElementById("editTaskAssigneesDropdown");
     const editTaskAssigneesHiddenInput = document.getElementById("editTaskAssigneesHiddenInput");
@@ -112,6 +117,51 @@ document.addEventListener("DOMContentLoaded", () => {
         updateAssigneesHeader();
     }
 
+    // Handles department assignees dropdown population in create department modal
+    function populateCreateDepartmentAssigneesChecklist() {
+        console.log("Will now populate the create department assignees dropdown list");
+        createUserDepartmentDropdown.innerHTML = '';
+
+        const departmentsString = localStorage.getItem("department");
+        let departments = [];
+
+        // parse department localStorage to then be cached in departments
+        if (departmentsString) {
+            try {
+                departments = JSON.parse(departmentsString);
+            } catch(e) {
+                console.error("Error parsing users from localStorage:", e);
+                createUserDepartmentDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: red;">Error loading departments</span>';
+                return;
+            }
+        }
+
+        // after parsing localStorage, if no departments are returned
+        if (departments.length === 0) {
+            createUserDepartmentDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: #888;">No departments available</span>';
+            return;
+        }
+
+        // iterates through each department, creating select cards for each one in the dropdown list
+        departments.forEach(department => {
+            if (department && department.name) {
+                const label = document.createElement("label");
+                const radio = document.createElement("input");
+
+                radio.type = "radio";
+                radio.name = "user-department";
+                radio.value = department.name;
+                radio.dataset.name = department.name;
+
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(department.name));
+                createUserDepartmentDropdown.appendChild(label);
+            }
+        });
+
+        updateDepartmentAssigneesHeader();
+    }
+
     // Handles task assignees dropdown population in edit task modal
     function populateEditTaskAssigneesChecklist(assignedUserIds = []) {
         console.log("Here are the assigned user IDs for the currently editing task:", assignedUserIds);
@@ -184,6 +234,34 @@ document.addEventListener("DOMContentLoaded", () => {
                 createTaskAssigneesArrow.computedStyleMap.transform = "rotate(180deg)";
             } else {
                 createTaskAssigneesArrow.computedStyleMap.transform = "rotate(0deg)";
+            }
+        }
+    }
+
+    // Updates main department container's text & hidden input based on selected checkboxes
+    function updateDepartmentAssigneesHeader() {
+        const selectedRadio = createUserDepartmentDropdown.querySelector('input[type="radio"]:checked');
+
+        // handles case if no selected departments from the dropdown list
+        if (!selectedRadio) {
+            createUserDepartmentDisplayText.textContent = "Select a Department";
+            createUserDepartmentDisplayText.classList.add("placeholder-text");
+            createUserDepartmentHiddenInput.value = '';
+        } else {
+            console.log("Here is the current selectedRadio value", selectedRadio.value);
+            const departmentName = selectedRadio.value;
+
+            createUserDepartmentDisplayText.textContent = departmentName;
+            createUserDepartmentDisplayText.classList.remove("placeholder-text");
+            createUserDepartmentHiddenInput.value = departmentName;
+        }
+
+        // handles arrow icon rotation
+        if (createUserDepartmentArrow) {
+            if (createUserDepartmentContainer.classList.contains("active")) {
+                createUserDepartmentArrow.computedStyleMap.transform = "rotate(180deg)";
+            } else {
+                createUserDepartmentArrow.computedStyleMap.transform = "rotate(0deg)";
             }
         }
     }
@@ -295,6 +373,22 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    // handles the open & close of department assignees container
+    if (createUserDepartmentContainer) {
+        createUserDepartmentContainer.addEventListener("click", (event) => {
+            console.log("Department Assignees Dropdown is clicked!");
+            // prevents closing of the dropdown when clicking inside, strictly only the container or display text is clicked to open
+            if (event.target.closest("#createUserDepartmentDropdown") || event.target === createUserDepartmentHiddenInput) {
+                return;
+            }
+
+            // opens & closes the container itself
+            console.log("Now toggling the select department container!");
+            createUserDepartmentContainer.classList.toggle("active");
+            updateDepartmentAssigneesHeader();
+        })
+    }
+
     // updates header text & hidden input when a checkbox is changed
     if (createTaskAssigneesDropdown) {
         createTaskAssigneesDropdown.addEventListener("change", (event) => {
@@ -302,6 +396,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 updateAssigneesHeader();
             }
         });
+    }
+
+    // updates header text when a radio department is selected
+    if (createUserDepartmentDropdown) {
+        createUserDepartmentDropdown.addEventListener("change", (event) => {
+            if (event.target.type === "radio") {
+                updateDepartmentAssigneesHeader();
+            }
+        })
     }
 
     // closes both the create task & edit task assignees dropdown
@@ -315,6 +418,16 @@ document.addEventListener("DOMContentLoaded", () => {
             editTaskAssigneesContainer.classList.remove('active');
         }
     });
+
+    // closes both the create department & edit department assignees dropdown
+    document.addEventListener("click", (event) => {
+        // Handle create department assignees dropdown
+        if (createUserDepartmentContainer && !createUserDepartmentContainer.contains(event.target)) {
+            createUserDepartmentContainer.classList.remove('active');
+        }
+
+        // Handle edit department assignees dropdown
+    })
 
     // opens create task modal
     openCreateTaskModal.addEventListener("click", (event) => {
@@ -415,7 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const user = {
             name: document.getElementById("createUserName").value,
             email: document.getElementById("createUserEmail").value,
-            department: document.getElementById("createUserDepartment").value,
+            department: document.getElementById("createUserDepartmentHiddenInput").value,
             id: crypto.randomUUID(),
         };
 
@@ -428,6 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
         createUserForm.reset();
         createUserModal.classList.add("hidden");
 
+        updateDepartmentAssigneesHeader();
         loadUsersToDashboard();
     })
 
@@ -532,6 +646,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
         users.forEach(user => {
+            console.log("Current user for the user-card", user);
             const userElement = document.createElement("div");
             userElement.classList.add("user-card");
 
@@ -724,6 +839,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // handles opening of create user modal
     openCreateUserModal.addEventListener("click", (event) => {
         event.preventDefault();
+        console.log("Opening the Create User Modal now!");
+
+        populateCreateDepartmentAssigneesChecklist(); // populates the department assignees checklist
+
+        // ensures that the department assignees dropdown is initially closed when opening the create user modal
+        if (createUserDepartmentContainer) {
+            createUserDepartmentContainer.classList.remove("active");
+            updateDepartmentAssigneesHeader();
+        }
 
         createUserModal.classList.remove("hidden");
     })
@@ -866,7 +990,7 @@ document.addEventListener("DOMContentLoaded", () => {
             id: crypto.randomUUID(),
         };
 
-        const existingDepartments = JSON.parse(localStorage.getItem("departments")) || [];
+        const existingDepartments = JSON.parse(localStorage.getItem("department")) || [];
         existingDepartments.push(department);
         localStorage.setItem("department", JSON.stringify(existingDepartments));
 

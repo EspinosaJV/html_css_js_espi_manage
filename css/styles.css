@@ -837,6 +837,13 @@ body {
     text-overflow: ellipsis;
 }
 
+.users__select__display-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .tasks__select__input {
     position: relative;
     width: 100%;
@@ -854,6 +861,22 @@ body {
 }
 
 .tasks__select__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    padding: 8px 0;
+}
+
+.users__select__dropdown {
     position: absolute;
     top: 100%;
     left: 0;
@@ -904,6 +927,32 @@ body {
     transform: rotate(180deg);
 }
 
+.users__select__input.active .users__select__dropdown {
+    display: block;
+}
+
+.users__select__input.active .arrow-icon {
+    transform: rotate(180deg);
+}
+
+.users__select__dropdown label {
+    display: block;
+    padding: 8px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.users__select__dropdown label:hover {
+    background-color: #f0f0f0;
+}
+
+.users__select__dropdown input[type="radio"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
 .users__text__input,
 .users__textarea__input,
 .users__date__input,
@@ -917,6 +966,8 @@ body {
     box-sizing: border-box;
     outline: none;
     font-family: var(--TASKS-BODY-FONT-FAMILY);
+    position: relative;
+    cursor: pointer;
 }
 
 .departments__text__input,

@@ -132,11 +132,12 @@
                     <label class="users__form__label bold" for="users__text__input">User's Email</label>
                     <input id="createUserEmail" class="users__text__input" type="text" />
                     <label class="users__form__label bold" for="user__department">User's Department</label>
-                    <select id="createUserDepartment" class="users__select__input" name="user_department" required>
-                        <option class="users__select__option" value="example">Sample Department</option>
-                        <option class="users__select__option" value="example">Sample Department</option>
-                        <option class="users__select__option" value="example">Sample Department</option>
-                    </select>
+                    <div id="createUserDepartment" class="users__select__input">
+                        <span id="createUserDepartmentDisplayText" class="users__select_display-text">Select a Department</span>
+                        <div id="createUserDepartmentDropdown" class="users__select__dropdown">
+                        </div>
+                        <input type="hidden" name="user__department" id="createUserDepartmentHiddenInput">
+                    </div>
                     <div class="modal__content__buttons">
                         <button class="users__form__button bold">Create User</button>
                         <button class="users__form__button bold" id="cancelCreateUserButton" bold>Cancel</button>
