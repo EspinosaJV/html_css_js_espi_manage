@@ -154,11 +154,12 @@
                     <label class="departments__form__label bold" for="departments__textarea__input">Department Description</label>
                     <textarea id="createDepartmentDescription" class="departments__textarea__input" name="departments__textarea__input"></textarea>
                     <label class="departments__form__label bold" for="departments__assignees">Department Members</label>
-                    <select id="createDepartmentAssignees" class="departments__select__input" name="department__assignees">
-                        <option class="departments__select__option" value="example">Sample Option</option>
-                        <option class="departments__select__option" value="example">Sample Option</option>
-                        <option class="departments__select__option" value="example">Sample Option</option>
-                    </select>
+                    <div id="createDepartmentMembers" class="departments__select__input">
+                        <span id="createDepartmentMembersDisplayText" class="departments__select__display-text">Select Members</span>
+                        <div id="createDepartmentMembersDropdown" class="departments__select__dropdown">
+                        </div>
+                        <input type="hidden" name="department__members" id="createDepartmentMembersHiddenInput">
+                    </div>
                     <div class="modal__content__buttons">
                         <button class="departments__form__button bold">Create Department</button>
                         <button id="cancelCreateDepartmentButton" class="departments__form__button bold">Cancel</button>

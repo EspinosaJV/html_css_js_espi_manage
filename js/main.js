@@ -53,7 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const editUserDepartmentDisplaytext = document.getElementById("editUserDepartmentDisplayText");
     const editUserDepartmentDropdown = document.getElementById("editUserDepartmentDropdown");
     const editUserDepartmentHiddenInput = document.getElementById("editUserDepartmentHiddenInput");
-    
+    const createDepartmentMembersContainer = document.getElementById("createDepartmentMembers");
+    const createDepartmentMembersDropdown = document.getElementById("createDepartmentMembersDropdown");
+    const createDepartmentMembersHiddenInput = document.getElementById("createDepartmentMembersHiddenInput");
+    const createDepartmentMembersDisplayText = document.getElementById("createDepartmentMembersDisplayText");
+
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
     const usersDashboard = document.getElementById("usersDashboard");
@@ -84,6 +88,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // HELPER FUNCTIONS
+
+    // Handles department memebrs dropdown population in create department modal
+    function populateCreateDepartmentMembersChecklist() {
+        console.log("Will now populate the create department members dropdown list");
+        createDepartmentMembersDropdown.innerHTML = '';
+
+        const usersString = localStorage.getItem("users");
+        let users = [];
+
+        if (usersString) {
+            try {
+                users = JSON.parse(usersString);
+            } catch (e) {
+                console.error("Error parsing users from localStorage:", e);
+                createDepartmentMembersDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: red;">Error loading users</span>';
+                return;
+            }
+        }
+
+        if (users.length === 0) {
+            createDepartmentMembersDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: #888;">No usersa vailable to add</span>';
+            return;
+        }
+
+        // iterates through each users, creating select cards for each one in the dropdown list
+        users.forEach(user => {
+            if (user && user.name) {
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = user.name;
+                checkbox.dataset.name = user.name;
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(user.name));
+                createDepartmentMembersDropdown.appendChild(label);
+            }
+        });
+    }
     // Handles task assignees dropdown population in create task modal
     function populateCreateTaskAssigneesChecklist() {
         console.log("Will now populate the create task assignees dropdown list");
@@ -362,6 +405,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Updates main department members container's text & hidden input based on selected checkboxes
+    function updateDepartmentMembersHeader() {
+        const selectedCheckboxes = createDepartmentMembersDropdown.querySelectorAll('input[type="checkbox"]:checked');
+        const selectedNames = Array.from(selectedCheckboxes).map(cb => cb.dataset.name);
+        const selectedValues = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+        if (selectedNames.length === 0) {
+            createDepartmentMembersDisplayText.textContent = "Select Members";
+            createDepartmentMembersDisplayText.classList.add("placeholder-text");
+            createDepartmentMembersHiddenInput.value = '';
+        } else {
+            createDepartmentMembersDisplayText.textContent = selectedNames.join(', ');
+            createDepartmentMembersDisplayText.classList.remove("placeholder-text");
+            createDepartmentMembersHiddenInput.value = JSON.stringify(selectedValues);
+        }
+    }
+
 
     // ON INITIALIZATION 
     loadTasksToDashboard();
@@ -493,6 +553,25 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    // handles the open & close of department members container
+    if (createDepartmentMembersContainer) {
+        createDepartmentMembersContainer.addEventListener("click", (event) => {
+            if (event.target.closest("#createDepartmentMembersDropdown") || event.target === createDepartmentMembersHiddenInput) {
+                return;
+            }
+            createDepartmentMembersContainer.classList.toggle("active");
+        });
+    }
+
+    // updates header text & hidden input when a checkbox is changed
+    if (createDepartmentMembersDropdown) {
+        createDepartmentMembersDropdown.addEventListener("change", (event) => {
+            if (event.target.type === "checkbox") {
+                updateDepartmentMembersHeader();
+            }
+        });
+    }
+
     // handles the open & close of department assignees container in edit user mdoal
     if (editUserDepartmentContainer) {
         editUserDepartmentContainer.addEventListener("click", (event) => {
@@ -526,6 +605,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
     }
+
+    // closes both the create task & edit task assignees dropdown
+    document.addEventListener("click", (event) => {
+        // Handle create department members dropdown
+        if (createDepartmentMembersContainer && !createDepartmentMembersContainer.contains(event.target)) {
+            createDepartmentMembersContainer.classList.remove('active');
+        }
+    })
 
     // closes both the create task & edit task assignees dropdown
     document.addEventListener('click', (event) => {
@@ -1131,6 +1218,14 @@ document.addEventListener("DOMContentLoaded", () => {
     openCreateDepartmentModal.addEventListener("click", (event) => {
         event.preventDefault();
         console.log("Opening Create Department Modal");
+
+        populateCreateDepartmentMembersChecklist();
+
+        if (createDepartmentMembersContainer) {
+            createDepartmentMembersContainer.classList.remove("active");
+            updateDepartmentMembersHeader();
+        }
+
         createDepartmentModal.classList.remove("hidden");
     })
 
@@ -1163,13 +1258,27 @@ document.addEventListener("DOMContentLoaded", () => {
     // handles create department form submission
     createDepartmentForm.addEventListener("submit", (event) => {
         event.preventDefault();
-
         console.log("Saving Department Data!");
+
+        // Get selected members from the hidden input
+        let selectedMembersIds = [];
+        try {
+            const hiddenValue = createDepartmentMembersHiddenInput.value;
+            if (hiddenValue) {
+                selectedMemberIds = JSON.parse(hiddenValue);
+            }
+            if (!Array.isArray(selectedMemberIds)) {
+                selectedMemberIds = [];
+            }
+        } catch (e) {
+            console.warn("No members selected or error parsing hidden input:", e);
+            selectedMemberIds = [];
+        }
 
         const department = {
             name: document.getElementById("createDepartmentName").value,
             description: document.getElementById("createDepartmentDescription").value,
-            assignees: document.getElementById("createDepartmentAssignees").value,
+            members: selectedMemberIds,
             id: crypto.randomUUID(),
         };
 
@@ -1179,9 +1288,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log("Saved Department Data!", department);
 
+        // Reset the form contents & custom dropdown
         createDepartmentForm.reset();
-        createDepartmentModal.classList.add("hidden");
+        if (createDepartmentMembersHiddenInput) {
+            createDepartmentMembersHiddenInput.value = '';
+        }
+        updateDepartmentMembersHeader();
 
+        createDepartmentModal.classList.add("hidden");
         loadDepartmentsToDashboard();
     })
 

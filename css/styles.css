@@ -901,6 +901,13 @@ body {
     text-overflow: ellipsis;
 }
 
+.departments__select__display-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .tasks__select__input {
     position: relative;
     width: 100%;
@@ -949,6 +956,22 @@ body {
     padding: 8px 0;
 }
 
+.departments__select__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    padding: 8px 0;
+}
+
 .arrow-icon {
     margin-left: 10px;
     transition: transform 0.3s ease;
@@ -962,6 +985,28 @@ body {
     display: block;
 }
 
+.departments__select__input.active .departments__select__dropdown {
+    display: block;
+}
+
+.departments__select__dropdown label {
+    display: block;
+    padding: 8px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.departments__select__dropdown label:hover {
+    background-color: #f0f0f0;
+}
+
+.departments__select__dropdown input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+ 
 .tasks__select__dropdown label {
     display: block;
     padding: 8px 15px;
@@ -1039,6 +1084,10 @@ body {
     box-sizing: border-box;
     outline: none;
     font-family: var(--DEPARTMENTS-BODY-FONT-FAMILY);
+}
+
+.departments__select__input {
+    position: relative;
 }
 
 .tasks__form__button {
