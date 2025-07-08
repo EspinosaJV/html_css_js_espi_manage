@@ -57,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const createDepartmentMembersDropdown = document.getElementById("createDepartmentMembersDropdown");
     const createDepartmentMembersHiddenInput = document.getElementById("createDepartmentMembersHiddenInput");
     const createDepartmentMembersDisplayText = document.getElementById("createDepartmentMembersDisplayText");
+    const viewDepartmentMembersModalCloseButton = document.getElementById("viewDepartmentMembersModalCloseButton");
+    const viewDepartmentModal = document.getElementById("viewDepartmentModal");
+    const viewDepartmentMembers = document.getElementById("viewDepartmentMembers");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -88,6 +91,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // HELPER FUNCTIONS
+
+    // populates the view department modal with assigned members depending on id
+    function populateViewDepartmentModal(departmentId) {
+        // lets acquire the departments storage right
+        // lets then parse the departments storage into a variable
+        // lets see if we can acquire the members property of the department
+
+        const departments = localStorage.getItem("department") || [];
+        const users = localStorage.getItem("users") || [];
+        let foundDepartment;
+        let usersArray;
+        let departmentMembers = [];
+
+        if (departments) {
+            const departmentArray = JSON.parse(departments);
+            const currentDepartment = departmentId;
+
+            foundDepartment = departmentArray.find(department => department.id === currentDepartment);
+            console.log("Here is the current found department", foundDepartment);
+        }
+
+        if (users) {
+            usersArray = JSON.parse(users);
+        }
+
+        // iterates through each of the users, creating paragraph spans for each one in the view department modal
+        usersArray.forEach(user => {
+            if (foundDepartment.members.includes(user.name)) {
+                departmentMembers.push(user.name);
+            }
+        });
+
+        console.log("Here are the department members that we will be rendering", departmentMembers);
+
+        // render the departmentMembers into the modal
+        departmentMembers.forEach(departmentMember => {
+            const departmentMemberElement = document.createElement("p");
+            departmentMemberElement.classList.add("view-departments__p");
+            departmentMemberElement.classList.add("bold");
+            departmentMemberElement.textContent = departmentMember;
+
+            viewDepartmentMembers.appendChild(departmentMemberElement);
+        })
+    }
 
     // Handles department memebrs dropdown population in create department modal
     function populateCreateDepartmentMembersChecklist() {
@@ -429,6 +476,14 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles close button in view department members modal 
+    viewDepartmentMembersModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal button has been clicked!");
+        viewDepartmentModal.classList.add("hidden");
+
+        viewDepartmentMembers.innerHTML = '';
+    })
 
     // handles close button in no users are currently unassigned modal
     allUsersAssignedModalCloseButton.addEventListener("click", (event) => {
@@ -1246,6 +1301,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p class="departmentcard__p"><span class="bold uppercase">Description:</span> ${department.description}</p>
                 </div>
                 <div class="departmentcard__buttons">
+                    <button class="view-department-button bold" data-id="${department.id}">View</button>
                     <button class="edit-department-button bold" data-id="${department.id}">Edit</button>
                     <button class="delete-department-button bold" data-id="${department.id}">Delete</button>
                 </div>  
@@ -1337,6 +1393,15 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("department", JSON.stringify(departments));
 
             loadDepartmentsToDashboard();
+        }
+
+        // handles view department if view button in card is clicked
+        else if (event.target.classList.contains("view-department-button")) {
+            console.log("View Department Button is clicked!");
+
+            viewDepartmentModal.classList.remove("hidden");
+
+            populateViewDepartmentModal(event.target.dataset.id);
         }
     })
 

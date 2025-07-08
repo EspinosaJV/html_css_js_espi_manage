@@ -19,6 +19,7 @@ img {
     /* || COLOR VARIABLES */
     --TASKS-HEADER-COLOR: #819A91;
     --TASKS-HEADER-FONT-COLOR: #EEEFE0;
+    --VIEW-DEPARTMENT-MODAL-FONT-COLOR: #819A91;
     --BUTTON-BORDER-COLOR: #819A91;
     --BUTTON-BACKGROUND-COLOR: #EEEFE0;
     --ACTIVE-BUTTON-COLOR: #819A91;
@@ -32,6 +33,11 @@ img {
     --CREATE-TASK-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --CREATE-TASK-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --CREATE-TASK-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --VIEW-DEPARTMENT-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --VIEW-DEPARTMENT-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --VIEW-DEPARTMENT-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --VIEW-DEPARTMENT-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --VIEW-DEPARTMENT-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --CREATE-USER-MODAL-HEADER-BORDER-COLOR: #819A91;
     --CREATE-USER-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
     --CREATE-USER-MODAL-CONTENT-BORDER-COLOR: #819A91;
@@ -92,6 +98,7 @@ img {
     --DEPARTMENTS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
     --BUTTON-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-TASK-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --VIEW-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-USER-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -280,6 +287,25 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+}
+
+.view-department-members-modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--VIEW-DEPARTMENT-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--VIEW-DEPARTMENT-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border-left: 8px solid var(--VIEW-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
+    border-right: 8px solid var(--VIEW-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
+    border-bottom: 8px solid var(--VIEW-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
+    border-top: none;
+    font-size: var(--FF-S);
 }
 
 .no-users-assigned-modal__content {
@@ -495,10 +521,19 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    margin-right: 5vw;
     gap: 0.5vw;
 }
 
 /* ELEMENTS */
+
+.view-departments__p {
+    color: var(--VIEW-DEPARTMENT-MODAL-FONT-COLOR);
+    font-family: var(--VIEW-DEPARTMENT-MODAL-FONT-FAMILY);
+    font-size: var(--FF-XS);
+}
+
 .tasks__h1 {
     text-transform: uppercase;
     color: var(--TASKS-HEADER-FONT-COLOR);
@@ -705,6 +740,18 @@ body {
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
+.view-department__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--VIEW-DEPARTMENT-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--VIEW-DEPARTMENT-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--VIEW-DEPARTMENT-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
 .tasks__h3 {
     width: 100%;
     text-align: center;
@@ -831,6 +878,17 @@ body {
     border-top: none;
     width: 100%;
     padding: 1rem;
+}
+
+.view-departments__div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--VIEW-DEPARTMENT-MODAL-CONTENT-BACKGROUND-COLOR);
+    width: 100%;
+    padding: 1rem;
+    gap: 1vh;
 }
 
 .departments__form {
@@ -1131,6 +1189,17 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.view-department-members__button {
+    margin-top: 2.5vh;
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .all-users-assigned__button {
     margin-top: 2.5vh;
     padding: 0.5rem;
@@ -1184,6 +1253,13 @@ body {
     background-color: var(--BUTTON-BACKGROUND-COLOR);
     font-family: var(--BUTTON-FONT-FAMILY);
     color: var(--BUTTON-FONT-COLOR);
+}
+
+.view-department-button:active,
+.view-department-button:hover,
+.view-department-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
 .all-users-assinged__button:active,
@@ -1314,6 +1390,16 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.view-department-button {
+    padding: 0.25rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .edit-task-button:active,
 .edit-task-button:hover,
 .edit-task-button:focus {
@@ -1330,7 +1416,14 @@ body {
 
 .edit-department-button:active,
 .edit-department-button:hover,
-.edit-department-buttn:focus {
+.edit-department-button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.view-department-button:active,
+.view-department-button:hover,
+.view-department-button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
@@ -1434,6 +1527,7 @@ body {
     background-color: var(--BUTTON-BACKGROUND-COLOR);
     color: var(--BUTTON-FONT-COLOR);
 }
+
 .taskcard__col {
     max-width: 30%;
 }
