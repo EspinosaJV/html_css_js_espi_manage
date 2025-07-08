@@ -58,6 +58,11 @@ img {
     --ALL-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --ALL-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --ALL-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --NO-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --NO-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --NO-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --NO-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --NO-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
     --ALL-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
     --ALL-USERS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
@@ -108,6 +113,7 @@ img {
     --CREATE-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --NO-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-USERS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -344,6 +350,22 @@ body {
     font-family: var(--ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY);
     padding: 0.5rem;
     border: 8px solid var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.no-departments-members-modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--NO-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--NO-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--NO-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
     font-size: var(--FF-S);
 }
 
@@ -693,6 +715,13 @@ body {
     color: var(--FONT-BODY-COLOR);
 }
 
+.has-members__filter__button:hover,
+.has-members__filter__button:active,
+.has-members__filter__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
 .no-members__filter__button:hover,
 .no-members__filter__button:active,
 .no-members__filter__button:focus {
@@ -862,6 +891,18 @@ body {
     font-family: var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY);
     padding: 0.5rem;
     border: 8px solid var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.no-departments-assigned__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--NO-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--NO-DEPARTMNENTS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--NO-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
     font-size: var(--FF-S);
 }
 
@@ -1272,7 +1313,17 @@ body {
     border: 5px solid var(--BUTTON-BORDER-COLOR);
     background-color: var(--BUTTON-BACKGROUND-COLOR);
     font-family: var(--BUTTON-FONT-FAMILY);
-    color: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
+.no-departments-assigned__button {
+    margin-top: 2.5vh;
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
     color: var(--BUTTON-FONT-COLOR);
 }
 
@@ -1344,6 +1395,13 @@ body {
 .all-departments-assigned__button:active,
 .all-departments-assigned__button:hover,
 .all-departments-assigned__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.no-departments-assigned__button:active,
+.no-departments-assigned__button:hover,
+.no-departments-assigned__button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
