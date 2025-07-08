@@ -53,6 +53,11 @@ img {
     --ALL-TASKS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
     --ALL-TASKS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
     --ALL-TASKS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
+    --ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
+    --ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
+    --ALL-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
+    --ALL-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-BACKGROUND-COLOR: #EEEFE0;
+    --ALL-DEPARTMENTS-ASSIGNED-MODAL-CONTENT-INPUT-BACKGROUND-COLOR: whitesmoke;
     --ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR: #819A91;
     --ALL-USERS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR: #EEEFE0;
     --ALL-USERS-ASSIGNED-MODAL-CONTENT-BORDER-COLOR: #819A91;
@@ -102,6 +107,7 @@ img {
     --CREATE-USER-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --CREATE-DEPARTMENT-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
+    --ALL-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-USERS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-ASSIGNED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -125,6 +131,7 @@ img {
 body {
     background-color: #EEEFE0;
 }
+
 .tasks__header {
     background-color: var(--TASKS-HEADER-COLOR);
     padding: 1rem;
@@ -337,6 +344,22 @@ body {
     font-family: var(--ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY);
     padding: 0.5rem;
     border: 8px solid var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.all-departments-members-modal__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
     font-size: var(--FF-S);
 }
 
@@ -648,7 +671,7 @@ body {
     COLOR: var(--FONT-BODY-COLOR);
 }
 
-.departments__filter__button {
+.no-members__filter__button {
     width: 100%;
     display: block;
     background-color: transparent;
@@ -657,6 +680,24 @@ body {
     text-transform: uppercase;
     font-size: var(--FF-XS);
     color: var(--FONT-BODY-COLOR);
+}
+
+.has-members__filter__button {
+    width: 100%;
+    display: block;
+    background-color: transparent;
+    border: none;
+    font-family: var(--BUTTON-FONT-FAMILY);
+    text-transform: uppercase;
+    font-size: var(--FF-XS);
+    color: var(--FONT-BODY-COLOR);
+}
+
+.no-members__filter__button:hover,
+.no-members__filter__button:active,
+.no-members__filter__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }
 
 .unassigned__filter__button:hover,
@@ -809,6 +850,18 @@ body {
     font-family: var(--ALL-USERS-ASSIGNED-MODAL-FONT-FAMILY);
     padding: 0.5rem;
     border: 8px solid var(--ALL-USERS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
+    font-size: var(--FF-S);
+}
+
+.all-departments-assigned__h3 {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--FONT-BODY-COLOR);
+    background-color: var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BACKGROUND-COLOR);
+    font-family: var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-FONT-FAMILY);
+    padding: 0.5rem;
+    border: 8px solid var(--ALL-DEPARTMENTS-ASSIGNED-MODAL-HEADER-BORDER-COLOR);
     font-size: var(--FF-S);
 }
 
@@ -1211,6 +1264,18 @@ body {
     color: var(--BUTTON-FONT-COLOR);
 }
 
+.all-departments-assigned__button {
+    margin-top: 2.5vh;
+    padding: 0.5rem;
+    font-size: var(--FF-XS);
+    text-transform: uppercase;
+    border: 5px solid var(--BUTTON-BORDER-COLOR);
+    background-color: var(--BUTTON-BACKGROUND-COLOR);
+    font-family: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-FAMILY);
+    color: var(--BUTTON-FONT-COLOR);
+}
+
 .all-tasks-assigned__button {
     margin-top: 2.5vh;
     padding: 0.5rem;
@@ -1272,6 +1337,13 @@ body {
 .all-tasks-assigned__button:active,
 .all-tasks-assigned__button:hover,
 .all-tasks-assigned__button:focus {
+    background-color: var(--ACTIVE-BUTTON-COLOR);
+    color: var(--ACTIVE-BUTTON-FONT-COLOR);
+}
+
+.all-departments-assigned__button:active,
+.all-departments-assigned__button:hover,
+.all-departments-assigned__button:focus {
     background-color: var(--ACTIVE-BUTTON-COLOR);
     color: var(--ACTIVE-BUTTON-FONT-COLOR);
 }

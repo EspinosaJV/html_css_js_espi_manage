@@ -74,11 +74,9 @@
             <section class="departments__sidebar">
                 <h2 class="departments__h2 text-center">Department Filters</h2>
                 <hr class="section__divider" />
-                <ul class="departments__ul">
-                    <li><button class="departments__filter__button bold">Unassigned</button></li>
-                    <li><button class="departments__filter__button bold">Assigned</button></li>
-                    <li><button class="departments__filter__button bold">Overdue</button></li>
-                    <li><button class="departments__filter__button bold">Completed</button></li>
+                <ul id="departments__filter" class="departments__ul">
+                    <li><button id="departmentNoMembersFilterButton" class="no-members__filter__button bold">No Members</button></li>
+                    <li><button id="departmentHasMembersFilterButton" class="has-members__filter__button bold">Has Members</button></li>
                 </ul>
             </section>
             <section class="departments__dashboard">
@@ -298,6 +296,14 @@
                     <!-- POPULATE THE ASSIGNED DEPARTMENT MEMBERS HERE OR SOME SHIT-->
                 </div>
                 <button id="viewDepartmentMembersModalCloseButton" class="view-department-members__button bold">Close</button>
+            </div>
+        </div>
+
+        <!-- ALL DEPARTMENTS HAS MEMBERS MODAL DISPLAY -->
+        <div id="allDepartmentsMembersModal" class ="modal hidden">
+            <div class="all-departments-members-modal__content">
+                <h3 class="all-departments-assigned__h3">No departments are currently empty!</h3>
+                <button id="allDepartmentsAssignedModalCloseButton" class="all-departments-assigned__button bold">Close</button>
             </div>
         </div>
     </main>

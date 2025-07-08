@@ -60,6 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const viewDepartmentMembersModalCloseButton = document.getElementById("viewDepartmentMembersModalCloseButton");
     const viewDepartmentModal = document.getElementById("viewDepartmentModal");
     const viewDepartmentMembers = document.getElementById("viewDepartmentMembers");
+    const departmentNoMembersFilterButton = document.getElementById("departmentNoMembersFilterButton");
+    const departmentHasMembersFilterButton = document.getElementById("departmentHasMembersFitlerButton");
+    const allDepartmentsMembersModal = document.getElementById("allDepartmentsMembersModal");
+    const allDepartmentsAssignedModalCloseButton = document.getElementById("allDepartmentsAssignedModalCloseButton");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -476,6 +480,14 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles close button in all department has members modal
+    allDepartmentsAssignedModalCloseButton.addEventListener("click", (event) => {
+        console.log("Close Modal Button has been clicked!");
+        allDepartmentsMembersModal.classList.add("hidden");
+        departmentNoMembersFilterButton.classList.remove("active");
+        loadDepartmentsToDashboard();
+    })
 
     // handles close button in view department members modal 
     viewDepartmentMembersModalCloseButton.addEventListener("click", (event) => {
@@ -1001,6 +1013,22 @@ document.addEventListener("DOMContentLoaded", () => {
         loadTasksToDashboard();
     });
 
+    // handles department filters
+    document.getElementById("departments__filter").addEventListener("click", (event) => {
+        const target = event.target;
+
+        // deactive other department filters if one filter is clicked.
+        if (target !== departmentNoMembersFilterButton) departmentNoMembersFilterButton.classList.remove("active");
+
+        // toggles department no members filter button in department filter list
+        if (target.classList.contains("no-members__filter__button")) {
+            console.log("No Members Filter Button for Departments has been toggled.");
+            departmentNoMembersFilterButton.classList.toggle("active");
+        }
+
+        loadDepartmentsToDashboard();
+    })
+
     // handles user filters
     document.getElementById("users__filter").addEventListener("click", (event) => {
         const target = event.target;
@@ -1290,8 +1318,28 @@ document.addEventListener("DOMContentLoaded", () => {
         departmentListContainer.innerHTML = "";
 
         const departments = JSON.parse(localStorage.getItem("department")) || [];
+        const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        departments.forEach(department => {
+        // determine which set of departments to display
+        let departmentsToRender
+
+        // departmentsToRender assignment of no members
+        if (departmentNoMembersFilterButton.classList.contains("active")) {
+            // re-filter list from fresh data
+            departmentsToRender = departments.filter(department => department.members.length === 0);
+            console.log("Re-filtering & rendering all departments with no members!");
+        } else {
+            departmentsToRender = departments;
+            console.log("No filtering and render all departments!");
+        }
+
+        // handles displaying of modal if no departments are rendered for filter buttons
+        if (departmentNoMembersFilterButton.classList.contains("active") && departmentsToRender.length === 0) {
+            allDepartmentsMembersModal.classList.remove("hidden");
+        } 
+
+        // renders departments
+        departmentsToRender.forEach(department => {
             const departmentElement = document.createElement("div");
             departmentElement.classList.add("department-card");
 
