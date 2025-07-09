@@ -159,7 +159,7 @@
                         <input type="hidden" name="department__members" id="createDepartmentMembersHiddenInput">
                     </div>
                     <div class="modal__content__buttons">
-                        <button class="departments__form__button bold">Create Department</button>
+                        <button type="submit" class="departments__form__button bold">Create Department</button>
                         <button id="cancelCreateDepartmentButton" class="departments__form__button bold">Cancel</button>
                     </div>
                 </form>
@@ -220,22 +220,23 @@
         <div id="editDepartmentModal" class="modal hidden">
             <div class="modal__content">
                 <h3 class="departments__h3">Edit Department</h3>
-                    <form id="editDepartmentForm" class="departments__form">
-                        <label class="departments__form__label bold" for="departments__text__input">Department's Name</label>
-                        <input id="editDepartmentName" class="departments__text__input" type="text" />
-                        <label class="departments__form__label bold" for="departments__textarea__input">Department Description</label>
-                        <textarea id="editDepartmentDescription" class="departments__textarea__input" name="departments__textarea__input"></textarea>
-                        <label class="departments__form__label" for="department__assignees">Department Assignees</label>
-                        <select id="editDepartmentAssignees" class="departments__select__input" name="department__assignees">
-                            <option class="departments__select__option" value="example">Sample Option</option>
-                            <option class="departments__select__option" value="example">Sample Option</option>
-                            <option class="departments__select__option" value="example">Sample Option</option>
-                        </select>
-                        <div class="modal__content__buttons">
-                            <button type="submit" class="departments__form__button bold">Edit Department</button>
-                            <button class="departments__form__button bold" id="cancelCreateDepartmentButton">Cancel</button>
+                <form id="editDepartmentForm" class="departments__form">
+                    <label class="departments__form__label bold" for="departments__text__input">Department's Name</label>
+                    <input id="editDepartmentName" class="departments__text__input" type="text" />
+                    <label class="departments__form__label bold" for="departments__textarea__input">Department Description</label>
+                    <textarea id="editDepartmentDescription" class="departments__textarea__input" name="departments__textarea__input"></textarea>
+                    <label class="departments__form__label" for="department__assignees">Department Assignees</label>
+                    <div id="editDepartmentMembers" class="departments__select__input">
+                        <span id="editDepartmentMembersDisplayText" class="departments__select__display-text">Select Members</span>
+                        <div id="editDepartmentMembersDropdown" class="departments__select__dropdown">
                         </div>
-                    </form>
+                        <input type="hidden" name="department__members" id="editDepartmentMembersHiddenInput">
+                    </div>
+                    <div class="modal__content__buttons">
+                        <button type="submit" class="departments__form__button bold">Edit Department</button>
+                        <button class="departments__form__button bold" id="cancelEditDepartmentButton">Cancel</button>
+                    </div>
+                </form>
                 </h3>
             </div>
         </div>

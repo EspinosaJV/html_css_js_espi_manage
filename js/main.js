@@ -66,6 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const allDepartmentsAssignedModalCloseButton = document.getElementById("allDepartmentsAssignedModalCloseButton");
     const noDepartmentsMembersModal = document.getElementById("noDepartmentsMembersModal");
     const noDepartmentsAssignedModalCloseButton = document.getElementById("noDepartmentsAssignedModalCloseButton");
+    const editDepartmentModal = document.getElementById("editDepartmentModal");
+    const cancelEditDepartmentButton = document.getElementById("cancelEditDepartmentButton");
+    const editDepartmentMembersContainer = document.getElementById("editDepartmentMembers");
+    const editDepartmentMembersDropdown = document.getElementById("editDepartmentMembersDropdown");
+    const editDepartmentMembersDisplayText = document.getElementById("editDepartmentMembersDisplayText");
+    const editDepartmentMembersHiddenInput = document.getElementById("editDepartmentMembersHiddenInput");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -97,6 +103,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // HELPER FUNCTIONS
+
+    // Handles department members dropdown population in the edit department modal
+    function populateEditDepartmentMembersChecklist(currentMembers = []) {
+        console.log("Populating edit department members checklist. Current members:", currentMembers);
+        editDepartmentMembersDropdown.innerHTML = '';
+
+        const usersString = localStorage.getItem("users");
+        const users = usersString ? JSON.parse(usersString) : [];
+
+        if (users.length === 0) {
+            editDepartmentMembersDropdown.innerHTML = '<span style="padding: 8px 15px; display: block; color: #888;">No users available</span>';
+            return;
+        }
+
+        users.forEach(user => {
+            if (user && user.name) {
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = user.name;
+                checkbox.dataset.name = user.name;
+
+                if (currentMembers.includes(user.name)) {
+                    checkbox.checked = true;
+                }
+
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(user.name));
+                editDepartmentMembersDropdown.appendChild(label);
+            }
+        });
+
+        updateEditDepartmentMembersHeader();
+    }
+
+    // updates main department members container's text & hidden input for the edit modal
+    function updateEditDepartmentMembersHeader() {
+        const selectedCheckboxes = editDepartmentMembersDropdown.querySelectorAll('input[type="checkbox"]:checked');
+        const selectedNames = Array.from(selectedCheckboxes).map(cb => cb.dataset.name);
+        const selectedValues = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+        if (selectedNames.length === 0) {
+            editDepartmentMembersDisplayText.textContent = "Select Members";
+            editDepartmentMembersDisplayText.classList.add("placeholder-text");
+            editDepartmentMembersHiddenInput.value = '';
+        } else {
+            editDepartmentMembersDisplayText.textContent = selectedNames.join(', ');
+            editDepartmentMembersDisplayText.classList.remove("placeholder-text");
+            editDepartmentMembersHiddenInput.value = JSON.stringify(selectedValues);
+        }
+    }
 
     // populates the view department modal with assigned members depending on id
     function populateViewDepartmentModal(departmentId) {
@@ -483,6 +540,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // EVENT LISTENERS
 
+    // handles the open & close of department members container in the edit modal
+    if (editDepartmentMembersContainer) {
+        editDepartmentMembersContainer.addEventListener("click", (event) => {
+            if (event.target.closest("#editDepartmentMembersDropdown") || event.target === editDepartmentMembersHiddenInput) {
+                return;
+            }
+            editDepartmentMembersContainer.classList.toggle("active");
+        });
+    }
+
+    // update header text & hidden input when a checkbox is changed in the edit modal
+    if (editDepartmentMembersDropdown) {
+        editDepartmentMembersDropdown.addEventListener("change", (event) => {
+            if (event.target.type === "checkbox") {
+                updateEditDepartmentMembersHeader();
+            }
+        });
+    }
+
     // handles close button in no department has members modal
     noDepartmentsAssignedModalCloseButton.addEventListener("click", (event) => {
         console.log("Close Modal Button has been clicked!");
@@ -689,6 +765,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (createDepartmentMembersContainer && !createDepartmentMembersContainer.contains(event.target)) {
             createDepartmentMembersContainer.classList.remove('active');
         }
+
+        // handles edit department members dropdown
+        if (editDepartmentMembersContainer && !editDepartmentMembersContainer.contains(event.target)) {
+            editDepartmentMembersContainer.classList.remove('active');
+        }
+    });
+
+    // handles closing of edit department modal
+    cancelEditDepartmentButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("Closing the edit department modal now!");
+        editDepartmentModal.classList.add("hidden");
     })
 
     // closes both the create task & edit task assignees dropdown
@@ -1449,7 +1537,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             editDepartmentName.value = department.name;
             editDepartmentDescription.value = department.description;
-            editDepartmentAssignees.value = department.assignees;
+
+            populateEditDepartmentMembersChecklist(department.members || []);
+
+            if (editDepartmentMembersContainer) {
+                editDepartmentMembersContainer.classList.remove("active");
+            }
 
             document.getElementById("editDepartmentModal").classList.remove("hidden");
         }
@@ -1482,33 +1575,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // handles edit department modal form submission
     editDepartmentForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        
+
         console.log("Now saving the edited department data!");
 
-        const updatedDepartmentName = document.getElementById("editDepartmentName").value;
-        const updatedDepartmentDescription = document.getElementById("editDepartmentDescription").value;
-        const updatedDepartmentAssignees = document.getElementById("editDepartmentAssignees").value;
+        if (!currentEditingDepartmentId) {
+            console.error("No department ID found for editing.");
+            return;
+        }
+
+        // Get updated members from the hidden input
+        let updatedMembers = [];
+        try {
+            const hiddenValue = editDepartmentMembersHiddenInput.value;
+            if (hiddenValue) {
+                updatedMembers = JSON.parse(hiddenValue);
+            }
+        } catch (e) {
+            console.warn("Error parsing members from hidden input:", e);
+            updatedMembers = [];
+        }
 
         const departments = JSON.parse(localStorage.getItem("department")) || [];
-
         const departmentIndex = departments.findIndex(d => d.id === currentEditingDepartmentId);
 
         if (departmentIndex !== -1) {
-            departments[departmentIndex] = {
-                ...departments[departmentIndex],
-                name: updatedDepartmentName,
-                description: updatedDepartmentDescription,
-                assignees: updatedDepartmentAssignees,
-            };
+            departments[departmentIndex].name = document.getElementById("editDepartmentName").value;
+            departments[departmentIndex].description = document.getElementById("editDepartmentDescription").value;
+            departments[departmentIndex].members = updatedMembers;
 
             localStorage.setItem("department", JSON.stringify(departments));
-        };
 
-        document.getElementById("editDepartmentModal").classList.add("hidden");
-
-        currentEditingDepartmentId = null;
-
-        loadDepartmentsToDashboard();
+            editDepartmentModal.classList.add("hidden");
+            editDepartmentForm.reset();
+            currentEditingDepartmentId = null;
+            loadDepartmentsToDashboard();
+            console.log("Department updated successfully!");
+        } else {
+            console.error("Could not find department to update.");
+        }
     });
 });
 
