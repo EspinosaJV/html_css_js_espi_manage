@@ -72,6 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const editDepartmentMembersDropdown = document.getElementById("editDepartmentMembersDropdown");
     const editDepartmentMembersDisplayText = document.getElementById("editDepartmentMembersDisplayText");
     const editDepartmentMembersHiddenInput = document.getElementById("editDepartmentMembersHiddenInput");
+    const tasksDashboardSearchFilterButton = document.getElementById("tasksDashboardSearchFilterButton");
+    const tasksDashboardSearchFilterDropdown = document.getElementById("tasksDashboardSearchFilterDropdown");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -539,6 +541,41 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    tasksDashboardSearchFilterDropdown.addEventListener("click", (event) => {
+
+        if (event.target.tagName === "BUTTON") {
+            console.log("A filter button has been clicked!");
+
+            const action = event.target.getAttribute("data-action");
+
+            switch(action) { 
+                case "by-task-name":
+                    console.log("Task name filter button has been clicked!");
+                    // call by-task-name search filter logic here
+                    break;
+
+                case "by-assignees":
+                    console.log("Assignees filter button has been clicked!");
+                    // call by-assignees search filter logic here
+                    break;
+
+                case "by-due-date":
+                    console.log("Due date filter button has been clicked!");
+                    // call by-due-date search filter logic here
+                    break;
+
+                default:
+                    console.log("Unknown filter button event!");
+            }
+        }
+    });
+
+    // handles the open & close of the filter dropdown container
+    tasksDashboardSearchFilterButton.addEventListener("click", (event) => {
+        console.log("Opening up the tasks dashboard search filter button!");
+        tasksDashboardSearchFilterDropdown.classList.toggle("hidden");
+    })
 
     // handles the open & close of department members container in the edit modal
     if (editDepartmentMembersContainer) {

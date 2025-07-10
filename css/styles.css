@@ -100,6 +100,14 @@ img {
     --COMPLETED-TASK-BUTTON-BORDER-COLOR: #EEEFE0;
     --COMPLETED-TASK-BUTTON-BACKGROUND-COLR: #819A91;
     --COMPLETED-TASK-BUTTON-FONT-COLOR: #EEEFE0;
+    --TASKS-DASHBOARD-SEARCH-BAR-BORDER-COLOR: #819A91;
+    --TASKS-DASHBOARD-SEARCH-BAR-FONT-COLOR: #819A91;
+    --TASKS-DASHBOARD-FILTER-DROPDOWN-BACKGROUND-COLOR: #EEEFE0;
+    --TASKS-DASHBOARD-FILTER-DROPDOWN-BORDER-COLOR: #819A91;
+    --TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-BORDER-COLOR: #819A91;
+    --TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-FONT-COLOR: #819A91;
+    --TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-ACTIVE-COLOR: #819A91;
+    --TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-FONT-ACTIVE-COLOR: #EEEFE0;
 
     /* || FONT FAMILY */
     --TASKS-HEADER-FONT-FAMILY: 'Work Sans', sans-serif;
@@ -120,6 +128,7 @@ img {
     --NO-TASKS-OVERDUE-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-COMPLETED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --USERS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
+    --TASKS-DASHBOARD-SEARCH-BAR-FONT-FAMILY: 'Work Sans', sans-serif;
 
     /* || FONT SIZES */
     --FF-XL: clamp(1.5rem, 5vw, 3rem);
@@ -571,7 +580,60 @@ body {
     gap: 0.5vw;
 }
 
+#tasksDashboardSearchSection {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    position: relative;
+}
+
+#tasksDashboardFilterContainer {
+    position: relative;
+}
+
 /* ELEMENTS */
+
+.search__filter__button {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    text-transform: uppercase;
+    padding: 0.20rem;
+    color: var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-FONT-COLOR);
+}
+
+.search__filter__button:hover,
+.search__filter__button:active,
+.search__filter__button:focus {
+    background-color: var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-ACTIVE-COLOR);
+    color: var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-FONT-ACTIVE-COLOR);
+}
+
+#tasksDashboardSearchBar {
+    background-color: transparent;
+    border: 5px solid var(--TASKS-DASHBOARD-SEARCH-BAR-BORDER-COLOR);
+    padding: 0.5rem;
+    width: 30vw;
+    font-family: var(--TASKS-DASHBOARD-SEARCH-BAR-FONT-FAMILY);
+    color: var(--TASKS-DASHBOARD-SEARCH-BAR-FONT-COLOR);
+    font-size: var(--FF-XS);
+    border-right: none;
+}
+
+.search__filter__dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BACKGROUND-COLOR);
+    border: 5px solid var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BORDER-COLOR);
+    z-index: 10;
+    width: max-content;
+}
 
 .view-departments__p {
     color: var(--VIEW-DEPARTMENT-MODAL-FONT-COLOR);

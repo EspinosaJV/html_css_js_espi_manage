@@ -40,6 +40,18 @@
                         <h2 class="tasks__h2">Tasks Dashboard</h2>
                         <button class="tasks__button bold" id="openCreateTaskModal">New Task</button>
                     </div>
+                    <div id="tasksDashboardSearchSection" class="tasks__dashboard__div__row">
+                        <input type="text" id="tasksDashboardSearchBar" name="tasksDashboardSearchBar" placeholder="Input your search...">
+                        <div id="tasksDashboardFilterContainer" class="tasks__div">
+                            <button id="tasksDashboardSearchFilterButton" class="tasks__button bold"><img src="assets/filter-svgrepo-com.png" alt="Icon" width="19" height="19"></button>
+
+                            <div id="tasksDashboardSearchFilterDropdown" class="search__filter__dropdown hidden">
+                                <button id="tasksDashboardSearchFilterByTaskName" class="search__filter__button bold" data-action="by-task-name">By Task Name</button>
+                                <button id="tasksDashboardSearchFillterByAssignees" class="search__filter__button bold" data-action="by-assignees">By Assignees</button>
+                                <button id="tasksDashboardSearchFilterByDueDate" class="search__filter__button bold" data-action="by-due-date">By Due Date</button>
+                            </div>
+                        </div>
+                    </div>
                     <!-- DYNAMICALLY READS SAVED TASKS IN LOCALSTORAGE -->
                     <div id="taskListContainer" class="tasklist__div"></div>
                 <div class="task__templates"></div>
@@ -315,6 +327,7 @@
                 <button id="noDepartmentsAssignedModalCloseButton" class="no-departments-assigned__button bold">Close</button>
             </div>
         </div>
+
     </main>
     <footer class="tasks__footer">
         <p class="tasks__p">&copy; 2025 John Vincent Espinosa. All Rights reserved.</p>
