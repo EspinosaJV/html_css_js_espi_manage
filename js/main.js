@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const editDepartmentMembersHiddenInput = document.getElementById("editDepartmentMembersHiddenInput");
     const tasksDashboardSearchFilterButton = document.getElementById("tasksDashboardSearchFilterButton");
     const tasksDashboardSearchFilterDropdown = document.getElementById("tasksDashboardSearchFilterDropdown");
+    const tasksDashboardSearchBar = document.getElementById("tasksDashboardSearchBar");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -102,6 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentEditingDepartmentId = null;
     let unassignedTasks = [];
     let assignedTasks = [];
+    let tasksSearchInputFilter = null;
+    let tasksToRender = null;
 
 
     // HELPER FUNCTIONS
@@ -542,6 +545,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // EVENT LISTENERS
 
+    // handles task search filter
+    tasksDashboardSearchBar.addEventListener("input", (event) => {
+        const tasks = localStorage.getItem("tasks") || "[]";
+        const parsedTasks = JSON.parse(tasks);
+        const userInput = event.target.value.toLowerCase();
+
+        if (tasksSearchInputFilter === "by-task-name") {
+            if (userInput === "") {
+                console.log("User input is empty!");
+
+                tasksToRender = parsedTasks;
+                taskListContainer.inerHTML = "";
+                loadTasksToDashboard();
+                return;
+            }
+
+            console.log("Will now filter tasks based on task name and user input");
+
+            tasksToRender = parsedTasks.filter(task => 
+                task.title.toLowerCase().includes(userInput)
+            );
+
+            taskListContainer.innerHTML = "";
+            loadTasksToDashboard();
+        }
+    })
+
     tasksDashboardSearchFilterDropdown.addEventListener("click", (event) => {
 
         if (event.target.tagName === "BUTTON") {
@@ -552,17 +582,17 @@ document.addEventListener("DOMContentLoaded", () => {
             switch(action) { 
                 case "by-task-name":
                     console.log("Task name filter button has been clicked!");
-                    // call by-task-name search filter logic here
+                    tasksSearchInputFilter = "by-task-name"
                     break;
 
                 case "by-assignees":
                     console.log("Assignees filter button has been clicked!");
-                    // call by-assignees search filter logic here
+                    tasksSearchInputFilter = "by-assignees";
                     break;
 
                 case "by-due-date":
                     console.log("Due date filter button has been clicked!");
-                    // call by-due-date search filter logic here
+                    tasksSearchInputFilter = "by-due-date"
                     break;
 
                 default:
@@ -964,9 +994,6 @@ document.addEventListener("DOMContentLoaded", () => {
         taskListContainer.innerHTML = "";
         const allTasks = JSON.parse(localStorage.getItem("tasks")) || [];
         const users = JSON.parse(localStorage.getItem("users")) || [];
-
-        // determine which set of tasks to display
-        let tasksToRender
         
         // taskToRender assignment of unassigned tasks, assigned tasks, overdue tasks, completed tasks, all tasks
         if (unassignedFilterButton.classList.contains("active")) {
@@ -991,7 +1018,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (completedFilterButton.classList.contains("active")) {
             tasksToRender = allTasks.filter(task => task.isCompleted);
             console.log("Re-filtering and rendering all completed tasks!");
-        } else {
+        } else if (!(unassignedFilterButton.classList.contains("active")) && (!assignedFilterButton.classList.contains("active")) && (!(overdueFilterButton.classList.contains("active")) && (!tasksSearchInputFilter))) {
             tasksToRender = allTasks;
             console.log("Rendering all tasks!");
         }
