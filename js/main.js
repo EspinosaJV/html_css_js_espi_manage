@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let departmentsSearchInputFilter = null;
     let tasksToRender = null;
     let usersToRender = null;
+    let departmentsToRender = null;
 
 
     // HELPER FUNCTIONS
@@ -553,6 +554,39 @@ document.addEventListener("DOMContentLoaded", () => {
     loadDepartmentsToDashboard();
 
     // EVENT LISTENERS
+
+    // handles department search filter logic
+    departmentsDashboardSearchBar.addEventListener("input", (event) => {
+        const departments = localStorage.getItem("department") || [];
+        const users = localStorage.getItem("users") || [];
+        const parsedDepartments = JSON.parse(departments);
+        const parsedUsers = JSON.parse(users);
+        const userInput = event.target.value.toLowerCase();
+
+        if (departmentsSearchInputFilter === "by-department-name") {
+            // renders all users if no input in the search input text field
+            if (userInput === "") {
+                console.log("User input is empty!");
+
+                departmentsToRender = parsedDepartments;
+
+                departmentListContainer.innerHTML = "";
+                loadDepartmentsToDashboard();
+                return;
+            }
+
+            // handles department search filter by department name
+            if (departmentsSearchInputFilter === "by-department-name") {
+                console.log("Will now filter departments by department name");
+                departmentsToRender = parsedDepartments.filter(department => 
+                    department.name.toLowerCase().includes(userInput))
+            }
+
+            console.log("Here are the departments to render", departmentsToRender);
+            departmentListContainer.innerHTML = "";
+            loadDepartmentsToDashboard();
+        }
+    })
 
     // handles user search filter logic
     usersDashboardSearchBar.addEventListener("input", (event) => {
@@ -1632,9 +1666,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const departments = JSON.parse(localStorage.getItem("department")) || [];
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
-        // determine which set of departments to display
-        let departmentsToRender
-
         // departmentsToRender assignment of no members, and has members, and all departments
         if (departmentNoMembersFilterButton.classList.contains("active")) {
             // re-filter list from fresh data
@@ -1644,7 +1675,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // re-filter list from fresh data
             departmentsToRender = departments.filter(department => department.members.length > 0);
             console.log("Re-filtering & rendering all departments with members!");
-        } else {
+        } else if (!(departmentNoMembersFilterButton.classList.contains("active")) && (!departmentHasMembersFilterButton.classList.contains("active")) && (!departmentsSearchInputFilter)) {
             departmentsToRender = departments;
             console.log("No filtering and render all departments!");
         }
