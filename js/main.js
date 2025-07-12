@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const label = document.createElement("label");
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
-                checkbox.value = user.name;
+                checkbox.value = user.id;
                 checkbox.dataset.name = user.name;
 
                 label.appendChild(checkbox);
@@ -363,11 +363,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const label = document.createElement("label");
             const checkbox = document.createElement("input");
             checkbox.type = "checkbox";
-            checkbox.value = user.name;
+            checkbox.value = user.id;
             checkbox.dataset.name = user.name;
 
             // pre-selects already assigned users
-            if (assignedUserIds.includes(user.name)) {
+            if (assignedUserIds.includes(user.id)) {
                 checkbox.checked = true;
             }
 
@@ -547,11 +547,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // handles task search filter
     tasksDashboardSearchBar.addEventListener("input", (event) => {
-        const tasks = localStorage.getItem("tasks") || "[]";
+        const tasks = localStorage.getItem("tasks") || [];
+        const users = localStorage.getItem("users") || [];
+        const parsedUsers = JSON.parse(users);
         const parsedTasks = JSON.parse(tasks);
         const userInput = event.target.value.toLowerCase();
 
-        if (tasksSearchInputFilter === "by-task-name") {
+        if ((tasksSearchInputFilter === "by-task-name") || (tasksSearchInputFilter === "by-assignees")) {
             if (userInput === "") {
                 console.log("User input is empty!");
 
@@ -563,13 +565,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("Will now filter tasks based on task name and user input");
 
-            tasksToRender = parsedTasks.filter(task => 
-                task.title.toLowerCase().includes(userInput)
-            );
+            // handles task search filter by task name
+            if (tasksSearchInputFilter === "by-task-name") {
+                console.log("Will now filter tasks by task name");
+                tasksToRender = parsedTasks.filter(task => 
+                task.title.toLowerCase().includes(userInput))
+            } 
+
+            // handles task search filter by assignee name
+            if (tasksSearchInputFilter === "by-assignees") {
+                console.log("Will now filter tasks by assignees");
+                tasksToRender = parsedTasks.filter(task => {
+                    
+                    // handles case for task having no assignees
+                    if (!task.assignee || task.assignee.length === 0) {
+                        return false;
+                    }
+
+                    // checks if some of assignee IDs correspond to user whos name matches in search input field
+                    return task.assignee.some(assigneeId => {
+                        const assigneeUser = parsedUsers.find(user => user.id === assigneeId);
+
+                        // handles case for no matching user
+                        if (!assigneeUser) {
+                            return false;
+                        }
+
+                        // performs case-insensitive check on user's name
+                        return assigneeUser.name.toLowerCase().includes(userInput);
+                    });
+                });
+            }
 
             taskListContainer.innerHTML = "";
             loadTasksToDashboard();
-        }
+        } 
     })
 
     tasksDashboardSearchFilterDropdown.addEventListener("click", (event) => {
@@ -1049,10 +1079,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let assigneeNames = "No Assignee";
             if (task.assignee && Array.isArray(task.assignee) && task.assignee.length > 0) {
-                const foundAssignees = users.filter(user => {
-                    const trimmedUserName = user.name ? user.name.trim() : '';
-                    return task.assignee.some(taskAssignee => taskAssignee.trim() === trimmedUserName);
-                })
+                
+                const foundAssignees = users.filter(user => task.assignee.includes(user.id));
                 console.log("Here are the found assignees:", foundAssignees);
                 assigneeNames = foundAssignees.map(user => user.name).join(', ') || "Unknown Assignees";
                 console.log("Here are the assigneeNames:", assigneeNames);
@@ -1426,7 +1454,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const updatedName = document.getElementById("editUserName").value;
         const updatedEmail = document.getElementById("editUserEmail").value;
-        const updatedDepartment = document.getElementById("editUserDepartment").value;
+        const updatedDepartment = document.getElementById("editUserDepartmentHiddenInput").value;
 
         const users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -1547,20 +1575,20 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const hiddenValue = createDepartmentMembersHiddenInput.value;
             if (hiddenValue) {
-                selectedMemberIds = JSON.parse(hiddenValue);
+                selectedMembersIds = JSON.parse(hiddenValue);
             }
             if (!Array.isArray(selectedMemberIds)) {
-                selectedMemberIds = [];
+                selectedMembersIds = [];
             }
         } catch (e) {
             console.warn("No members selected or error parsing hidden input:", e);
-            selectedMemberIds = [];
+            selectedMembersIds = [];
         }
 
         const department = {
             name: document.getElementById("createDepartmentName").value,
             description: document.getElementById("createDepartmentDescription").value,
-            members: selectedMemberIds,
+            members: selectedMembersIds,
             id: crypto.randomUUID(),
         };
 
