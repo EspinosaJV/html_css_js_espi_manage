@@ -558,7 +558,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const parsedDepartments = JSON.parse(departments);
         const userInput = event.target.value.toLowerCase();
 
-        if (usersSearchInputFilter === "by-user-name") {
+        if ((usersSearchInputFilter === "by-user-name") || (usersSearchInputFilter === "by-user-email")) {
             // renders all users if no input in the search input text field
             if (userInput === "") {
                 console.log("User input is empty!");
@@ -571,9 +571,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // handles user search filter by user name
             if (usersSearchInputFilter === "by-user-name") {
-                console.log("Will now filter uses by user name");
+                console.log("Will now filter users by user name");
                 usersToRender = parsedUsers.filter(user => 
                     user.name.toLowerCase().includes(userInput))
+            }
+
+            // handles user search filter by user email
+            if (usersSearchInputFilter === "by-user-email") {
+                console.log("Will now filter users by user email");
+                usersToRender = parsedUsers.filter(user =>
+                    user.email.toLowerCase().includes(userInput))
             }
 
             console.log("Here are the users to render", usersToRender);
