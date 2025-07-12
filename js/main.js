@@ -78,6 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const usersDashboardSearchFilterButton = document.getElementById("usersDashboardSearchFilterButton");
     const usersDashboardSearchFilterDropdown = document.getElementById("usersDashboardSearchFilterDropdown");
     const usersDashboardSearchBar = document.getElementById("usersDashboardSearchBar");
+    const departmentsDashboardSearchFilterButton = document.getElementById("departmentsDashboardSearchFilterButton");
+    const departmentsDashboardSearchFilterDropdown = document.getElementById("departmentsDashboardSearchFilterDropdown");
+    const departmentsDashboardSearchBar = document.getElementById("departmentsDashboardSearchBar");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -108,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let assignedTasks = [];
     let tasksSearchInputFilter = null;
     let usersSearchInputFilter = null;
+    let departmentsSearchInputFilter = null;
     let tasksToRender = null;
     let usersToRender = null;
 
@@ -686,7 +690,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // handles setting of search input filter by selected dropdown option
+    // handles setting of user search input filter by selected dropdown option
     usersDashboardSearchFilterDropdown.addEventListener("click", (event) => {
         if (event.target.tagName === "BUTTON") {
             console.log("A filter button has been clicked!");
@@ -710,6 +714,33 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
             }
         }
+    })
+
+    // handles setting of department search input filter by selected dropdown option
+    departmentsDashboardSearchFilterDropdown.addEventListener("click", (event) => {
+        if (event.target.tagName === "BUTTON") {
+            console.log("A filter button has been clicked!");
+
+            const action = event.target.getAttribute("data-action");
+
+            switch(action) {
+                case "by-department-name":
+                    console.log("Department name filter button has been clicked!");
+                    departmentsSearchInputFilter = "by-department-name";
+                    break;
+
+                case "by-department-members":
+                    console.log("Department members filter button has been clicked!");
+                    departmentsSearchInputFilter = "by-department-members";
+                    break;
+            }
+        }
+    })
+
+    // handles the open & close of the departments search fitler dropdown container
+    departmentsDashboardSearchFilterButton.addEventListener("click", (event) => {
+        console.log("Opening up the departments dashboard search filter button!");
+        departmentsDashboardSearchFilterDropdown.classList.toggle("hidden");
     })
 
     // handles the open & close of the users search filter dropdown container

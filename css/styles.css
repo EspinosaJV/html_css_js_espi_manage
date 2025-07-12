@@ -102,6 +102,8 @@ img {
     --COMPLETED-TASK-BUTTON-FONT-COLOR: #EEEFE0;
     --TASKS-DASHBOARD-SEARCH-BAR-BORDER-COLOR: #819A91;
     --TASKS-DASHBOARD-SEARCH-BAR-FONT-COLOR: #819A91;
+    --DEPARTMENTS-DASHBOARD-SEARCH-BAR-BORDER-COLOR: #819A91;
+    --DEPARTMENTS-DASHBOARD-SEARCH-BAR-FONT-COLOR: #819A91;
     --TASKS-DASHBOARD-FILTER-DROPDOWN-BACKGROUND-COLOR: #EEEFE0;
     --USERS-DASHBOARD-SEARCH-BAR-BORDER-COLOR: #819A91;
     --USERS-DASHBOARD-SEARCH-BAR-FONT-COLOR: #819A91;
@@ -130,6 +132,7 @@ img {
     --NO-TASKS-OVERDUE-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --NO-TASKS-COMPLETED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --USERS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
+    --DEPARTMENTS-DASHBOARD-SEARCH-BAR-FONT-FAMILY: 'Work Sans', sans-serif;
     --TASKS-DASHBOARD-SEARCH-BAR-FONT-FAMILY: 'Work Sans', sans-serif;
     --USERS-DASHBOARD-SEARCH-BAR-FONT-FAMILY: 'Work Sans', sans-serif;
 
@@ -583,6 +586,18 @@ body {
     gap: 0.5vw;
 }
 
+#departmentsDashboardSearchSection {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    position: relative;
+}
+
+#departmentsDashboardFilterContainer {
+    position: relative;
+}
+
 #tasksDashboardSearchSection {
     display: flex;
     flex-direction: row;
@@ -623,6 +638,17 @@ body {
 .search__filter__button:focus {
     background-color: var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-ACTIVE-COLOR);
     color: var(--TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-FONT-ACTIVE-COLOR);
+}
+
+#departmentsDashboardSearchBar {
+    background-color: transparent;
+    border: 5px solid var(--DEPARTMENTS-DASHBOARD-SEARCH-BAR-BORDER-COLOR);
+    padding: 0.5rem;
+    width: 30vw;
+    font-family: var(--DEPARTMENTS-DASHBOARD-SEARCH-BAR-FONT-FAMILY);
+    color: var(--DEPARTMENTS-DASHBOARD-SEARCH-BAR-FONT-COLOR);
+    font-size: var(--FF-XS);
+    border-right: none;
 }
 
 #tasksDashboardSearchBar {

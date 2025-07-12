@@ -109,6 +109,17 @@
                         <h2 class="departments__h2">Departments Dashboard</h2>
                         <button class="departments__button bold" id="openCreateDepartmentModal">New Department</button>
                     </div>
+                    <div id="departmentsDashboardSearchSection" class="departments__dashboard__div__row">
+                        <input type="text" id="departmentsDashboardSearchBar" name="departmentsDashboardSearchBar" placeholder="Input your search...">
+                        <div id="departmentsDashboardFilterContainer" class="departments__div">
+                            <button id="departmentsDashboardSearchFilterButton" class="departments__button bold"><img src="assets/filter-svgrepo-com.png" alt="Icon" width="19" height="19"></button>
+                            
+                            <div id="departmentsDashboardSearchFilterDropdown" class="search__filter__dropdown hidden">
+                                <button id="departmentsDashboardSearchFilterByDepartmentName" class="search__filter__button bold" data-action="by-department-name">By Department Name</button>
+                                <button id="departmentsDashboardSearchFilterByDepartmentMembers" class="search__filter__button bold" data-action="by-department-members">By Department Members</button>
+                            </div>
+                        </div>
+                    </div>
                     <!-- DYNAMICALLY READS SAVED DEPARTMENTS IN LOCALSTORAGE -->
                     <div id="departmentListContainer" class="departmentlist__div">
                 </div>
