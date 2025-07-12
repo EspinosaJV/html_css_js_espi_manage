@@ -553,7 +553,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const parsedTasks = JSON.parse(tasks);
         const userInput = event.target.value.toLowerCase();
 
-        if ((tasksSearchInputFilter === "by-task-name") || (tasksSearchInputFilter === "by-assignees")) {
+        if ((tasksSearchInputFilter === "by-task-name") || (tasksSearchInputFilter === "by-assignees") || (tasksSearchInputFilter === "by-due-date")) {
             if (userInput === "") {
                 console.log("User input is empty!");
 
@@ -595,6 +595,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         return assigneeUser.name.toLowerCase().includes(userInput);
                     });
                 });
+            }
+
+            // handles task search filter by due date
+            if (tasksSearchInputFilter === "by-due-date") {
+                console.log("Will now filter tasks by due date");
+                tasksToRender = parsedTasks.filter(task => task.dueDate.includes(userInput))
             }
 
             taskListContainer.innerHTML = "";
