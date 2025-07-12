@@ -74,6 +74,18 @@
                         <h2 class="users__h2">Users Dashboard</h2>
                         <button class="users__button bold" id="openCreateUserModal">New User</button>
                     </div>
+                    <div id="usersDashboardSearchSection" class="users__dashboard__div__row">
+                        <input type="text" id="usersDashboardSearchBar" name="usersDashboardSearchBar" placeholder="Input your search...">
+                        <div id="usersDashboardFilterContainer" class="users__div">
+                            <button id="usersDashboardSearchFilterButton" class="users__button bold"><img src="assets/filter-svgrepo-com.png" alt="Icon" width="19" height="19"></button>
+
+                            <div id="usersDashboardSearchFilterDropdown" class="search__filter__dropdown hidden">
+                                <button id="usersDashboardSearchFilterByUserName" class="search__filter__button bold" data-action="by-user-name">By User Name</button>
+                                <button id="usersDashboardSearchFilterByEmail" class="search__filter__button bold" data-action="by-user-email">By User Email</button>
+                                <button id="usersDashboardSearchFilterByDepartment" class="search__filter__button bold" data-action="by-user-department">By User Department</button>
+                            </div>
+                        </div>
+                    </div>
                     <!-- DYNAMICALLY READS SAVED TASKS IN LOCALSTORAGE -->
                     <div id="userListContainer" class="userlist__div">
                 </div>

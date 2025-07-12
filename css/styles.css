@@ -103,6 +103,8 @@ img {
     --TASKS-DASHBOARD-SEARCH-BAR-BORDER-COLOR: #819A91;
     --TASKS-DASHBOARD-SEARCH-BAR-FONT-COLOR: #819A91;
     --TASKS-DASHBOARD-FILTER-DROPDOWN-BACKGROUND-COLOR: #EEEFE0;
+    --USERS-DASHBOARD-SEARCH-BAR-BORDER-COLOR: #819A91;
+    --USERS-DASHBOARD-SEARCH-BAR-FONT-COLOR: #819A91;
     --TASKS-DASHBOARD-FILTER-DROPDOWN-BORDER-COLOR: #819A91;
     --TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-BORDER-COLOR: #819A91;
     --TASKS-DASHBOARD-FILTER-DROPDOWN-BUTTON-FONT-COLOR: #819A91;
@@ -129,6 +131,7 @@ img {
     --NO-TASKS-COMPLETED-MODAL-FONT-FAMILY: 'Work Sans', sans-serif;
     --USERS-BODY-FONT-FAMILY: 'JetBrains Mono', monospace;
     --TASKS-DASHBOARD-SEARCH-BAR-FONT-FAMILY: 'Work Sans', sans-serif;
+    --USERS-DASHBOARD-SEARCH-BAR-FONT-FAMILY: 'Work Sans', sans-serif;
 
     /* || FONT SIZES */
     --FF-XL: clamp(1.5rem, 5vw, 3rem);
@@ -592,6 +595,18 @@ body {
     position: relative;
 }
 
+#usersDashboardSearchSection {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    position: relative;
+}
+
+#usersDashboardFilterContainer {
+    position: relative;
+}
+
 /* ELEMENTS */
 
 .search__filter__button {
@@ -617,6 +632,17 @@ body {
     width: 30vw;
     font-family: var(--TASKS-DASHBOARD-SEARCH-BAR-FONT-FAMILY);
     color: var(--TASKS-DASHBOARD-SEARCH-BAR-FONT-COLOR);
+    font-size: var(--FF-XS);
+    border-right: none;
+}
+
+#usersDashboardSearchBar {
+    background-color: transparent;
+    border: 5px solid var(--USERS-DASHBOARD-SEARCH-BAR-BORDER-COLOR);
+    padding: 0.5rem;
+    width: 30vw;
+    font-family: var(--USERS-DASHBOARD-SEARCH-BAR-FONT-FAMILY);
+    color: var(--USERS-DASHBOARD-SEARCH-BAR-FONT-COLOR);
     font-size: var(--FF-XS);
     border-right: none;
 }

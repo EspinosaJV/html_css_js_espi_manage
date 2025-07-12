@@ -75,6 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const tasksDashboardSearchFilterButton = document.getElementById("tasksDashboardSearchFilterButton");
     const tasksDashboardSearchFilterDropdown = document.getElementById("tasksDashboardSearchFilterDropdown");
     const tasksDashboardSearchBar = document.getElementById("tasksDashboardSearchBar");
+    const usersDashboardSearchFilterButton = document.getElementById("usersDashboardSearchFilterButton");
+    const usersDashboardSearchFilterDropdown = document.getElementById("usersDashboardSearchFilterDropdown");
+    const usersDashboardSearchBar = document.getElementById("usersDashboardSearchBar");
 
     // Dashboard Views
     const tasksDashboard = document.getElementById("tasksDashboard");
@@ -104,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let unassignedTasks = [];
     let assignedTasks = [];
     let tasksSearchInputFilter = null;
+    let usersSearchInputFilter = null;
     let tasksToRender = null;
 
 
@@ -608,8 +612,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } 
     })
 
+    // handles setting of task search input filter by selected dropdown option
     tasksDashboardSearchFilterDropdown.addEventListener("click", (event) => {
-
         if (event.target.tagName === "BUTTON") {
             console.log("A filter button has been clicked!");
 
@@ -618,7 +622,7 @@ document.addEventListener("DOMContentLoaded", () => {
             switch(action) { 
                 case "by-task-name":
                     console.log("Task name filter button has been clicked!");
-                    tasksSearchInputFilter = "by-task-name"
+                    tasksSearchInputFilter = "by-task-name";
                     break;
 
                 case "by-assignees":
@@ -628,7 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 case "by-due-date":
                     console.log("Due date filter button has been clicked!");
-                    tasksSearchInputFilter = "by-due-date"
+                    tasksSearchInputFilter = "by-due-date";
                     break;
 
                 default:
@@ -637,7 +641,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // handles the open & close of the filter dropdown container
+    // handles setting of search input filter by selected dropdown option
+    usersDashboardSearchFilterDropdown.addEventListener("click", (event) => {
+        if (event.target.tagName === "BUTTON") {
+            console.log("A filter button has been clicked!");
+
+            const action = event.target.getAttribute("data-action");
+
+            switch(action) {
+                case "by-user-name":
+                    console.log("User name filter button has been clicked!");
+                    usersSearchInputFilter = "by-user-name";
+                    break;
+
+                case "by-user-email":
+                    console.log("User email filter button has been clicked!");
+                    usersSearchInputFilter = "by-user-email";
+                    break;
+
+                case "by-user-department":
+                    console.log("User department filter button has been clicked!");
+                    usersSearchInputFilter = "by-user-department";
+                    break;
+            }
+        }
+    })
+
+    // handles the open & close of the users search filter dropdown container
+    usersDashboardSearchFilterButton.addEventListener("click", (event) => {
+        console.log("Opening up the users dashboard search filter button!");
+        usersDashboardSearchFilterDropdown.classList.toggle("hidden");
+    })
+
+    // handles the open & close of the task search filter dropdown container
     tasksDashboardSearchFilterButton.addEventListener("click", (event) => {
         console.log("Opening up the tasks dashboard search filter button!");
         tasksDashboardSearchFilterDropdown.classList.toggle("hidden");
