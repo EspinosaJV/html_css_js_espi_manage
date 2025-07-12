@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let tasksSearchInputFilter = null;
     let usersSearchInputFilter = null;
     let tasksToRender = null;
+    let usersToRender = null;
 
 
     // HELPER FUNCTIONS
@@ -549,7 +550,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // EVENT LISTENERS
 
-    // handles task search filter
+    // handles user search filter logic
+    usersDashboardSearchBar.addEventListener("input", (event) => {
+        const users = localStorage.getItem("users") || [];
+        const departments = localStorage.getItem("departments") || [];
+        const parsedUsers = JSON.parse(users);
+        const parsedDepartments = JSON.parse(departments);
+        const userInput = event.target.value.toLowerCase();
+
+        if (usersSearchInputFilter === "by-user-name") {
+            // renders all users if no input in the search input text field
+            if (userInput === "") {
+                console.log("User input is empty!");
+
+                usersToRender = parsedUsers;
+                userListContainer.innerHTML = "";
+                loadUsersToDashboard();
+                return;
+            }
+
+            // handles user search filter by user name
+            if (usersSearchInputFilter === "by-user-name") {
+                console.log("Will now filter uses by user name");
+                usersToRender = parsedUsers.filter(user => 
+                    user.name.toLowerCase().includes(userInput))
+            }
+
+            console.log("Here are the users to render", usersToRender);
+            userListContainer.innerHTML = "";
+            loadUsersToDashboard();
+        }
+    })
+
+    // handles task search filter logic
     tasksDashboardSearchBar.addEventListener("input", (event) => {
         const tasks = localStorage.getItem("tasks") || [];
         const users = localStorage.getItem("users") || [];
@@ -562,12 +595,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("User input is empty!");
 
                 tasksToRender = parsedTasks;
-                taskListContainer.inerHTML = "";
+                taskListContainer.innerHTML = "";
                 loadTasksToDashboard();
                 return;
             }
-
-            console.log("Will now filter tasks based on task name and user input");
 
             // handles task search filter by task name
             if (tasksSearchInputFilter === "by-task-name") {
@@ -1157,9 +1188,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const users = JSON.parse(localStorage.getItem("users")) || [];
         const departments = JSON.parse(localStorage.getItem("department")) || [];
 
-        // determine which set of users to display
-        let usersToRender
-
         // usersToRender assignment of unassigned users, assigned users, and all users
         if (userUnassignedFilterButton.classList.contains("active")) {
             // Re-filter list from fresh data
@@ -1168,7 +1196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (userAssignedFilterButton.classList.contains("active")) {
             usersToRender = users.filter(user => user.department);
             console.log("Re-filtering & rendering all assinged users!");
-        } else {
+        } else if (!(userUnassignedFilterButton.classList.contains("active")) && (!userAssignedFilterButton.classList.contains("active")) && (!usersSearchInputFilter)) {
             usersToRender = users;
             console.log("No filtering and render all users!");
         }
