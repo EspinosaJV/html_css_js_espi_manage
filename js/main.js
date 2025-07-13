@@ -1232,6 +1232,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Here is the currently rendered task:", task);
             const taskElement = document.createElement("div");
             taskElement.classList.add("task-card");
+            taskElement.classList.add("drop-fade");
 
             if (task.isCompleted) {
                 taskElement.classList.add("task-completed");
@@ -1301,6 +1302,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Current user for the user-card", user);
             const userElement = document.createElement("div");
             userElement.classList.add("user-card");
+            userElement.classList.add("drop-fade");
 
             let userDepartment = user.department ? user.department : "No Department";
 
@@ -1448,7 +1450,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
             const taskIndex = tasks.findIndex(task => task.id.trim() === taskIdToToggle.trim());
             
-            if (taskIndex !== -1) {
+            if (taskIndex !== -1) { 
                 tasks[taskIndex].isCompleted = !tasks[taskIndex].isCompleted;
                 localStorage.setItem("tasks", JSON.stringify(tasks));
                 loadTasksToDashboard();
@@ -1702,6 +1704,7 @@ document.addEventListener("DOMContentLoaded", () => {
         departmentsToRender.forEach(department => {
             const departmentElement = document.createElement("div");
             departmentElement.classList.add("department-card");
+            departmentElement.classList.add("drop-fade");
 
             departmentElement.innerHTML = `
                 <div class="departmentcard__col">
