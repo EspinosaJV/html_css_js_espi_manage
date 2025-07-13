@@ -563,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const parsedUsers = JSON.parse(users);
         const userInput = event.target.value.toLowerCase();
 
-        if (departmentsSearchInputFilter === "by-department-name") {
+        if ((departmentsSearchInputFilter === "by-department-name") || (departmentsSearchInputFilter === "by-department-members")) {
             // renders all users if no input in the search input text field
             if (userInput === "") {
                 console.log("User input is empty!");
@@ -580,6 +580,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("Will now filter departments by department name");
                 departmentsToRender = parsedDepartments.filter(department => 
                     department.name.toLowerCase().includes(userInput))
+            }
+
+            // handles department search filter by department members
+            if (departmentsSearchInputFilter === "by-department-members") {
+                console.log("Will now filter departments by department members");
+                departmentsToRender = parsedDepartments.filter(department =>
+                    department.members.some(member => member.toLowerCase().includes(userInput))
+                )
             }
 
             console.log("Here are the departments to render", departmentsToRender);
@@ -1241,16 +1249,16 @@ document.addEventListener("DOMContentLoaded", () => {
             taskElement.innerHTML = `
                 <div class="taskcard__col">
                     <h4 class="taskcard__h4">${task.title}</h4>
-                    <p class="taskcard__p"><span class="bold uppercase">Description:</span>${task.description}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Description:</span> ${task.description}</p>
                 </div>
                 <div class="taskcard__col">
-                    <p class="taskcard__p"><span class="bold uppercase">Due:</span>${task.dueDate}</p>
-                    <p class="taskcard__p"><span class="bold uppercase">Assignees:</span>${assigneeNames}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Due:</span> ${task.dueDate}</p>
+                    <p class="taskcard__p"><span class="bold uppercase">Assignees:</span> ${assigneeNames}</p>
                 </div>
                 <div class="taskcard__buttons">
-                    <button class="complete-task-button bold" data-id="${task.id}">Done</button>
-                    <button class="edit-task-button bold" data-id="${task.id}">Edit</button>
-                    <button class="delete-task-button bold" data-id="${task.id}">Delete</button>
+                    <button class="complete-task-button bold" data-id=" ${task.id}">Done</button>
+                    <button class="edit-task-button bold" data-id=" ${task.id}">Edit</button>
+                    <button class="delete-task-button bold" data-id=" ${task.id}">Delete</button>
                 </div>
                 <hr />
             `;
