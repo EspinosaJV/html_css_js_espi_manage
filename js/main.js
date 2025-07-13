@@ -1411,7 +1411,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target.classList.contains("edit-task-button")) {
             const taskId = event.target.dataset.id;
             const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-            const task = tasks.find(t => t.id === taskId);
+            const task = tasks.find(t => t.id.trim() === taskId.trim());
 
             if (!task) {
                 console.error("Task not found for editing:", taskId);
@@ -1435,7 +1435,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const taskIdToDelete = event.target.dataset.id;
 
             let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-            tasks = tasks.filter(task => task.id !== taskIdToDelete);
+            tasks = tasks.filter(task => task.id.trim() !== taskIdToDelete.trim());
             localStorage.setItem("tasks", JSON.stringify(tasks));
             loadTasksToDashboard();
             console.log("Task has been deleted!");
@@ -1446,8 +1446,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const taskCard = event.target.closest(".task-card");
 
             let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-            const taskIndex = tasks.findIndex(task => task.id === taskIdToToggle);
-
+            const taskIndex = tasks.findIndex(task => task.id.trim() === taskIdToToggle.trim());
+            
             if (taskIndex !== -1) {
                 tasks[taskIndex].isCompleted = !tasks[taskIndex].isCompleted;
                 localStorage.setItem("tasks", JSON.stringify(tasks));
