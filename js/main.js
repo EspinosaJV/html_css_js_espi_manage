@@ -1485,7 +1485,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        const taskIndex = tasks.findIndex(task => task.id === currentEditingTaskId);
+        const taskIndex = tasks.findIndex(task => task.id.trim() === currentEditingTaskId.trim());
 
         if (taskIndex !== -1) {
             tasks[taskIndex].title = editTaskTitle.value;
@@ -1732,9 +1732,10 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const hiddenValue = createDepartmentMembersHiddenInput.value;
             if (hiddenValue) {
+                console.log("Now parsing hiddenValue for department members!");
                 selectedMembersIds = JSON.parse(hiddenValue);
             }
-            if (!Array.isArray(selectedMemberIds)) {
+            if (!Array.isArray(selectedMembersIds)) {
                 selectedMembersIds = [];
             }
         } catch (e) {
